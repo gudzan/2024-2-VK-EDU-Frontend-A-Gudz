@@ -13,15 +13,15 @@
  */
 
 export default function convertBytesToHuman(bytes) {
-    if (typeof bytes !== "number" || bytes < 0) {
+    if (typeof bytes !== "number" || Number.isNaN(bytes) || bytes < 0 ) {
         return false;
     }
-    const sizes = ["B", "KB", "MB", "GB", "TB", "PB"];
+    const sizes = ["B", "KB", "MB", "GB", "TB"];
     let sizeIndex = 0;
-    while (bytes >= 1024 && sizeIndex < sizes.length -1) {
+    while (bytes >= 1024 && sizeIndex < sizes.length - 1) {
         bytes /= 1024;
         sizeIndex++;
     }
     bytes = bytes % 1 ? bytes.toFixed(2) : bytes;
-    return bytes + " " + sizes[sizeIndex];
+    return `${bytes} ${sizes[sizeIndex]}`
 }
