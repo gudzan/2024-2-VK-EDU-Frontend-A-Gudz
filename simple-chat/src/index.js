@@ -3,8 +3,6 @@ const MESSAGES_LOCALSTORAGE = "MESSAGES";
 
 const dropdownButton = document.querySelector(".header__dropdown-button");
 const dropdownMenu = document.querySelector(".header__dropdown");
-const form = document.querySelector("form");
-const formButtonSend = document.querySelector(".form__button-send");
 const input = document.querySelector(".form-input");
 const messagesBox = document.querySelector(".messages");
 const messagesInner = document.querySelector(".message__inner");
@@ -12,66 +10,54 @@ const messagesInner = document.querySelector(".message__inner");
 let messages = []
 loadMessagesFromLocalStorage()
 
-form.addEventListener("submit", handleSubmit.bind(this));
-form.addEventListener("keypress", handleKeyPress.bind(this));
-formButtonSend.addEventListener('click', handleSubmit.bind(this))
-dropdownButton.addEventListener("click", toggleDropdown);
-
-function toggleDropdown() {
-  dropdownMenu.classList.toggle("header__dropdown--open");
-}
-
-function closeDropdown() {
-  dropdownMenu.classList.remove("header__dropdown--open");
-}
+document.addEventListener('submit', handleSubmit.bind(this))
+dropdownButton.addEventListener("click", () => { dropdownMenu.classList.toggle("header__dropdown--open") });
 
 document.addEventListener("click", (e) => {
   if (dropdownMenu.classList.contains("header__dropdown--open") && !e.target.classList.contains('header__dropdown-item') && !e.target.classList.contains('header__dropdown-button')) {
-    closeDropdown()
+    dropdownMenu.classList.remove("header__dropdown--open");
   }
 });
 
 function handleSubmit(event) {
   event.preventDefault();
-  if (input.value !== "") {
-    const message = {
-      text: input.value,
-      name: "me",
-      time: transformDate(new Date())
-    };
-    createNewMessage(message)
-    addMessagesToLocalStorage(message)
-    input.value = "";
+  if (input.value === "") {
+    return
   }
-}
-
-function handleKeyPress(event) {
-  if (event.keyCode === 13) {
-    form.dispatchEvent(new Event("submit"));
-  }
+  const message = {
+    text: input.value,
+    name: "me",
+    time: transformDate(new Date())
+  };
+  messages.push(message)
+  localStorage.setItem(MESSAGES_LOCALSTORAGE, JSON.stringify(messages));
+  messagesInner.append(createNewMessage(message));
+  messagesBox.scrollTop = messagesBox.scrollHeight
+  input.value = "";
+  input.focus();
 }
 
 function loadMessagesFromLocalStorage() {
-  let json = localStorage.getItem(MESSAGES_LOCALSTORAGE);
-  if (json !== null) {
-    let messagesFromLocalStorage = JSON.parse(json);
-    for (let message of messagesFromLocalStorage) {
-      createNewMessage(message)
-      messages.push(message)
-    }
+  const json = localStorage.getItem(MESSAGES_LOCALSTORAGE);
+  if (!json) {
+    return
   }
-}
-
-function addMessagesToLocalStorage(newMessage) {
-  messages = [...messages, newMessage];
-  localStorage.setItem(MESSAGES_LOCALSTORAGE, JSON.stringify(messages));
+  let messagesFromLocalStorage = JSON.parse(json);
+  let fragment = new DocumentFragment();
+  for (let message of messagesFromLocalStorage) {
+    messages.push(message)
+    let li = createNewMessage(message)
+    fragment.append(li);
+  }
+  messagesInner.append(fragment);
+  messagesBox.scrollTop = messagesBox.scrollHeight
 }
 
 function createNewMessage(newMessage) {
-  let message = document.createElement("div");
-  let messageText = document.createElement("div");
+  let message = document.createElement("li");
+  let messageText = document.createElement("span");
   let messageInfo = document.createElement("div");
-  let messageInfoTime = document.createElement("div");
+  let messageInfoTime = document.createElement("span");
   let messageInfoIcons = document.createElement("div");
 
   message.append(messageText)
@@ -83,14 +69,13 @@ function createNewMessage(newMessage) {
   messageText.className = "message__text"
   messageInfo.className = "message__info"
   messageInfoTime.className = "message__info-time"
-  messageInfoIcons.className = "material-icons message__info-icons"
+  messageInfoIcons.className = "material-icons"
 
   messageText.innerText = newMessage.text;
   messageInfoTime.innerText = newMessage.time;
   messageInfoIcons.innerText = "done_all"
 
-  messagesInner.append(message);
-  messagesBox.scrollTop = messagesBox.scrollHeight
+  return message;
 }
 
 function transformDate(date) {
