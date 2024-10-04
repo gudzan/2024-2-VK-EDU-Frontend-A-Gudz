@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./index.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./index/index.js");
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -110,26 +110,26 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 
 /***/ }),
 
-/***/ "./index.css":
-/*!*******************!*\
-  !*** ./index.css ***!
-  \*******************/
+/***/ "./index/index.css":
+/*!*************************!*\
+  !*** ./index/index.css ***!
+  \*************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("// extracted by mini-css-extract-plugin\n\n//# sourceURL=webpack:///./index.css?");
+eval("// extracted by mini-css-extract-plugin\n\n//# sourceURL=webpack:///./index/index.css?");
 
 /***/ }),
 
-/***/ "./index.js":
-/*!******************!*\
-  !*** ./index.js ***!
-  \******************/
+/***/ "./index/index.js":
+/*!************************!*\
+  !*** ./index/index.js ***!
+  \************************/
 /*! no exports provided */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.css */ \"./index.css\");\n/* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_index_css__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _common_printMessage__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./common/printMessage */ \"./common/printMessage.js\");\n/* harmony import */ var _common_utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./common/utils */ \"./common/utils.js\");\n\n\n\nvar MESSAGES_LOCALSTORAGE = \"MESSAGES\";\nvar dropdownButton = document.querySelector(\".header__dropdown-button\");\nvar dropdownMenu = document.querySelector(\".header__dropdown\");\nvar input = document.querySelector(\".form-input\");\nvar messages = [];\nloadMessagesFromLocalStorage();\ndocument.addEventListener('submit', handleSubmit.bind(undefined));\ndropdownButton.addEventListener(\"click\", function () {\n  dropdownMenu.classList.toggle(\"header__dropdown--open\");\n});\ndocument.addEventListener(\"click\", function (e) {\n  if (dropdownMenu.classList.contains(\"header__dropdown--open\") && !e.target.classList.contains('header__dropdown-item') && !e.target.classList.contains('header__dropdown-button')) {\n    dropdownMenu.classList.remove(\"header__dropdown--open\");\n  }\n});\nfunction handleSubmit(event) {\n  event.preventDefault();\n  if (input.value === \"\") {\n    return;\n  }\n  var message = {\n    text: input.value,\n    name: \"me\",\n    time: Object(_common_utils__WEBPACK_IMPORTED_MODULE_2__[\"transformDate\"])(new Date())\n  };\n  messages.push(message);\n  localStorage.setItem(MESSAGES_LOCALSTORAGE, JSON.stringify(messages));\n  Object(_common_printMessage__WEBPACK_IMPORTED_MODULE_1__[\"printMessage\"])(message);\n  input.value = \"\";\n  input.focus();\n}\nfunction loadMessagesFromLocalStorage() {\n  var json = localStorage.getItem(MESSAGES_LOCALSTORAGE);\n  if (!json) {\n    return;\n  }\n  var messagesFromLocalStorage = JSON.parse(json);\n  Object(_common_printMessage__WEBPACK_IMPORTED_MODULE_1__[\"printMessagesFromArray\"])(messagesFromLocalStorage);\n}\n\n//# sourceURL=webpack:///./index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.css */ \"./index/index.css\");\n/* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_index_css__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _common_printMessage__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../common/printMessage */ \"./common/printMessage.js\");\n/* harmony import */ var _common_utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../common/utils */ \"./common/utils.js\");\n\n\n\nvar MESSAGES_LOCALSTORAGE = \"MESSAGES\";\nvar dropdownButton = document.querySelector(\".header__dropdown-button\");\nvar dropdownMenu = document.querySelector(\".header__dropdown\");\nvar input = document.querySelector(\".form-input\");\nvar messages = [];\nloadMessagesFromLocalStorage();\ndocument.addEventListener('submit', handleSubmit.bind(undefined));\ndropdownButton.addEventListener(\"click\", function () {\n  dropdownMenu.classList.toggle(\"header__dropdown--open\");\n});\ndocument.addEventListener(\"click\", function (e) {\n  if (dropdownMenu.classList.contains(\"header__dropdown--open\") && !e.target.classList.contains('header__dropdown-item') && !e.target.classList.contains('header__dropdown-button')) {\n    dropdownMenu.classList.remove(\"header__dropdown--open\");\n  }\n});\nfunction handleSubmit(event) {\n  event.preventDefault();\n  if (input.value === \"\") {\n    return;\n  }\n  var message = {\n    text: input.value,\n    name: \"me\",\n    time: Object(_common_utils__WEBPACK_IMPORTED_MODULE_2__[\"transformDate\"])(new Date())\n  };\n  messages.push(message);\n  localStorage.setItem(MESSAGES_LOCALSTORAGE, JSON.stringify(messages));\n  Object(_common_printMessage__WEBPACK_IMPORTED_MODULE_1__[\"printMessage\"])(message);\n  input.value = \"\";\n  input.focus();\n}\nfunction loadMessagesFromLocalStorage() {\n  var json = localStorage.getItem(MESSAGES_LOCALSTORAGE);\n  if (!json) {\n    return;\n  }\n  var messagesFromLocalStorage = JSON.parse(json);\n  Object(_common_printMessage__WEBPACK_IMPORTED_MODULE_1__[\"printMessagesFromArray\"])(messagesFromLocalStorage);\n}\n\n//# sourceURL=webpack:///./index/index.js?");
 
 /***/ })
 
