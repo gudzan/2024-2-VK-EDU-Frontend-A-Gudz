@@ -1,7 +1,7 @@
 import "./index.css";
 
-import { printMessage, printMessagesFromArray } from "./common/printMessage";
-import { transformDate } from "./common/utils";
+import { printMessage, printMessagesFromArray } from "../common/printMessage";
+import { transformDate } from "../common/utils";
 
 const MESSAGES_LOCALSTORAGE = "MESSAGES";
 
