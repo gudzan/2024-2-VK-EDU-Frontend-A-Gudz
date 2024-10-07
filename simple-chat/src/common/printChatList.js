@@ -1,5 +1,9 @@
-const chatsBox = document.querySelector(".chats");
 const chatsInner = document.querySelector(".chats__inner");
+
+export const printChat = (newChat) => {
+  const fragment = createNewChatElement(newChat)
+  chatsInner.prepend(fragment);
+}
 
 export const printChatsFromArray = (chatArray) => {
   let fragment = new DocumentFragment();
@@ -44,7 +48,7 @@ const createNewChatElement = (newChat) => {
   chatMainName.innerText = newChat.name;
   chatMainMessage.innerText = newChat.lastMessage;
   chatInfoTime.innerText = newChat.lastMessageTime;
-  chatInfoIcon.innerText = "done_all"
+  chatInfoIcon.innerText = newChat.lastMessageIcon;
 
   return chat;
 }

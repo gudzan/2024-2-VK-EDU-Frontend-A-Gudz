@@ -11,7 +11,7 @@ const input = document.querySelector(".form-input");
 const params = new URLSearchParams(document.location.search).get('chatId');
 const MESSAGES_LOCALSTORAGE = `MESSAGES_${params}`;
 
-printHeader(userList.find((element) => element.id === params.toString()))
+printHeader(params)
 
 let messageId = 0;
 let messages = []
@@ -53,7 +53,9 @@ function loadMessagesFromLocalStorage() {
 
 function loadMessagesFromMockData() {
   if (!messagesJson) { return }
-  const mockMessage = messagesJson.find((element) => element.userId === params.toString()).messages
+  const usersMessage = messagesJson.find((element) => element.userId === params.toString())
+  if (!usersMessage) { return }
+  const mockMessage = usersMessage.messages
   messageId = Number(mockMessage[mockMessage.length - 1].id) + 1
   printMessagesFromArray(mockMessage)
 }

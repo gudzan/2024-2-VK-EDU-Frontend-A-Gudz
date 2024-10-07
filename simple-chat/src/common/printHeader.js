@@ -1,6 +1,14 @@
+import userList from "../mockData/userList.json"
 const headerSettings = document.querySelector(".header__settings");
 
-export const printHeader = (user) => {
+export const printHeader = (params) => {
+  const chatsFromLocalStorage = JSON.parse(localStorage.getItem("CHATS"))
+  const chats = chatsFromLocalStorage ? chatsFromLocalStorage.concat(userList) : userList
+  const user = chats.find((element) => element.id === params.toString())
+  createHeader(user);
+}
+
+const createHeader = (user) => {
   let headerUser = document.createElement("div");
   let headerUserImage = document.createElement("img");
   let headerUserInfo = document.createElement("div");
