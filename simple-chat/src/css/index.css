@@ -1,0 +1,131 @@
+@import 'common.css';
+@import 'header.css';
+
+.chats {
+  background-color: var(--second-white-color);
+  height: 100%;
+  padding: 5px 10px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--transparent-dark-green) var(--second-white-color);
+}
+
+.chats__inner {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
+  position: relative;
+}
+
+.chat::before {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 70px;
+  right: 0;
+  height: 1px;
+  background: var(--light-gray);
+}
+
+.chat:last-child:before{
+  height: 0px;
+}
+
+.chat img {
+  border-radius: 50%;
+  height: 60px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 2px;
+}
+
+.chat__link {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.chat__main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 100%;
+}
+
+.chat__main-name {
+  font-weight: 600;
+  -webkit-line-clamp: 1;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.chat__main-message {
+  -webkit-line-clamp: 1;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: 14px;
+  color: var(--dark-gray);
+}
+
+.chat__info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  padding-left: 10px;
+}
+
+.chat__info-time {
+  color: var(--main-color);
+  font-size: 12px;
+}
+
+.chat__info .material-icons {
+  color: var(--main-color);
+  font-size: 18px;
+  margin: 0 auto;
+}
+
+.fix-button {
+  background-color: #f9d667;
+  border-radius: 50%;
+  font-size: 40px;
+  color: #72612e;
+  padding: 10px;
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
+}
+
+
+@media (min-width: 700px) {
+  .chats {
+    font-size: 18px;
+    padding: 15px 20px;
+  }
+
+  .chat {
+    padding: 10px 0;
+  }
+  
+  .chat img {
+    height: 80px;
+  }
+
+  .chat__info-time {
+    font-size: 16px;
+  }
+  
+  .chat__info .material-icons {
+    font-size: 24px;
+    margin: 0 auto;
+  }
+}

@@ -10,25 +10,16 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="index.css" />
+  <link rel="stylesheet" href="./src/css/chat.css" />
   <title>My super messanger</title>
 </head>
 
 <body>
   <header>
     <div class="header__box">
-      <a href="../chatList/chatList.html">
+      <a href="./index.html">
         <button type="button" class="material-icons">arrow_back</button>
       </a>
-      <div class="header__user">
-        <img class="header__user-image"
-          src="https://api.dicebear.com/9.x/adventurer/svg?seed=Aneka&flip=true&backgroundColor=ffffff" alt="avatar"
-          srcset="">
-        <div class="header__user-info">
-          <span class="header__user-name">Джон</span>
-          <span class="header__user-last-time">был(а) 2 часа назад</span>
-        </div>
-      </div>
       <div class="header__settings">
         <button type="button" class="material-icons">search</button>
         <button type="button" class="material-icons header__dropdown-button">more_vert</button>
@@ -50,7 +41,7 @@
       <button type="submit" class="material-icons form__button-send">send</button>
     </form>
   </footer>
-  <script src="index.js"></script>
+  <script type="module" src="./src/js/chat.js"></script>
 </body>
 
 </html>

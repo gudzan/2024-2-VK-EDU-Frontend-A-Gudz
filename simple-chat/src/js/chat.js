@@ -1,16 +1,23 @@
-import "./index.css";
-
+import "../css/chat.css"
+import messagesJson from "../mockData/messages.json";
+import userList from "../mockData/userList.json"
 import { printMessage, printMessagesFromArray } from "../common/printMessage";
-import { transformDate } from "../common/utils";
-
-const MESSAGES_LOCALSTORAGE = "MESSAGES";
+import { printHeader } from "../common/printHeader";
 
 const dropdownButton = document.querySelector(".header__dropdown-button");
 const dropdownMenu = document.querySelector(".header__dropdown");
 const input = document.querySelector(".form-input");
 
+const params = new URLSearchParams(document.location.search).get('chatId');
+const MESSAGES_LOCALSTORAGE = `MESSAGES_${params}`;
+
+printHeader(userList.find((element) => element.id === params.toString()))
+
+let messageId = 0;
 let messages = []
+loadMessagesFromMockData()
 loadMessagesFromLocalStorage()
+printMessagesFromArray(messages)
 
 document.addEventListener('submit', handleSubmit.bind(this))
 dropdownButton.addEventListener("click", () => { dropdownMenu.classList.toggle("header__dropdown--open") });
@@ -25,9 +32,10 @@ function handleSubmit(event) {
   event.preventDefault();
   if (input.value === "") { return }
   const message = {
-    text: input.value,
-    name: "me",
-    time: transformDate(new Date())
+    id: messageId++,
+    sender: 1,
+    time: new Date(),
+    text: input.value
   };
   messages.push(message)
   localStorage.setItem(MESSAGES_LOCALSTORAGE, JSON.stringify(messages));
@@ -40,5 +48,12 @@ function loadMessagesFromLocalStorage() {
   const json = localStorage.getItem(MESSAGES_LOCALSTORAGE);
   if (!json) { return }
   const messagesFromLocalStorage = JSON.parse(json);
-  printMessagesFromArray(messagesFromLocalStorage)
+  messages.push(...messagesFromLocalStorage)
+}
+
+function loadMessagesFromMockData() {
+  if (!messagesJson) { return }
+  const mockMessage = messagesJson.find((element) => element.userId === params.toString()).messages
+  messageId = Number(mockMessage[mockMessage.length - 1].id) + 1
+  printMessagesFromArray(mockMessage)
 }

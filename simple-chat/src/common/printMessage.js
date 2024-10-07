@@ -1,3 +1,4 @@
+import { transformDate } from "./utils.js";
 const messagesBox = document.querySelector(".messages");
 const messagesInner = document.querySelector(".message__inner");
 
@@ -22,22 +23,30 @@ const createNewMessage = (newMessage) => {
   let messageText = document.createElement("span");
   let messageInfo = document.createElement("div");
   let messageInfoTime = document.createElement("span");
-  let messageInfoIcons = document.createElement("div");
 
   message.append(messageText)
   message.append(messageInfo)
   messageInfo.append(messageInfoTime)
-  messageInfo.append(messageInfoIcons)
 
   message.className = "message"
+  if (newMessage.sender === 1) {
+    message.className += " message--my"
+    let messageInfoIcons = document.createElement("div");
+    messageInfo.className = "message__info message__info--my"
+    messageInfo.append(messageInfoIcons)
+    messageInfoIcons.className = "material-icons"
+    messageInfoIcons.innerText = "done_all"
+  }
+  else {
+    message.className += " message--another"
+    messageInfo.className = "message__info message__info--another"
+  }
   messageText.className = "message__text"
-  messageInfo.className = "message__info"
+  
   messageInfoTime.className = "message__info-time"
-  messageInfoIcons.className = "material-icons"
 
   messageText.innerText = newMessage.text;
-  messageInfoTime.innerText = newMessage.time;
-  messageInfoIcons.innerText = "done_all"
+  messageInfoTime.innerText = transformDate(newMessage.time);
 
   return message;
 }
