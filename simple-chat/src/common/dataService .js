@@ -106,6 +106,6 @@ export const getChatsByChatName = (searchvalue) => {
   if (!chats) {
     return []
   }
-  const find = chats.filter((element) => element.userName.includes(searchvalue.toString()))
+  const find = chats.filter((element) => element.userName.toLowerCase().includes(searchvalue.toString().toLowerCase()))
   return find
 }
