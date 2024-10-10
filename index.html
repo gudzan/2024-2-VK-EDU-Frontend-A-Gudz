@@ -11,20 +11,36 @@
     href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
     rel="stylesheet">
   <title>My super messanger</title>
-  <script type="module" crossorigin src="./assets/main-Bn2uQPqH.js"></script>
-  <link rel="modulepreload" crossorigin href="./assets/utils-CG6mtOFN.js">
-  <link rel="stylesheet" crossorigin href="./assets/main-CpT53YRC.css">
+  <script type="module" crossorigin src="./assets/main-R8lkROQq.js"></script>
+  <link rel="modulepreload" crossorigin href="./assets/dataService -hicFx82M.js">
+  <link rel="stylesheet" crossorigin href="./assets/main-DRtuISgb.css">
 </head>
 
 <body>
   <header>
     <div class="header__box">
-      <button type="button" class="material-icons">menu</button>
-      <sapn class="header__left-title">Все чаты</sapn>
-      <button type="button" class="header__settings material-icons">search</button>
+      <div class="header__box-left">
+        <button type="button" class="material-icons">menu</button>
+        <sapn class="header__left-title">Все чаты</sapn>
+      </div>
+      <div class="header__box-right">
+        <div class="header__box-search">
+            <input tabindex="0" class="search-input" name="header-box-search" placeholder="Поиск" type="text">
+            <button type="button" class="material-icons header-box__close">close</button></div>
+        <button type="button" class="header__box-search-button material-icons">search</button>
+      </div>
     </div>
   </header>
   <main class="chats">
+    <div class="overlay"></div>
+    <div class="new-сhat">
+      <button type="button" class="material-icons new-сhat__close">close</button>
+      <form class="form" action="/">
+        <span class="new-сhat__title">Добавление нового чата</span>
+        <input tabindex="0" class="form-input" name="new-сhat-name" placeholder="Введите название чата" type="text">
+        <button type="submit" class="new-сhat__submit">Добавить</button>
+      </form>
+    </div>
     <ul class="chats__inner">
     </ul>
     <button class="material-icons fix-button">edit</button>
