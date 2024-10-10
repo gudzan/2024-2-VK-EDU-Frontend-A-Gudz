@@ -34,7 +34,7 @@
   background: var(--light-gray);
 }
 
-.chat:last-child:before{
+.chat:last-child:before {
   height: 0px;
 }
 
@@ -106,6 +106,93 @@
   cursor: pointer;
 }
 
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(30, 27, 27, 0.35);
+  z-index: 10;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.3s;
+}
+
+.overlay--open {
+  visibility: visible;
+  opacity: 1;
+}
+
+.new-сhat {
+  position: absolute;
+  display: none;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  background-color: var(--second-white-color);
+  z-index: 300;
+  border-radius: 5px;
+  width: 280px;
+  height: 200px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 14px 12px;
+}
+
+.new-сhat--open {
+  display: block;
+}
+
+form {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+}
+
+input {
+  border: 0;
+  outline: none;
+  width: 100%;
+  font-family: "Montserrat", sans-serif;
+  border-radius: 15px;
+  padding: 5px 25px;
+  background-color: var(--third-white-color);
+  height: 40px;
+  box-shadow: rgba(99, 99, 99, 0.2) 1px 1px 5px 1px;
+}
+
+.new-сhat__title {
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.new-сhat__close {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  color: var(--dark-green);
+}
+
+.new-сhat__submit {
+  background-color: var(--main-color);
+  color: white;
+  width: 150px;
+  height: 30px;
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+.notFound{
+  text-align: center;
+  font-size: 20px;
+  padding: 20px;
+}
+
 @media (min-width: 700px) {
   .chats {
     font-size: 18px;
@@ -115,7 +202,7 @@
   .chat {
     padding: 10px 0;
   }
-  
+
   .chat img {
     height: 80px;
   }
@@ -123,9 +210,50 @@
   .chat__info-time {
     font-size: 16px;
   }
-  
+
   .chat__info .material-icons {
     font-size: 24px;
     margin: 0 auto;
+  }
+
+  .new-сhat {
+    width: 380px;
+    height: 180px;
+  }
+
+  form {
+    padding: 20px;
+  }
+
+  input {
+    height: 45px;
+  }
+
+  .new-сhat__title {
+    font-weight: 600;
+    font-size: 18px;
+  }
+
+  .new-сhat__submit {
+    height: 35px;
+  }
+}
+
+@media (min-width: 1300px) {
+  .new-сhat {
+    width: 480px;
+    height: 200px;
+  }
+
+  form {
+    padding: 30px;
+  }
+
+  input {
+    height: 50px;
+  }
+
+  .new-сhat__submit {
+    height: 40px;
   }
 }

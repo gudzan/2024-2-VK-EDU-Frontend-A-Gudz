@@ -1,29 +1,18 @@
+import { transformDate } from "./utils";
+
 const chatsInner = document.querySelector(".chats__inner");
 
-export const printChat = (newChat) => {
-  const fragment = createNewChatElement(newChat)
-  chatsInner.prepend(fragment);
-}
-
-export const printChatsFromArray = (chatArray) => {
-  let fragment = new DocumentFragment();
-  for (let chat of chatArray) {
-    let li = createNewChatElement(chat)
-    fragment.append(li);
-  }
-  chatsInner.append(fragment);
-}
-
 const createNewChatElement = (newChat) => {
-  let chat = document.createElement("li");
-  let chatLink = document.createElement("a");
-  let chatImg = document.createElement("img");
-  let chatMain = document.createElement("div");
-  let chatMainName = document.createElement("span");
-  let chatMainMessage = document.createElement("span");
-  let chatInfo = document.createElement("div");
-  let chatInfoTime = document.createElement("span");
-  let chatInfoIcon = document.createElement("div");
+  if (!newChat) { return }
+  const chat = document.createElement("li");
+  const chatLink = document.createElement("a");
+  const chatImg = document.createElement("img");
+  const chatMain = document.createElement("div");
+  const chatMainName = document.createElement("span");
+  const chatMainMessage = document.createElement("span");
+  const chatInfo = document.createElement("div");
+  const chatInfoTime = document.createElement("span");
+  const chatInfoIcon = document.createElement("div");
 
   chat.append(chatLink)
   chatLink.append(chatImg)
@@ -37,7 +26,7 @@ const createNewChatElement = (newChat) => {
   chat.className = "chat"
   chatLink.className = "chat__link"
   chatLink.href = `./chat.html?chatId=${newChat.id}`
-  chatImg.setAttribute("src", newChat.avatar)
+  chatImg.setAttribute("src", newChat.userAvatar)
   chatMain.className = "chat__main"
   chatMainName.className = "chat__main-name"
   chatMainMessage.className = "chat__main-message"
@@ -45,10 +34,33 @@ const createNewChatElement = (newChat) => {
   chatInfoTime.className = "chat__info-time"
   chatInfoIcon.className = "material-icons"
 
-  chatMainName.innerText = newChat.name;
+  chatMainName.innerText = newChat.userName;
   chatMainMessage.innerText = newChat.lastMessage;
-  chatInfoTime.innerText = newChat.lastMessageTime;
+  chatInfoTime.innerText = transformDate(newChat.lastMessageTime);
   chatInfoIcon.innerText = newChat.lastMessageIcon;
 
   return chat;
+}
+
+export const printChat = (newChat) => {
+  const fragment = createNewChatElement(newChat)
+  chatsInner.prepend(fragment);
+}
+
+export const printChatsFromArray = (chatArray) => {
+  const fragment = new DocumentFragment();
+  chatsInner.textContent = ''
+  if (chatArray.length === 0) {
+    const notFound = document.createElement("span");
+    notFound.className = "notFound"
+    notFound.innerText = "Чатов нет";
+    fragment.append(notFound);
+  }
+  else {
+    for (let chat of chatArray) {
+      const li = createNewChatElement(chat)
+      fragment.append(li);
+    }
+  }
+  chatsInner.append(fragment);
 }

@@ -3,8 +3,7 @@
 @import 'footer.css';
 
 .messages {
-  background-color: var(--second-white-color);
-  background-color: rgb(245,245,245);
+  background-color: rgb(245, 245, 245);
   height: 100%;
   padding: 15px;
   overflow-y: auto;
@@ -61,12 +60,20 @@
   font-size: 15px;
 }
 
-.message__info--my{
+.message__info--my {
   justify-content: flex-end;
   color: var(--light-green);
 }
 
-.message__info--another{
+.message__info--another {
   justify-content: flex-start;
   color: var(--dark-green);
+}
+
+@media (min-width: 800px) {
+  .message--my {
+    align-self: flex-start;
+    font-weight: 500;
+    border-radius: 1px 15px 15px 15px;
+  }
 }

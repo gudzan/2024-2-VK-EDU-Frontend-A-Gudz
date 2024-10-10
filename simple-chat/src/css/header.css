@@ -6,7 +6,7 @@ header {
   z-index: 1;
 }
 
-header .material-icons {
+.material-icons {
   color: white;
 }
 
@@ -91,6 +91,58 @@ header .material-icons {
   font-weight: 600;
   font-size: 20px;
 }
+
+.header__left-title--hidden {
+  display: none;
+}
+
+.header__box-right, .header__box-left{
+  display: flex;
+  gap:10px;
+  align-items: center;
+}
+
+.header__box-right{
+  position: relative;
+}
+
+.header__box-search{
+
+}
+
+.header-box__close {
+  color: var(--main-color);
+  position: absolute;
+  right: 45px;
+  top: 0;
+  bottom: 0;
+}
+
+
+.search-input{
+  display: none;
+  border: 0;
+  outline: none;
+  width: 100%;
+  font-family: "Montserrat", sans-serif;
+  border-radius: 15px;
+  padding: 10px 40px 10px 15px;
+  background-color: var(--third-white-color);
+  height: 40px;
+}
+
+.search-input--open{
+  display: block;
+}
+
+@media (min-width: 450px) {
+  .header__left-title--hidden {
+    display: block;
+    font-weight: 600;
+    font-size: 20px;
+  }
+}
+
 
 @media (min-width: 700px) {
 
