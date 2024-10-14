@@ -1,5 +1,15 @@
 footer .material-icons {
   color: var(--main-color);
+  transition: all .1s ;
+}
+
+footer .material-icons:hover {
+  scale: 1.05;
+  text-shadow: 1px 3px 2px var(--transparent-dark-green);
+}
+
+footer .material-icons:active {
+  color: green;
 }
 
 .form {
@@ -28,6 +38,9 @@ input {
   background-color: var(--third-white-color);
   height: 80%;
 }
+
+
+
 
 @media (min-width: 700px) {
   .form {
