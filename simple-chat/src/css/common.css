@@ -4,10 +4,13 @@
   --third-white-color: #f0f0f0;
   --transparent-white-color: #ffffff69;
   --transparent-dark-green: #49a3496b;
+  --transparent-light-green: #92db926b;
   --dark-green: #0e6300;
   --light-green: #92db92;
   --light-gray: #e7e7e7;
   --dark-gray: #858585;
+  --yellow-color: #f9d667;
+  --mustard-color: #cca92c;
 }
 
 html {
