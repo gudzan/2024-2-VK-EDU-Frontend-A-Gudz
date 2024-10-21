@@ -26,7 +26,6 @@ const PageChat = () => {
     messagesRef.current.scrollTop = messagesRef.current.scrollHeight 
   }, [newMessage]);
 
-
   const handleSubmit = (event) => {
     event.preventDefault()
     if (messageText === "") { return }
