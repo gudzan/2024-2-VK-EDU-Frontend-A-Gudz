@@ -1,0 +1,158 @@
+@keyframes chat {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes chat-appear {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.chat {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 10px;
+  position: relative;
+  transition: all .3s ease;
+  border-radius: 20px;
+  animation: chat 0.2s;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--transparent-light-green);
+
+    img {
+      scale: 1.03;
+    }
+
+    &::after {
+      visibility: hidden;
+    }
+  }
+
+  &:active {
+    scale: 0.98;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 70px;
+    right: 0;
+    height: 1px;
+    background: var(--light-gray);
+    transition: all .1s;
+  }
+
+  &:hover+.chat {
+    &::after {
+      visibility: hidden;
+    }
+  }
+
+  &:first-child {
+    &:after {
+      height: 0px;
+    }
+  }
+
+  img {
+    border-radius: 50%;
+    height: 60px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 2px;
+  }
+}
+
+.chat--new {
+  animation: chat-appear 0.7s ease-out forwards;
+}
+
+.chat__link {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.chat__main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 100%;
+}
+
+.chat__main-name {
+  font-weight: 600;
+  -webkit-line-clamp: 1;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.chat__main-message {
+  -webkit-line-clamp: 1;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: 14px;
+  color: var(--dark-gray);
+}
+
+.chat__info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  padding-left: 10px;
+
+  .material-icons {
+    color: var(--main-color);
+
+    svg {
+      font-size: 18px;
+      margin: 0 auto;
+    }
+  }
+}
+
+.chat__info-time {
+  color: var(--main-color);
+  font-size: 12px;
+}
+
+@media (min-width: 700px) {
+  .chat {
+    padding: 10px 0;
+    padding: 5px 10px;
+
+    img {
+      height: 80px;
+    }
+  }
+
+  .chat__info-time {
+    font-size: 16px;
+  }
+
+  .chat__info {
+    .material-icons {
+      font-size: 24px;
+      margin: 0 auto;
+    }
+  }
+}

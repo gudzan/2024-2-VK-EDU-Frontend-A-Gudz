@@ -1,8 +1,13 @@
-import './App.css'
+import { usePage } from './hooks/usePage';
+import PageChat from './page/PageChat/PageChat';
+import PageChatList from './page/PageChatList/PageChatList';
 
 function App() {
+  const { chatId } = usePage();
   return (
-      <h1>My messenger</h1>
+    <>
+      {chatId ? <PageChat /> : <PageChatList />}
+    </>
   )
 }
 
