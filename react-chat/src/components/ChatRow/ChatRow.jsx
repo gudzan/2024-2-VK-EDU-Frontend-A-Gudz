@@ -1,8 +1,8 @@
 import React from "react";
-import "./ChatRow.scss"
 import { usePage } from "../../hooks/usePage";
 import DeliveredIcon from "../DliveredIcon/DeliveredIcon";
 import { transformDate } from "../../utils";
+import "./ChatRow.scss"
 
 const ChatRow = ({ chat, isNew }) => {
   const { setChatId } = usePage()
