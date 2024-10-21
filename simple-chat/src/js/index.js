@@ -11,6 +11,7 @@ const overlay = document.querySelector(".overlay");
 const newChatInput = document.querySelector(".form-input");
 const searchButton = document.querySelector(".header__box-search-button");
 const searchInput = document.querySelector(".search-input");
+const boxSearch = document.querySelector(".header__box-search");
 const searchClose = document.querySelector(".header-box__close");
 const headerLeftTitle = document.querySelector(".header__left-title");
 
@@ -38,14 +39,14 @@ const handleSubmit = (event) => {
 }
 
 const openSearch = () => {
-  searchInput.classList.add("search-input--open");
+  boxSearch.classList.add("header__box-search--open");
   headerLeftTitle.classList.add("header__left-title--hidden")
   searchInput.focus()
 }
 
 const closeSearch = () => {
   searchInput.value = ""
-  searchInput.classList.remove("search-input--open");
+  boxSearch.classList.remove("header__box-search--open");
   headerLeftTitle.classList.remove("header__left-title--hidden")
   printChatsFromArray(chats)
 }
@@ -63,7 +64,7 @@ const escape = (event) => {
 }
 
 document.addEventListener('keydown', escape.bind(this));
-searchInput.addEventListener('input', debounce(search.bind(this), 250))
+boxSearch.addEventListener('input', debounce(search.bind(this), 250))
 document.addEventListener('submit', handleSubmit.bind(this))
 newChatButton.addEventListener("click", openNewChat);
 newChatClose.addEventListener("click", closeNewChat);
