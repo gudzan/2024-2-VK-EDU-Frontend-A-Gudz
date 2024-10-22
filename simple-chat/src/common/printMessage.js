@@ -3,7 +3,7 @@ import { transformDate } from "./utils.js";
 const messagesBox = document.querySelector(".messages");
 const messagesInner = document.querySelector(".message__inner");
 
-const createNewMessage = (newMessage) => {
+const createNewMessage = (newMessage, isNew) => {
   if (!newMessage) { return }
   const message = document.createElement("li");
   const messageText = document.createElement("span");
@@ -14,7 +14,9 @@ const createNewMessage = (newMessage) => {
   message.append(messageInfo)
   messageInfo.append(messageInfoTime)
 
-  message.className = "message"
+  message.className = "message" + (isNew ? " message--new" : "")
+  console.log("message" + (isNew ? " message--new" : ""));
+  
   if (newMessage.sender === 1) {
     message.className += " message--my"
     const messageInfoIcons = document.createElement("div");
@@ -36,7 +38,7 @@ const createNewMessage = (newMessage) => {
 }
 
 export const printMessage = (message) => {
-  const fragment = createNewMessage(message)
+  const fragment = createNewMessage(message, true)
   messagesInner.append(fragment);
   messagesBox.scrollTop = messagesBox.scrollHeight
 }
@@ -45,7 +47,7 @@ export const printMessagesFromArray = (messageArray) => {
   if (!messageArray) { return }
   const fragment = new DocumentFragment();
   for (let message of messageArray) {
-    const li = createNewMessage(message)
+    const li = createNewMessage(message, false)
     fragment.append(li);
   }
   messagesInner.append(fragment);

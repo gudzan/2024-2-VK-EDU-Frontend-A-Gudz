@@ -2,7 +2,7 @@ import { transformDate } from "./utils";
 
 const chatsInner = document.querySelector(".chats__inner");
 
-const createNewChatElement = (newChat) => {
+const createNewChatElement = (newChat, isNew) => {
   if (!newChat) { return }
   const chat = document.createElement("li");
   const chatLink = document.createElement("a");
@@ -23,7 +23,7 @@ const createNewChatElement = (newChat) => {
   chatInfo.append(chatInfoTime)
   chatInfo.append(chatInfoIcon)
 
-  chat.className = "chat"
+  chat.className = "chat" + (isNew ? " chat--new" : "")
   chatLink.className = "chat__link"
   chatLink.href = `./chat.html?chatId=${newChat.id}`
   chatImg.setAttribute("src", newChat.userAvatar)
@@ -43,7 +43,7 @@ const createNewChatElement = (newChat) => {
 }
 
 export const printChat = (newChat) => {
-  const fragment = createNewChatElement(newChat)
+  const fragment = createNewChatElement(newChat, true)
   chatsInner.prepend(fragment);
 }
 
@@ -58,7 +58,7 @@ export const printChatsFromArray = (chatArray) => {
   }
   else {
     for (let chat of chatArray) {
-      const li = createNewChatElement(chat)
+      const li = createNewChatElement(chat, false)
       fragment.append(li);
     }
   }
