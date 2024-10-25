@@ -1,21 +1,8 @@
-import { getRandomColor, getRandomId, getRandomNumber } from "../utils";
-import messagesJson from "../mockData/messages.json"
-import chatList from "../mockData/chatList.json"
-
+import { getRandomColor, getRandomId, getRandomNumber } from "../../utils";
+import chatList from "../../mockData/chatList.json"
+import { getLocalStorage, setLocalStorage } from "../localSrorage";
+import { createNewMessage } from "../messages/messages";
 const CHATS_LOCALSTORAGE_KEY = 'CHATS';
-const MESSAGES_LOCALSTORAGE_KEY = `MESSAGES_`;
-
-const getLocalStorage = (key) => {
-  const json = localStorage.getItem(key);
-  if (!json) {
-    return null
-  }
-  return JSON.parse(json);
-}
-
-const setLocalStorage = (key, object) => {
-  localStorage.setItem(key, JSON.stringify(object));
-}
 
 export const getChatFromById = (id) => {
   const chats = getLocalStorage(CHATS_LOCALSTORAGE_KEY)
@@ -26,36 +13,13 @@ export const getChatFromById = (id) => {
   return find ? find : null
 }
 
-const setLastMessageToChat = (chatId, message) => {
+export const setLastMessageToChat = (chatId, message) => {
   const chats = getLocalStorage(CHATS_LOCALSTORAGE_KEY)
   const chatById = chats.find((element) => element.id === chatId.toString())
   chatById.lastMessage = message.text
   chatById.lastMessageTime = message.time
   chatById.lastMessageIcon = "check"
   setLocalStorage(CHATS_LOCALSTORAGE_KEY, chats)
-}
-
-export const getMessagesByChatId = (chatId) => {
-  const messages = []
-  const messagesFromLocalStorage = getLocalStorage(`${MESSAGES_LOCALSTORAGE_KEY}${chatId}`)
-  if (messagesFromLocalStorage) {
-    messages.push(...messagesFromLocalStorage)
-  }
-  else {
-    const mockMessage = messagesJson.find((element) => element.chatId.toString() === chatId.toString())
-    if (mockMessage) {
-      messages.push(...mockMessage.messages)
-    }
-  }
-  setLocalStorage(`${MESSAGES_LOCALSTORAGE_KEY}${chatId}`, messages)
-  return messages
-}
-
-const setNewMessage = (newMessage, chatId) => {
-  const messages = getMessagesByChatId(chatId)
-  messages.push(newMessage)
-  setLocalStorage(`${MESSAGES_LOCALSTORAGE_KEY}${chatId}`, messages)
-  setLastMessageToChat(chatId, newMessage)
 }
 
 export const getChats = () => {
@@ -77,18 +41,6 @@ const setNewChat = (newChat) => {
   const chats = getLocalStorage(CHATS_LOCALSTORAGE_KEY)
   chats.unshift(newChat)
   setLocalStorage(CHATS_LOCALSTORAGE_KEY, chats)
-}
-
-export const createNewMessage = (newMessageText, chatId) => {
-  const newMessage = {
-    id: getRandomId(),
-    sender: 1,
-    time: new Date(),
-    text: newMessageText,
-        icon: "check"
-  };
-  setNewMessage(newMessage, chatId)
-  return newMessage
 }
 
 export const createNewChat = (chatName) => {

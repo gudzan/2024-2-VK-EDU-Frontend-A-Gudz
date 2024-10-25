@@ -1,0 +1,31 @@
+header {
+  box-shadow: #d2d3d226 0px 10px 20px;
+  background-color: var(--main-color);
+  color: white;
+  position: relative;
+  z-index: 1;
+
+  .icon {
+    transition: all .1s;
+    height: 32px;
+
+    &:hover {
+      scale: 1.05;
+      text-shadow: 1px 3px 2px var(--transparent-light-green);
+    }
+
+    svg {
+      color: white;
+      font-size: 32px;
+    }
+  }
+}
+
+.header__box {
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 70px;
+  gap: 10px;
+}

@@ -3,20 +3,21 @@ import ChatRow from "../ChatRow";
 import "./ChatList.scss"
 
 const ChatList = ({ chats, newRow }) => {
+  const isNew = (chatId) => {
+    if (newRow === null) return false
+    return chatId === newRow.id
+  }
+
+  if (chats.length === 0) {
+    return <span className="notFound">Чатов нет</span>
+  }
 
   return (
-    <>
-      {(chats.length === 0) ?
-        (
-          <span className="notFound">Чатов нет</span>
-        ) : (
-          <ul className="chats__inner">
-            {chats.map((chat) =>
-              <ChatRow key={chat.id} chat={chat} isNew={newRow !== null && chat.id === newRow.id} />
-            )}
-          </ul>
-        )}
-    </>
+    <ul className="chats__inner">
+      {chats.map((chat) =>
+        <ChatRow key={chat.id} chat={chat} isNew={isNew(chat.id)} />
+      )}
+    </ul>
   );
 };
 

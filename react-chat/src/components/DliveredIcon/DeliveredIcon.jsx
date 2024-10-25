@@ -9,7 +9,7 @@ const DeliveredIcon = ({ chatIcon }) => {
     case 'done_all':
       return <DoneAllIcon />
     default:
-      return <></>
+      return null
   }
 };
 
