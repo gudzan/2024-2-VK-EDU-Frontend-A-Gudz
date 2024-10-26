@@ -2,12 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import CloseIcon from '@mui/icons-material/Close';
 import { createNewChat } from "../../api/chat/chat";
 import './NewChatModal.scss'
+import Overlay from "../Overlay";
 
 const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
   const inputNewChatRef = useRef(null);
   const [newChatName, setNewChatName] = useState("")
-
-  const overlayClassName = `chats-overlay ${openNewChat ? "open" : "close"}`
   const newChatClassName = `new-сhat ${openNewChat ? "open" : ""}`
 
   useEffect(() => {
@@ -33,7 +32,7 @@ const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
 
   return (
     <>
-      <div className={overlayClassName} onClick={closeNewChatWindow}></div>
+      <Overlay openOverlay={openNewChat} closeOverlay={closeNewChatWindow} />
       <div className={newChatClassName}>
         <button type="button" className="icon new-сhat__close" onClick={closeNewChatWindow}><CloseIcon /></button>
         <form className="new-сhat__form" onSubmit={handleSubmit}>

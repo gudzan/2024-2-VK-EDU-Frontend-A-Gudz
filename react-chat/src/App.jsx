@@ -1,13 +1,15 @@
-import { usePage } from './hooks/usePage';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import PageChat from './page/PageChat/PageChat';
 import PageChatList from './page/PageChatList/PageChatList';
 
 function App() {
-  const { chatId } = usePage();
   return (
-    <>
-      {chatId ? <PageChat /> : <PageChatList />}
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/2024-2-VK-EDU-Frontend-A-Gudz" element={<PageChatList />} />
+        <Route path="/2024-2-VK-EDU-Frontend-A-Gudz/chat/:chatId" element={<PageChat />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 
