@@ -1,0 +1,68 @@
+:root {
+  --main-color: #49a349;
+  --second-white-color: #fafafa;
+  --third-white-color: #f0f0f0;
+  --transparent-white-color: #ffffff69;
+  --transparent-dark-green: #49a3496b;
+  --transparent-light-green: #92db926b;
+  --dark-green: #0e6300;
+  --light-green: #92db92;
+  --light-gray: #e7e7e7;
+  --dark-gray: #858585;
+  --yellow-color: #f9d667;
+  --mustard-color: #cca92c;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: "Montserrat", sans-serif;
+  overflow: hidden;
+  height: 100vh;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+* {
+  box-sizing: inherit;
+
+  &::before {
+    box-sizing: inherit;
+  }
+
+  &::after {
+    box-sizing: inherit;
+  }
+}
+
+ul {
+  padding: 0;
+}
+
+li {
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+img {
+  cursor: pointer;
+}
+
+button {
+  padding: 0;
+  border: none;
+  font: inherit;
+  background-color: transparent;
+  cursor: pointer;
+}

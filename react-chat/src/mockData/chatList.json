@@ -1,0 +1,90 @@
+[
+  {
+    "id": "643ef784-3125-4bf5-a15d-f5ead1205661",
+    "userName": "Самый первый",
+    "lastMessage": "Привет! Как дела?",
+    "lastMessageTime": "2024-10-07T12:40:20.321Z",
+    "lastMessageIcon": "done_all",
+    "userAvatar": "https://api.dicebear.com/9.x/adventurer/svg?seed=0&translateY=5&flip=true&skinColor=f2d3b1&backgroundColor=b6e3f4"
+  },
+  {
+    "id": "73d30735-c747-4674-b277-64fcbdebc23e",
+    "userName": "Второй",
+    "lastMessage": "Дай деняг",
+    "lastMessageTime": "2024-10-07T12:40:20.321Z",
+    "lastMessageIcon": "done_all",
+    "userAvatar": "https://api.dicebear.com/9.x/adventurer/svg?seed=1&translateY=5&flip=true&skinColor=f2d3b1&backgroundColor=FFFF99"
+  },
+  {
+    "id": "3550f387-2f76-42aa-8011-c8a008e8fc5d",
+    "userName": "Влад Должен 2000 р",
+    "lastMessage": "У меня сейчас столько нет. Давай завтра",
+    "lastMessageTime": "2024-10-07T12:40:20.321Z",
+    "lastMessageIcon": "done_all",
+    "userAvatar": "https://api.dicebear.com/9.x/adventurer/svg?seed=3&translateY=5&flip=true&skinColor=f2d3b1&backgroundColor=b6e3f4"
+  },
+  {
+    "id": "714b3a08-bb49-4834-93f1-765c8ded45a0",
+    "userName": "Борзый",
+    "lastMessage": "Го",
+    "lastMessageTime": "2024-10-07T12:40:20.321Z",
+    "lastMessageIcon": "done_all",
+    "userAvatar": "https://api.dicebear.com/9.x/adventurer/svg?seed=4&translateY=5&flip=true&skinColor=f2d3b1&backgroundColor=993366"
+  },
+  {
+    "id": "4f832379-93da-4298-9647-eba52a523b22",
+    "userName": "Валюшка",
+    "lastMessage": "Привет!",
+    "lastMessageTime": "2024-10-07T12:40:20.321Z",
+    "lastMessageIcon": "done_all",
+    "userAvatar": "https://api.dicebear.com/9.x/adventurer/svg?seed=5&translateY=5&flip=true&skinColor=f2d3b1&backgroundColor=9999FF"
+  },
+  {
+    "id": "5e7d1f59-1575-4cd1-888a-10d91cadae55",
+    "userName": "Инна Викторовна",
+    "lastMessage": "Домашку кто делать будет? Я что ли?",
+    "lastMessageTime": "2024-10-07T12:40:20.321Z",
+    "lastMessageIcon": "done_all",
+    "userAvatar": "https://api.dicebear.com/9.x/adventurer/svg?seed=6&translateY=5&flip=true&skinColor=f2d3b1&backgroundColor=66FFCC"
+  },
+  {
+    "id": "39158a26-0d35-4aa4-9328-dadfb51593fb",
+    "userName": "Сан саныч",
+    "lastMessage": "Повышение тебе не светит",
+    "lastMessageTime": "2024-10-07T12:40:20.321Z",
+    "lastMessageIcon": "done_all",
+    "userAvatar": "https://api.dicebear.com/9.x/adventurer/svg?seed=7&translateY=5&flip=true&skinColor=f2d3b1&backgroundColor=99CC99"
+  },
+  {
+    "id": "ca1d1f8a-6795-4564-ad18-026efff8da0d",
+    "userName": "Лиза",
+    "lastMessage": "Пойдем гулять?",
+    "lastMessageTime": "2024-10-07T12:40:20.321Z",
+    "lastMessageIcon": "done_all",
+    "userAvatar": "https://api.dicebear.com/9.x/adventurer/svg?seed=8&translateY=5&flip=true&skinColor=f2d3b1&backgroundColor=999999"
+  },
+  {
+    "id": "ca019aba-ddaf-4acd-a49e-a878db488120",
+    "userName": "Мелкий",
+    "lastMessage": "ууу",
+    "lastMessageTime": "2024-10-07T12:40:20.321Z",
+    "lastMessageIcon": "done_all",
+    "userAvatar": "https://api.dicebear.com/9.x/adventurer/svg?seed=9&translateY=5&flip=true&skinColor=f2d3b1&backgroundColor=009900"
+  },
+  {
+    "id": "16016717-c235-46cb-a34d-c3fe38f17791",
+    "userName": "Очказавр",
+    "lastMessage": "мда...",
+    "lastMessageTime": "2024-10-07T12:40:20.321Z",
+    "lastMessageIcon": "done_all",
+    "userAvatar": "https://api.dicebear.com/9.x/adventurer/svg?seed=10&translateY=5&flip=true&skinColor=f2d3b1&backgroundColor=4ea27a"
+  },
+  {
+    "id": "4a87ddfc-4989-4b14-aa42-2d12728c6af9",
+    "userName": "Кирюха",
+    "lastMessage": "Да, давай заврта",
+    "lastMessageTime": "2024-10-07T12:40:20.321Z",
+    "lastMessageIcon": "done_all",
+    "userAvatar": "https://api.dicebear.com/9.x/adventurer/svg?seed=2&translateY=5&flip=true&skinColor=f2d3b1&backgroundColor=CC9966"
+  }
+]
