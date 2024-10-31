@@ -1,3 +1,1 @@
-import Overlay from './Overlay.jsx';
-
-export default Overlay
+export { default } from './Overlay.jsx'

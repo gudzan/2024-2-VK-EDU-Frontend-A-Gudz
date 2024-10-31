@@ -1,3 +1,1 @@
-import NewChatModal from './NewChatModal.jsx';
-
-export default NewChatModal
+export { default } from './NewChatModal.jsx'

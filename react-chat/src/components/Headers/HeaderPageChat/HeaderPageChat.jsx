@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 const HeaderPageChat = ({ userAvatar, userName }) => {
   const [openDropdown, setOpenDropdown] = useState(false)
 
-  const toggleDropdown = () => setOpenDropdown(!openDropdown)
+  const toggleDropdown = () => setOpenDropdown((prevState) => !prevState)
   const closeDropdown = () => setOpenDropdown(false)
 
   return (

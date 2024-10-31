@@ -1,3 +1,1 @@
-import MessagesList from './MessagesList.jsx';
-
-export default MessagesList;
+export { default } from './MessagesList.jsx'
