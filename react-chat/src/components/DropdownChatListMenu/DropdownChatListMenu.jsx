@@ -11,7 +11,7 @@ const DropdownChatList = ({ openDropdown, closeDropdown }) => {
       <Overlay openOverlay={openDropdown} closeOverlay={closeDropdown} />
       <div className={dropdownClassName}>
         <button type="button" onClick={closeDropdown}>
-          <Link to={`myProfile`}>
+          <Link to={`my-profile`}>
             Мой профиль
           </Link>
         </button>
