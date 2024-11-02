@@ -1,8 +1,12 @@
 import React from "react";
 import "./Overlay.scss"
+import classnames from 'classnames';
 
 const Overlay = ({ openOverlay, closeOverlay }) => {
-  const overlayClassName = `overlay ${openOverlay ? "open" : "close"}`
+  const overlayClassName = classnames('overlay', {
+    "open": openOverlay,
+    "close": !openOverlay
+  });
 
   return (
     <div className={overlayClassName} onClick={closeOverlay}></div>

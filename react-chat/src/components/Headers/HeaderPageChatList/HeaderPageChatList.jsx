@@ -5,6 +5,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import SearchIcon from '@mui/icons-material/Search';
 import useDebounce from "../../../hooks/useDebounce";
 import DropdownChatListMenu from "../../DropdownChatListMenu";
+import classnames from 'classnames';
 
 const HeaderPageChatList = ({ closeSearchInput, search }) => {
   const inputSearchRef = useRef(null);
@@ -13,8 +14,15 @@ const HeaderPageChatList = ({ closeSearchInput, search }) => {
   const [openDropdown, setOpenDropdown] = useState(false)
   const debouncedSearchTerm = useDebounce(searchString, 250);
 
-  const leftTitleClassName = `header__left-title ${openSearch ? "close" : "open"}`
-  const boxSearchClassName = `header__box-search ${openSearch ? "open" : "close"}`
+  const leftTitleClassName = classnames('header__left-title', {
+    "close": !openSearch,
+    "open": openSearch
+  });
+  
+  const boxSearchClassName = classnames('header__box-search', {
+    "close": !openSearch,
+    "open": openSearch
+  });
 
   useEffect(() => {
     if (openSearch) {

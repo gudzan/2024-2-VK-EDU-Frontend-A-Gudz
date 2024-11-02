@@ -1,18 +1,18 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { HashRouter, Route, Routes } from 'react-router-dom';
 import PageChat from './page/PageChat/PageChat';
 import PageChatList from './page/PageChatList/PageChatList';
 import PageMyProfile from './page/PageMyProfile/PageMyProfile';
+import ROUTES from './config/routes.js';
 
 function App() {
-  const baseUrl = '/2024-2-VK-EDU-Frontend-A-Gudz'
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
-        <Route path={baseUrl} element={<PageChatList />} />
-        <Route path={`${baseUrl}/my-profile`} element={<PageMyProfile />} />
-        <Route path={`${baseUrl}/chat/:chatId`} element={<PageChat />} />
+        <Route path={ROUTES.root} element={<PageChatList />} />
+        <Route path={ROUTES.myProfile} element={<PageMyProfile />} />
+        <Route path={ROUTES.chatWithChatId} element={<PageChat />} />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   )
 }
 

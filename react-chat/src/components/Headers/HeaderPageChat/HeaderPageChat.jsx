@@ -4,6 +4,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import DropdownChatMenu from "../../DropdownChatMenu"
 import { Link } from "react-router-dom";
+import ROUTES from "../../../config/routes";
 
 const HeaderPageChat = ({ userAvatar, userName }) => {
   const [openDropdown, setOpenDropdown] = useState(false)
@@ -14,7 +15,7 @@ const HeaderPageChat = ({ userAvatar, userName }) => {
   return (
     <header>
       <div className="header__box">
-        <Link to="/2024-2-VK-EDU-Frontend-A-Gudz">
+        <Link to={ROUTES.root}>
           <button type="button" className="icon"><ArrowBackIcon /></button>
         </Link>
         <div className="header__user">

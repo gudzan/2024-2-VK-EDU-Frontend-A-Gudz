@@ -4,7 +4,7 @@ import Layout from "../../components/Layout/index.js";
 import { HeaderPageMyProfile } from "../../components/Headers/index.js";
 import { getProfileFromLocalStorage, setProfileToLocalStorage } from "../../api/profile/myprofile.js";
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
-import _ from "lodash"
+import { isEqual } from "lodash"
 
 const PageMyProfile = () => {
   const avatarInput = useRef(null)
@@ -13,7 +13,7 @@ const PageMyProfile = () => {
   const [isChanged, setIsChanged] = useState(false)
 
   useEffect(() => {
-    setIsChanged(_.isEqual(initialProfile, profile))
+    setIsChanged(isEqual(initialProfile, profile))
   }, [profile, initialProfile])
 
   const onChange = (e) => {

@@ -3,11 +3,14 @@ import CloseIcon from '@mui/icons-material/Close';
 import { createNewChat } from "../../api/chat/chat";
 import './NewChatModal.scss'
 import Overlay from "../Overlay";
+import classnames from 'classnames';
 
 const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
   const inputNewChatRef = useRef(null);
   const [newChatName, setNewChatName] = useState("")
-  const newChatClassName = `new-сhat ${openNewChat ? "open" : ""}`
+  const newChatClassName = classnames('new-сhat', {
+    'open': openNewChat
+  });
 
   useEffect(() => {
     if (openNewChat) {
