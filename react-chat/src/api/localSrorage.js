@@ -9,3 +9,11 @@ export const getLocalStorage = (key) => {
 export const setLocalStorage = (key, object) => {
   localStorage.setItem(key, JSON.stringify(object));
 }
+
+export const getAccessToken = () => {
+  const token = localStorage.getItem("access_token");
+  if (!token) {
+    return null
+  }
+  return token;
+}
