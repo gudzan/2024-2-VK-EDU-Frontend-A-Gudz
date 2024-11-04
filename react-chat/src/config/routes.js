@@ -1,6 +1,7 @@
 const ROUTES = {
   root: '/',
-  login: '/login/:type?',
+  register: '/register',
+  auth: '/auth',
   chats: '/chats',
   chat: '/chat',
   chatWithChatId: '/chat/:chatId',

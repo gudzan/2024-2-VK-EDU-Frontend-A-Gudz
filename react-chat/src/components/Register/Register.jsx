@@ -1,94 +1,99 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import "./Register.scss"
 import axios from "axios";
+import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
+import defaultAvatar from "../../assets/images/default-avatar.jpg"
+import { convertFileToBase64 } from "../../utils";
+import { Link, useNavigate } from "react-router-dom";
+import ROUTES from "../../config/routes";
+import { instance } from "../../api/api.config";
 
 const Register = () => {
+  const avatarInput = useRef(null)
+  const navigate = useNavigate();
+  const initialUser = {
+    username: "",
+    password: "",
+    first_name: "",
+    last_name: "",
+    bio: "",
+    avatar: defaultAvatar
+  }
+  const [user, setUser] = useState(initialUser)
 
-  // const [newUser, setNewUser] = useState({
-  //   username: "", // логин (обязательное поле, должно быть уникальным)
-  //   password: "", // пароль (обязательное поле)
-  //   first_name: "", // имя (обязательное поле)
-  //   last_name: "", // фамилия (обязательное поле)
-  //   bio: "", // информация о юзере,
-  //   avatar: "" // аватар пользователя (чтобы отправить нужно использовать FormData)
-  // })
-  // console.log(newUser)
+  const onChange = (e) => {
+    const name = e.target.name;
+    const value = e.target.value
+    setUser((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  }
 
-  // const onChange = (e) => {
-  //   const name = e.target.name;
-  //   const value = e.target.value
-  //   setNewUser((prevState) => ({
-  //     ...prevState,
-  //     [name]: value,
-  //   }));
-  // }
+  const openFileInput = () => {
+    avatarInput.current.click()
+  }
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    
-    axios.post('http://192.168.1.111:8080/api/register/', formData, {
+  const handleFiles = async (e) => {
+    if (e.target.files[0].size > 5 * 1024 * 1024) {
+      alert('Файл слишком большой! Выбери другой');
+      return
+    }
+    const avatar = await convertFileToBase64(e.target.files[0]);
+    setUser((prevState) => ({
+      ...prevState,
+      avatar: avatar,
+    }));
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    const formData = new FormData(event.target);
+    instance.post('/api/register/', formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
     })
       .then((response) => {
-        console.log("успех!!!", response);
+        navigate(ROUTES.auth);
       })
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>Логин</label>
-        <input
-          id="username"
-          type="text"
-          name="username"
-        />
-      </div>
-      <div>
-        <label>Пароль</label>
-        <input
-          id="password"
-          type="password"
-          name="password"
-        />
-      </div>
-      <div>
-        <label>Имя</label>
-        <input
-          id="first_name"
-          type="text"
-          name="first_name"
-        />
-      </div>
-      <div>
-        <label>Фамилия</label>
-        <input
-          id="last_name"
-          type="text"
-          name="last_name"
-        />
-      </div>
-      <div>
-        <label>О себе</label>
-        <textarea
-          id="bio"
-          type="text"
-          name="bio"
-        />
-      </div>
-      <div>
-        <label>Аватар</label>
-        <input
-          id="avatar"
-          type="file"
-          name="avatar"
-        />
-      </div>
-      <button type="submit"> Отправить</button>
-    </form>
+    <div className="register">
+      <form className="form" onSubmit={handleSubmit}>
+        <div className="field__avatar" onClick={openFileInput}>
+          <img src={user.avatar} alt="Аватар" className="avatar" />
+          <PhotoCameraIcon className="hover" />
+          <input type="file" name="avatar" ref={avatarInput} onChange={handleFiles} hidden={true} accept=".jpg,.jpeg,.png"></input>
+          <span>Аватар</span>
+        </div>
+        <div className="field">
+          <label>Логин</label>
+          <input autoComplete="off" type="text" value={user.username} name="username" onChange={onChange}></input>
+        </div>
+        <div className="field">
+          <label>Пароль</label>
+          <input autoComplete="off" type="password" value={user.password} name="password" onChange={onChange}></input>
+        </div>
+        <div className="field">
+          <label>Имя</label>
+          <input type="text" value={user.first_name} name="first_name" onChange={onChange}></input>
+        </div>
+        <div className="field">
+          <label>Фамилия</label>
+          <input type="text" value={user.last_name} name="last_name" onChange={onChange}></input>
+        </div>
+        <div className="field">
+          <label>Расскажи о себе</label>
+          <textarea rows="6" value={user.bio} name="bio" onChange={onChange}></textarea >
+        </div>
+        <div className="button-box">
+          <button type="submit" className="form__submit">Зарегистрироваться</button>
+        </div>
+      </form>
+      <Link to={`${ROUTES.auth}`}>Уже есть аккаунт? Войди</Link>
+    </div>
   )
 }
 
