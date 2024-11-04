@@ -31,6 +31,13 @@
   animation: chat 0.2s;
   cursor: pointer;
 
+  img {
+    background-color: white;
+    width: 60px;
+    min-width: 60px;
+    object-fit: cover;
+  }
+
   &:hover {
     background-color: var(--transparent-light-green);
 
@@ -142,6 +149,9 @@
 
     img {
       height: 80px;
+      min-height: 80px;
+      width: 80px;
+      min-width: 80px;
     }
   }
 

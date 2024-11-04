@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import "./Auth.scss"
 import { Link, useNavigate } from "react-router-dom";
 import ROUTES from "../../config/routes";
-import axios from "axios";
-import { setTokens } from "../../api/localSrorage";
+import { setLocalStorage, setTokens } from "../../api/localSrorage";
 import { useAuth } from "../../hooks/useAuth";
 import { instance } from "../../api/api.config";
 
@@ -15,7 +14,7 @@ const Auth = () => {
   }
 
   const [user, setUser] = useState(initialUser)
-  const {setAuth} = useAuth()
+  const { setAuth } = useAuth()
 
   const onChange = (e) => {
     const name = e.target.name;
@@ -32,8 +31,17 @@ const Auth = () => {
     instance.post('/api/auth/', formData)
       .then((response) => {
         setTokens(response.data.access, response.data.refresh)
+        instance.get('/api/user/current/')
+          .then((response) => {
+            localStorage.setItem("userId", response.data.id)
+            navigate(ROUTES.root)
+          })
+          .catch((error) => {
+            if (error.response.status === 401 && error.config.url === "/api/auth/refresh/") {
+              navigate(ROUTES.auth)
+            }
+          })
         setAuth(true)
-        navigate(ROUTES.root)
       })
   }
 

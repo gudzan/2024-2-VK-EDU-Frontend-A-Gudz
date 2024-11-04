@@ -5,16 +5,40 @@ import './PageChatList.scss'
 import NewChatModal from "../../components/NewChatModal";
 import Layout from "../../components/Layout";
 import { HeaderPageChatList } from "../../components/Headers";
-import { getChats, getChatsByChatName } from "../../api/chat/chat.js";
+import { getChatsByChatName } from "../../api/chat/chat.js";
+import { instance } from "../../api/api.config.js";
+import { useNavigate } from "react-router-dom";
+import ROUTES from "../../config/routes.js";
 
 const PageChatList = () => {
   const chatsRef = useRef(null)
-  const [chats, setChats] = useState(getChats())
+  const navigate = useNavigate();
+  const [chats, setChats] = useState(null)
   const [newRow, setNewRow] = useState(null)
   const [openNewChat, setOpenNewChat] = useState(false)
 
+  useEffect(() => {
+    instance.get('/api/chats/')
+      .then((response) => {
+        setChats(response.data.results)
+      })
+      .catch((error) => {
+        if (error.message = "Unauthorized" || (error.response.status === 401 && error.config.url === "/api/auth/refresh/")) {
+          navigate(ROUTES.auth)
+        }
+      })
+  }, [])
+
   const refresh = () => {
-    setChats(getChats())
+    instance.get('/api/chats/')
+      .then((response) => {
+        setChats(response.data.results)
+      })
+      .catch((error) => {
+        if (error.message = "Unauthorized" || (error.response.status === 401 && error.config.url === "/api/auth/refresh/")) {
+          navigate(ROUTES.auth)
+        }
+      })
     setNewRow(null)
   }
 
@@ -35,8 +59,15 @@ const PageChatList = () => {
       refresh()
     }
     else {
-      const newChats = getChatsByChatName(searchTerm)
-      setChats(newChats)
+      instance.get(`/api/chats/?search=${searchTerm}`)
+        .then((response) => {
+          setChats(response.data.results)
+        })
+        .catch((error) => {
+          if (error.response.status === 401 && error.config.url === "/api/auth/refresh/") {
+            navigate(ROUTES.auth)
+          }
+        })
     }
   }
 

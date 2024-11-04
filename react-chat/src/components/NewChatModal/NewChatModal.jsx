@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import CloseIcon from '@mui/icons-material/Close';
-import { createNewChat } from "../../api/chat/chat";
 import './NewChatModal.scss'
 import Overlay from "../Overlay";
 import classnames from 'classnames';
+import { instance } from "../../api/api.config";
 
 const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
   const inputNewChatRef = useRef(null);
@@ -21,8 +21,25 @@ const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
   const handleSubmit = (event) => {
     event.preventDefault()
     if (newChatName === "") { return }
-    const newChat = createNewChat(newChatName)
-    addNewChat(newChat)
+    let newChat = null
+    instance.post('/api/chats/',
+      {
+        "members": [
+          newChatName
+        ],
+        "is_private": true,
+        "title": "Название чата"
+      }
+    )
+      .then((response) => {
+        newChat = response.data;
+        addNewChat(newChat)
+      })
+      .catch((error) => {
+        if (error.response.status === 401 && error.config.url === "/api/auth/refresh/") {
+          navigate(ROUTES.auth)
+        }
+      })
     setNewChatName("")
   }
 
@@ -40,7 +57,7 @@ const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
         <button type="button" className="icon new-сhat__close" onClick={closeNewChatWindow}><CloseIcon /></button>
         <form className="new-сhat__form" onSubmit={handleSubmit}>
           <span className="new-сhat__title">Добавление нового чата</span>
-          <input tabIndex="0" className="new-сhat__form-input" name="new-сhat-name" placeholder="Введите название чата" type="text"
+          <input tabIndex="0" className="new-сhat__form-input" name="new-сhat-name" placeholder="Введите id чата" type="text"
             ref={inputNewChatRef}
             value={newChatName}
             onChange={inputNewChat} />
