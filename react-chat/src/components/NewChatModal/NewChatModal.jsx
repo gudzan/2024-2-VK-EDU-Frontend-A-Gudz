@@ -3,7 +3,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import './NewChatModal.scss'
 import Overlay from "../Overlay";
 import classnames from 'classnames';
-import { instance } from "../../api/api.config";
+import chatService from "../../api/chat/chatService";
 
 const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
   const inputNewChatRef = useRef(null);
@@ -18,28 +18,17 @@ const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
     }
   }, [openNewChat])
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
     if (newChatName === "") { return }
-    let newChat = null
-    instance.post('/api/chats/',
-      {
-        "members": [
-          newChatName
-        ],
-        "is_private": true,
-        "title": "Название чата"
+    try {
+      const chat = await chatService.createNewChat(newChatName);
+      if (chat) {
+        addNewChat(chat)
       }
-    )
-      .then((response) => {
-        newChat = response.data;
-        addNewChat(newChat)
-      })
-      .catch((error) => {
-        if (error.response.status === 401 && error.config.url === "/api/auth/refresh/") {
-          navigate(ROUTES.auth)
-        }
-      })
+    } catch (error) {
+      navigate(ROUTES.auth); console.log(error);
+    }
     setNewChatName("")
   }
 

@@ -5,124 +5,63 @@ import Layout from "../../components/Layout";
 import FooterChat from "../../components/FooterChat";
 import { HeaderPageChat } from "../../components/Headers";
 import { useParams } from "react-router-dom";
-import { instance } from "../../api/api.config";
-import { Centrifuge } from "centrifuge";
+import chatService from "../../api/chat/chatService";
+import messageService from "../../api/message/messageService";
 
 const PageChat = () => {
   const messagesRef = useRef(null)
   const { chatId } = useParams();
-  // const chat = getChatFromById(chatId);
   const [newMessage, setNewMessage] = useState(null)
-  // const messages = getMessagesByChatId(chatId);
   const [messages, setMessages] = useState(null)
   const [chat, setChat] = useState(null)
-  const id = localStorage.getItem('userId')
 
-  const centrifuge = useRef()
-  const subscription = useRef()
-
-  const connect = () => {
-    centrifuge.current = new Centrifuge('ws://vkedu-fullstack-div2.ru/connection/websocket/', {
-      getToken: (ctx) =>
-        new Promise((resolve, reject) =>
-          fetch('https://vkedu-fullstack-div2.ru/api/centrifugo/connect/', {
-            body: JSON.stringify(ctx),
-            method: 'POST',
-            headers: headers,
-          })
-            .then((res) => res.json())
-            .then((data) => resolve(data.token))
-            .catch((err) => reject(err))
-        )
-    });
-
-    subscription.current = centrifuge.current.newSubscription(id, {
-      getToken: (ctx) =>
-        new Promise((resolve, reject) =>
-          fetch('https://vkedu-fullstack-div2.ru/api/centrifugo/subscribe/', {
-            body: JSON.stringify(ctx),
-            method: 'POST',
-            headers: headers,
-          })
-            .then((res) => res.json())
-            .then((data) => resolve(data.token))
-            .catch((err) => reject(err))
-        )
-    });
-
-    subscription.current.on('publication', function (ctx) {
-      console.log("helloo");
-      console.log(ctx.data);
-    });
-
-    subscription.current.subscribe();
-    centrifuge.current.connect();
-
-
-
+  const getAllChats = async () => {
+    try {
+      const chat = await chatService.getChat(chatId);
+      if (chat) {
+        setChat(chat)
+      }
+    } catch (error) {
+      navigate(ROUTES.auth); console.log(error);
+    }
   }
 
   useEffect(() => {
-    connect()
-  }, [])
+    getAllChats()
+    let isMounted = true;
 
-
-  useEffect(() => {
-    instance.get(`/api/messages/?chat=${chatId}`)
-      .then((response) => {
-        setMessages(response.data.results)
-      })
-      .catch((error) => {
-        if (error.response.status === 401 && error.config.url === "/api/auth/refresh/") {
-          navigate(ROUTES.auth)
+    const getMessages = async () => {
+      try {
+        const results = await messageService.getMessages(chatId);
+        setMessages(results)
+        if (isMounted) {
+          await getMessages()
         }
-      })
-
-    instance.get(`/api/chat/${chatId}`)
-      .then((response) => {
-        setChat(response.data)
-      })
-      .catch((error) => {
-        if (error.response.status === 401 && error.config.url === "/api/auth/refresh/") {
-          navigate(ROUTES.auth)
-        }
-      })
-
+      } catch (e) {
+        setTimeout(() => {
+          getMessages()
+        }, 1000)
+      }
+    }
+    getMessages()
+    return () => {
+      isMounted = false;
+    };
   }, [])
 
   useEffect(() => {
     messagesRef.current.scrollTo(0, messagesRef.current.scrollHeight)
   }, [newMessage]);
 
-  const sendMessage = (newMessageText) => {
-    console.log("centrifuge.current.state", centrifuge.current.state);
-
-    console.log("subscription.current.state", subscription.current.state);
-    instance.post(`/api/messages/`, {
-      "text": newMessageText,
-      "chat": chatId,
-    })
-      .then((response) => {
-        setNewMessage(response.data)
-
-        instance.get(`/api/messages/?chat=${chatId}`)
-          .then((response) => {
-            setMessages(response.data.results)
-          })
-          .catch((error) => {
-            console.log(error);
-
-            if (error.response.status === 401 && error.config.url === "/api/auth/refresh/") {
-              navigate(ROUTES.auth)
-            }
-          })
-      })
-      .catch((error) => {
-        console.log(error);
-        if (error.response.status === 401 && error.config.url === "/api/auth/refresh/") {
-          navigate(ROUTES.auth)
-        }
-      })
+  const sendMessage = async (newMessageText) => {
+    try {
+      const data = await messageService.createNewMessage(newMessageText, chatId);
+      if (data) {
+        setNewMessage(data)
+      }
+    } catch (error) {
+      navigate(ROUTES.auth); console.log(error);
+    }
   }
 
   return (

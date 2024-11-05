@@ -5,10 +5,9 @@ import './PageChatList.scss'
 import NewChatModal from "../../components/NewChatModal";
 import Layout from "../../components/Layout";
 import { HeaderPageChatList } from "../../components/Headers";
-import { getChatsByChatName } from "../../api/chat/chat.js";
-import { instance } from "../../api/api.config.js";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "../../config/routes.js";
+import chatService from "../../api/chat/chatService.js";
 
 const PageChatList = () => {
   const chatsRef = useRef(null)
@@ -17,30 +16,25 @@ const PageChatList = () => {
   const [newRow, setNewRow] = useState(null)
   const [openNewChat, setOpenNewChat] = useState(false)
 
-  useEffect(() => {
-    instance.get('/api/chats/')
-      .then((response) => {
-        setChats(response.data.results)
-      })
-      .catch((error) => {
-        if (error.message = "Unauthorized" || (error.response.status === 401 && error.config.url === "/api/auth/refresh/")) {
-          navigate(ROUTES.auth)
-        }
-      })
-  }, [])
+  const getChats = async () => {
+    try {
+      const results = await chatService.getAllChats();
+      if (results) {
+        setChats(results)
+      }
+    } catch (error) {
+      navigate(ROUTES.auth); console.log(error);
+    }
+  }
 
   const refresh = () => {
-    instance.get('/api/chats/')
-      .then((response) => {
-        setChats(response.data.results)
-      })
-      .catch((error) => {
-        if (error.message = "Unauthorized" || (error.response.status === 401 && error.config.url === "/api/auth/refresh/")) {
-          navigate(ROUTES.auth)
-        }
-      })
+    getChats()
     setNewRow(null)
   }
+
+  useEffect(() => {
+    refresh()
+  }, [])
 
   const addNewChat = (newChat) => {
     setNewRow(newChat)
@@ -54,20 +48,19 @@ const PageChatList = () => {
   const openNewChatWindow = () => setOpenNewChat(true)
   const closeNewChat = () => setOpenNewChat(false)
 
-  const search = (searchTerm) => {
+  const search = async (searchTerm) => {
     if (searchTerm === "") {
       refresh()
     }
     else {
-      instance.get(`/api/chats/?search=${searchTerm}`)
-        .then((response) => {
-          setChats(response.data.results)
-        })
-        .catch((error) => {
-          if (error.response.status === 401 && error.config.url === "/api/auth/refresh/") {
-            navigate(ROUTES.auth)
-          }
-        })
+      try {
+        const results = await chatService.getAllChatsWithSearch(searchTerm);
+        if (results) {
+          setChats(results)
+        }
+      } catch (error) {
+        navigate(ROUTES.auth); console.log(error);
+      }
     }
   }
 

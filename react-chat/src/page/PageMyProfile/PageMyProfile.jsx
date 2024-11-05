@@ -5,10 +5,10 @@ import { HeaderPageMyProfile } from "../../components/Headers/index.js";
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import { isEqual } from "lodash"
 import { convertFileToBase64 } from "../../utils";
-import { instance } from "../../api/api.config.js";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "../../config/routes.js";
 import Spinner from "../../components/Spinner/Spinner.jsx";
+import userService from "../../api/user/userService.js";
 
 const PageMyProfile = () => {
   const avatarInput = useRef(null)
@@ -17,17 +17,20 @@ const PageMyProfile = () => {
   const [profile, setProfile] = useState(initialProfile)
   const [isChanged, setIsChanged] = useState(false)
 
+  const getCurrentUser = async () => {
+    try {
+      const user = await userService.getCurrentUser();
+      if (user) {
+        setInitialProfile(user)
+        setProfile(user)
+      }
+    } catch (error) {
+      navigate(ROUTES.auth); console.log(error);
+    }
+  }
+
   useEffect(() => {
-    instance.get('/api/user/current/')
-      .then((response) => {
-        setInitialProfile(response.data)
-        setProfile(response.data)
-      })
-      .catch((error) => {
-        if (error.response.status === 401 && error.config.url === "/api/auth/refresh/") {
-          navigate(ROUTES.auth)
-        }
-      })
+    getCurrentUser()
   }, [])
 
   useEffect(() => {
@@ -47,7 +50,7 @@ const PageMyProfile = () => {
     avatarInput.current.click()
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.target)
 
@@ -55,16 +58,15 @@ const PageMyProfile = () => {
       data.delete('avatar')
     }
 
-    instance.patch(`/api/user/${profile.id}/`, data)
-      .then((response) => {
-        setInitialProfile(response.data)
-        setProfile(response.data)
-      })
-      .catch((error) => {
-        if (error.response.status === 401 && error.config.url === "/api/auth/refresh/") {
-          navigate(ROUTES.auth)
-        }
-      })
+    try {
+      const user = await userService.updateUser(profile.id, data);
+      if (user) {
+        setInitialProfile(user)
+        setProfile(user)
+      }
+    } catch (error) {
+      navigate(ROUTES.auth); console.log(error);
+    }
   };
 
   const handleFiles = async (e) => {

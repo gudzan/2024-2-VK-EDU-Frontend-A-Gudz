@@ -1,12 +1,12 @@
 import React, { useState, useRef } from "react";
 import "./Register.scss"
-import axios from "axios";
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import defaultAvatar from "../../assets/images/default-avatar.jpg"
 import { convertFileToBase64 } from "../../utils";
 import { Link, useNavigate } from "react-router-dom";
 import ROUTES from "../../config/routes";
-import { instance } from "../../api/api.config";
+
+import authService from "../../api/auth/authService.js"
 
 const Register = () => {
   const avatarInput = useRef(null)
@@ -46,17 +46,17 @@ const Register = () => {
     }));
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
     const formData = new FormData(event.target);
-    instance.post('/api/register/', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
+    try {
+      const data = await authService.register(formData);
+      if (data) {
+        navigate(ROUTES.auth); console.log(error);;
       }
-    })
-      .then((response) => {
-        navigate(ROUTES.auth);
-      })
+    } catch (error) {
+
+    }
   }
 
   return (
