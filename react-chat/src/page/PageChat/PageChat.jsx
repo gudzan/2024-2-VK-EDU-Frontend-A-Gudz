@@ -22,10 +22,10 @@ const PageChat = () => {
   const subscription = useRef()
 
   const connect = () => {
-    centrifuge.current = new Centrifuge('ws://localhost:8080/api/connection/websocket/', {
+    centrifuge.current = new Centrifuge('ws://vkedu-fullstack-div2.ru/api/connection/websocket/', {
       getToken: (ctx) =>
         new Promise((resolve, reject) =>
-          fetch('https://localhost:8080/api/centrifugo/connect/', {
+          fetch('https://vkedu-fullstack-div2.ru/api/centrifugo/connect/', {
             body: JSON.stringify(ctx),
             method: 'POST',
             headers: headers,
@@ -39,7 +39,7 @@ const PageChat = () => {
     subscription.current = centrifuge.current.newSubscription(id, {
       getToken: (ctx) =>
         new Promise((resolve, reject) =>
-          fetch('https://localhost:8080/api/centrifugo/subscribe/', {
+          fetch('https://vkedu-fullstack-div2.ru/api/centrifugo/subscribe/', {
             body: JSON.stringify(ctx),
             method: 'POST',
             headers: headers,
@@ -57,6 +57,9 @@ const PageChat = () => {
 
     subscription.current.subscribe();
     centrifuge.current.connect();
+
+
+
   }
 
   useEffect(() => {
@@ -84,6 +87,7 @@ const PageChat = () => {
           navigate(ROUTES.auth)
         }
       })
+
   }, [])
 
   useEffect(() => {
@@ -91,6 +95,9 @@ const PageChat = () => {
   }, [newMessage]);
 
   const sendMessage = (newMessageText) => {
+    console.log("centrifuge.current.state", centrifuge.current.state);
+
+    console.log("subscription.current.state", subscription.current.state);
     instance.post(`/api/messages/`, {
       "text": newMessageText,
       "chat": chatId,
