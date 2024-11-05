@@ -3,6 +3,7 @@ import { getAccessToken, getRefreshToken, setTokens } from "./localSrorage";
 
 export const instance = axios.create({
   withCredentials: true,
+  baseURL: "https://vkedu-fullstack-div2.ru/"
 });
 
 instance.interceptors.request.use(
