@@ -5,8 +5,6 @@ import { transformDate } from "../../utils";
 import classnames from 'classnames';
 
 const Message = ({ message, userId, isNew }) => {
-  console.log(message.sender.id, userId);
-  
   const liClassName = classnames('message', {
     'message--my': message.sender.id === userId,
     'message--another': message.sender.id !== userId,

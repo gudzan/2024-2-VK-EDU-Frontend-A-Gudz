@@ -14,7 +14,12 @@ const MessagesList = ({ messages, newMessage }) => {
   if (messages === null) {
     return <Spinner />
   }
+  
+  if (messages.length === 0) {
+    return null
+  }
   else {
+    messages.sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
     return (
       <ul className="message__inner">
         {messages.map((message) => (
