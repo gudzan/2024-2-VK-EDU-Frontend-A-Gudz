@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getAccessToken, getRefreshToken, setTokens } from "./localSrorage";
 
-export const instance = axios.create({
+const instance = axios.create({
   baseURL: "https://vkedu-fullstack-div2.ru/"
 });
 
@@ -43,3 +43,13 @@ instance.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+const apiService = {
+  get: instance.get,
+  post: instance.post,
+  put: instance.put,
+  delete: instance.delete,
+  patch: instance.patch
+};
+
+export default apiService
