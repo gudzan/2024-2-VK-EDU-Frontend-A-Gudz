@@ -22,7 +22,7 @@ const PageChat = () => {
   const subscription = useRef()
 
   const connect = () => {
-    centrifuge.current = new Centrifuge('ws://vkedu-fullstack-div2.ru/api/connection/websocket/', {
+    centrifuge.current = new Centrifuge('ws://vkedu-fullstack-div2.ru/connection/websocket/', {
       getToken: (ctx) =>
         new Promise((resolve, reject) =>
           fetch('https://vkedu-fullstack-div2.ru/api/centrifugo/connect/', {
