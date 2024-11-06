@@ -1,3 +1,1 @@
-import DropdownChatMenu from './DropdownChatMenu.jsx';
-
-export default DropdownChatMenu;
+export { default } from './DropdownChatMenu.jsx'

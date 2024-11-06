@@ -1,3 +1,1 @@
-import Layout from './Layout.jsx';
-
-export default Layout;
+export { default } from './Layout.jsx'

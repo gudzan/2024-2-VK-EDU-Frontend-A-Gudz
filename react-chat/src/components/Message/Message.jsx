@@ -2,11 +2,20 @@ import React from "react";
 import "./Message.scss"
 import DeliveredIcon from "../DliveredIcon/DeliveredIcon";
 import { transformDate } from "../../utils";
+import classnames from 'classnames';
 
 const Message = ({ message, isNew }) => {
-  const liClassName = `message ${message.sender === 1 ? "message--my" : "message--another"} ${isNew ? "message--new" : ""}`
-  const infoClassName = `message__info ${message.sender === 1 ? "message__info--my" : "message__info--another"}`
-  
+  const liClassName = classnames('message', {
+    'message--my': message.sender === 1,
+    'message--another': message.sender !== 1,
+    'message--new': isNew
+  });
+
+  const infoClassName = classnames('message__info', {
+    'message__info--my': message.sender === 1,
+    'message__info--another': message.sender !== 1
+  });
+
   return (
     <li className={liClassName}>
       <span className="message__text">{message.text}</span>

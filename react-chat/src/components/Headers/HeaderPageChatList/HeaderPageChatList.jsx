@@ -4,15 +4,25 @@ import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import SearchIcon from '@mui/icons-material/Search';
 import useDebounce from "../../../hooks/useDebounce";
+import DropdownChatListMenu from "../../DropdownChatListMenu";
+import classnames from 'classnames';
 
 const HeaderPageChatList = ({ closeSearchInput, search }) => {
   const inputSearchRef = useRef(null);
   const [openSearch, setOpenSearch] = useState(false)
   const [searchString, setSearchString] = useState("")
+  const [openDropdown, setOpenDropdown] = useState(false)
   const debouncedSearchTerm = useDebounce(searchString, 250);
 
-  const leftTitleClassName = `header__left-title ${openSearch ? "close" : "open"}`
-  const boxSearchClassName = `header__box-search ${openSearch ? "open" : "close"}`
+  const leftTitleClassName = classnames('header__left-title', {
+    "close": !openSearch,
+    "open": openSearch
+  });
+  
+  const boxSearchClassName = classnames('header__box-search', {
+    "close": !openSearch,
+    "open": openSearch
+  });
 
   useEffect(() => {
     if (openSearch) {
@@ -39,11 +49,15 @@ const HeaderPageChatList = ({ closeSearchInput, search }) => {
     search(e.target.value)
   }
 
+  const toggleDropdown = () => setOpenDropdown((prevState) => !prevState)
+  const closeDropdown = () => setOpenDropdown(false)
+
   return (
     <header>
       <div className="header__box">
         <div className="header__box-left">
-          <button type="button" className="icon"><MenuIcon /></button>
+          <button type="button" className="icon" onClick={toggleDropdown}><MenuIcon /></button>
+          <DropdownChatListMenu openDropdown={openDropdown} closeDropdown={closeDropdown} />
           <span className={leftTitleClassName}>Все чаты</span>
         </div>
         <div className="header__box-right">

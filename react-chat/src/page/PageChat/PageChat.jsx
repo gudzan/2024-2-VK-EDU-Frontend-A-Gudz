@@ -1,16 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./PageChat.scss"
-import { usePage } from "../../hooks/usePage";
 import MessagesList from "../../components/MessagesList";
 import Layout from "../../components/Layout";
 import FooterChat from "../../components/FooterChat";
 import {HeaderPageChat} from "../../components/Headers";
 import { createNewMessage, getMessagesByChatId } from "../../api/messages/messages";
 import { getChatFromById } from "../../api/chat/chat";
+import { useParams } from "react-router-dom";
 
 const PageChat = () => {
   const messagesRef = useRef(null)
-  const { chatId } = usePage();
+  const { chatId } = useParams();
   const chat = getChatFromById(chatId);
   const [newMessage, setNewMessage] = useState(null)
   const messages = getMessagesByChatId(chatId);

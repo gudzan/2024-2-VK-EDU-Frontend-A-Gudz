@@ -1,3 +1,1 @@
-import FooterChat from './FooterChat.jsx';
-
-export default FooterChat;
+export { default } from './FooterChat.jsx'

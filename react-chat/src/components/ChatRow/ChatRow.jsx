@@ -1,19 +1,17 @@
 import React from "react";
-import { usePage } from "../../hooks/usePage";
 import DeliveredIcon from "../DliveredIcon/DeliveredIcon";
 import { transformDate } from "../../utils";
 import "./ChatRow.scss"
+import { Link } from "react-router-dom";
+import ROUTES from "../../config/routes";
+import classnames from 'classnames';
 
 const ChatRow = ({ chat, isNew }) => {
-  const { setChatId } = usePage()
-  const liClassName = `chat${isNew ? " chat--new" : ""}`
+  const liClassName = classnames('chat', { 'chat--new': isNew });
   const lastMessageTime = transformDate(chat.lastMessageTime)
-
-  const goBack = () => setChatId(chat.id)
-
   return (
     <li className={liClassName}>
-      <a className="chat__link" onClick={goBack}>
+      <Link className="chat__link" to={`${ROUTES.chat}/${chat.id}`}>
         <img src={chat.userAvatar} alt="user avatar" />
         <div className="chat__main">
           <span className="chat__main-name">{chat.userName}</span>
@@ -23,7 +21,7 @@ const ChatRow = ({ chat, isNew }) => {
           <span className="chat__info-time">{lastMessageTime}</span>
           <div className="material-icons"><DeliveredIcon chatIcon={chat.lastMessageIcon} /></div>
         </div>
-      </a>
+      </Link>
     </li>
   );
 };

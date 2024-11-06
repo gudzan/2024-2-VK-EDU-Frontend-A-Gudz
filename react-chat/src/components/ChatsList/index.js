@@ -1,3 +1,1 @@
-import ChatList from './ChatList.jsx';
-
-export default ChatList;
+export { default } from './ChatList.jsx'

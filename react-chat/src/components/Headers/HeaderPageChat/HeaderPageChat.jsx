@@ -3,22 +3,21 @@ import "./HeaderPageChat.scss"
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import DropdownChatMenu from "../../DropdownChatMenu"
-import { usePage } from "../../../hooks/usePage";
+import { Link } from "react-router-dom";
+import ROUTES from "../../../config/routes";
 
 const HeaderPageChat = ({ userAvatar, userName }) => {
-  const { setChatId } = usePage();
   const [openDropdown, setOpenDropdown] = useState(false)
 
-  const goBack = () => setChatId("")
-  const toggleDropdown = () => setOpenDropdown(!openDropdown)
+  const toggleDropdown = () => setOpenDropdown((prevState) => !prevState)
   const closeDropdown = () => setOpenDropdown(false)
 
   return (
     <header>
       <div className="header__box">
-        <a onClick={goBack}>
+        <Link to={ROUTES.root}>
           <button type="button" className="icon"><ArrowBackIcon /></button>
-        </a>
+        </Link>
         <div className="header__user">
           <img className="header__user-image" src={userAvatar} alt="user avatar" />
           <div className="header__user-info">
