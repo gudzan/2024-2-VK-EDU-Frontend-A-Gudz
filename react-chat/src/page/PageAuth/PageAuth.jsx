@@ -1,5 +1,4 @@
 import React from "react";
-import "./PageAuth.scss"
 import Layout from "../../components/Layout";
 import { HeaderPageLogin } from "../../components/Headers";
 import Auth from "../../components/Auth/Auth";
