@@ -34,6 +34,13 @@ const PageChatList = () => {
 
   useEffect(() => {
     refresh()
+    const intervalId = setInterval(() => {
+      getChats();
+    }, 10000);
+
+    return () => {
+      clearInterval(intervalId)
+    };
   }, [])
 
   const addNewChat = (newChat) => {

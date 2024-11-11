@@ -2,7 +2,7 @@ import axios from "axios";
 import { getAccessToken, getRefreshToken, setTokens } from "./localSrorage";
 
 const instance = axios.create({
-  baseURL: "https://vkedu-fullstack-div2.ru/"
+  baseURL: import.meta.env.VITE_API_URL
 });
 
 instance.interceptors.request.use(

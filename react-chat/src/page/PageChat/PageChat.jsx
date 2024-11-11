@@ -15,37 +15,38 @@ const PageChat = () => {
   const [messages, setMessages] = useState(null)
   const [chat, setChat] = useState(null)
 
-  const getAllChats = async () => {
+  const getChat = async () => {
     try {
       const chat = await chatService.getChat(chatId);
       if (chat) {
         setChat(chat)
       }
     } catch (error) {
-      navigate(ROUTES.auth); console.log(error);
+      navigate(ROUTES.auth);
+      console.log(error);
+    }
+  }
+
+  const getMessages = async () => {
+    try {
+      const results = await messageService.getMessages(chatId);
+      setMessages(results)
+    } catch (e) {
+      navigate(ROUTES.auth);
+      console.log(error);
     }
   }
 
   useEffect(() => {
-    getAllChats()
-    let isMounted = true;
+    getChat()
+    getMessages();
 
-    const getMessages = async () => {
-      try {
-        const results = await messageService.getMessages(chatId);
-        setMessages(results)
-        if (isMounted) {
-          await getMessages()
-        }
-      } catch (e) {
-        setTimeout(() => {
-          getMessages()
-        }, 1000)
-      }
-    }
-    getMessages()
+    const intervalId = setInterval(() => {
+      getMessages();
+    }, 10000);
+
     return () => {
-      isMounted = false;
+      clearInterval(intervalId)
     };
   }, [])
 
