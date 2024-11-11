@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./Auth.scss"
 import { Link, useNavigate } from "react-router-dom";
 import ROUTES from "../../config/routes";
 import { useAuth } from "../../hooks/useAuth";

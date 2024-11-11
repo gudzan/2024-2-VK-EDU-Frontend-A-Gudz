@@ -8,7 +8,7 @@ import ROUTES from "../../../config/routes";
 import defaultAvatar from "../../../assets/images/default-avatar.jpg"
 
 const UserInfo = ({ avatar, title }) => {
-  const avatarImage = (avatar === null) ? defaultAvatar : avatar
+  const avatarImage = avatar ?? defaultAvatar
   return (
     <div className="header__user">
       <img className="header__user-image" src={avatarImage} alt="user avatar" />

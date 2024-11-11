@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import ROUTES from "../../config/routes.js";
 import Spinner from "../../components/Spinner/Spinner.jsx";
 import userService from "../../api/user/userService.js";
+import defaultAvatar from "../../assets/images/default-avatar.jpg"
 
 const PageMyProfile = () => {
   const avatarInput = useRef(null)
@@ -86,13 +87,14 @@ const PageMyProfile = () => {
   }
 
   if (profile !== undefined) {
+    const avatar = profile.avatar ?? defaultAvatar
     return (
       <Layout>
         <HeaderPageMyProfile />
         <main className="profile">
           <form className="profile__form" onSubmit={handleSubmit}>
             <div className="field__avatar" onClick={openFileInput}>
-              <img src={profile.avatar} alt="Аватар" className="avatar" />
+              <img src={avatar} alt="Аватар" className="avatar" />
               <PhotoCameraIcon className="hover" />
               <input type="file" name="avatar" ref={avatarInput} hidden={true} onChange={handleFiles} accept=".jpg,.jpeg,.png"></input>
             </div>

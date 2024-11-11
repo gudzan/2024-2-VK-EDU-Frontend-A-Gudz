@@ -91,8 +91,8 @@ const Register = () => {
         <div className="button-box">
           <button type="submit" className="form__submit">Зарегистрироваться</button>
         </div>
+        <div className="link"><Link to={`${ROUTES.auth}`}>Уже есть аккаунт? Войди</Link></div>
       </form>
-      <Link to={`${ROUTES.auth}`}>Уже есть аккаунт? Войди</Link>
     </div>
   )
 }
