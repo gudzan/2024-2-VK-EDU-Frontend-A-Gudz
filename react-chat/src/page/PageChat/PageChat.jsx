@@ -40,7 +40,6 @@ const PageChat = () => {
   useEffect(() => {
     getChat()
     getMessages();
-
     const intervalId = setInterval(() => {
       getMessages();
     }, 10000);
@@ -52,13 +51,14 @@ const PageChat = () => {
 
   useEffect(() => {
     messagesRef.current.scrollTo(0, messagesRef.current.scrollHeight)
-  }, [newMessage]);
+  }, [messages, newMessage]);
 
   const sendMessage = async (newMessageText) => {
     try {
       const data = await messageService.createNewMessage(newMessageText, chatId);
       if (data) {
         setNewMessage(data)
+        setMessages([...messages, data])
       }
     } catch (error) {
       navigate(ROUTES.auth); console.log(error);
