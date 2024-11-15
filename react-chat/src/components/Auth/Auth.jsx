@@ -36,7 +36,8 @@ const Auth = () => {
         navigate(ROUTES.root)
       }
     } catch (error) {
-      navigate(ROUTES.auth); console.log(error);
+      navigate(ROUTES.auth); 
+      console.log(error);
     }
   }
 

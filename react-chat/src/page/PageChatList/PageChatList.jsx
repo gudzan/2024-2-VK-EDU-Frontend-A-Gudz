@@ -8,40 +8,19 @@ import { HeaderPageChatList } from "../../components/Headers";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "../../config/routes.js";
 import chatService from "../../api/chat/chatService.js";
+import { useChats } from "../../hooks/useChats.jsx";
 
 const PageChatList = () => {
   const chatsRef = useRef(null)
   const navigate = useNavigate();
-  const [chats, setChats] = useState(null)
   const [newRow, setNewRow] = useState(null)
   const [openNewChat, setOpenNewChat] = useState(false)
-
-  const getChats = async () => {
-    try {
-      const results = await chatService.getAllChats();
-      if (results) {
-        setChats(results)
-      }
-    } catch (error) {
-      navigate(ROUTES.auth); console.log(error);
-    }
-  }
+  const {chats, setChats, getAllChats} = useChats()
 
   const refresh = () => {
-    getChats()
+    getAllChats()
     setNewRow(null)
   }
-
-  useEffect(() => {
-    refresh()
-    const intervalId = setInterval(() => {
-      getChats();
-    }, 10000);
-
-    return () => {
-      clearInterval(intervalId)
-    };
-  }, [])
 
   const addNewChat = (newChat) => {
     setNewRow(newChat)
@@ -66,7 +45,8 @@ const PageChatList = () => {
           setChats(results)
         }
       } catch (error) {
-        navigate(ROUTES.auth); console.log(error);
+        navigate(ROUTES.auth); 
+        console.log(error);
       }
     }
   }

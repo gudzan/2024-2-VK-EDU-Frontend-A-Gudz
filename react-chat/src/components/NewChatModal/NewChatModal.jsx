@@ -27,7 +27,8 @@ const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
         addNewChat(chat)
       }
     } catch (error) {
-      navigate(ROUTES.auth); console.log(error);
+      navigate(ROUTES.auth); 
+      console.log(error);
     }
     setNewChatName("")
   }
