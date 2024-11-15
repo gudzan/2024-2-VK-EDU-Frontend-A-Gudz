@@ -6,13 +6,8 @@ const messageService = {
     return data.results;
   },
 
-  createNewMessage: async (messageText, chatId) => {
-    const { data } = await apiService.post(`/api/messages/`,
-      {
-        "text": messageText,
-        "chat": chatId,
-      }
-    );
+  createNewMessage: async (formData) => {
+    const { data } = await apiService.post(`/api/messages/`, formData);
     return data;
   },
 };

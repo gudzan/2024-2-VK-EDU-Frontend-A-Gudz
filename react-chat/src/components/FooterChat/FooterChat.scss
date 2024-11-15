@@ -35,6 +35,14 @@
     }
   }
 
+  .stop svg{
+    color: #CC0000;
+
+    &:active {
+      color: #990000;
+    }
+  }
+
   .attach {
     background-color: white;
     position: absolute;
@@ -85,6 +93,23 @@
   padding: 5px;
 }
 
+@keyframes voice {
+  0% {
+    -moz-box-shadow: 0 0 0 0 var(--main-color);
+    box-shadow: 0 0 0 0 var(--main-color);
+  }
+
+  70% {
+    -moz-box-shadow: 0 0 0 10px rgba(204, 169, 44, 0);
+    box-shadow: 0 0 0 10px rgba(204, 169, 44, 0);
+  }
+
+  100% {
+    -moz-box-shadow: 0 0 0 0 rgba(204, 169, 44, 0);
+    box-shadow: 0 0 0 0 rgba(204, 169, 44, 0);
+  }
+}
+
 .footer-form__input {
   border: 0;
   outline: none;
@@ -94,6 +119,10 @@
   padding: 5px 25px;
   background-color: var(--third-white-color);
   height: 80%;
+
+  &.voice{
+    animation: voice 1.5s infinite;
+  }
 }
 
 @media (min-width: 700px) {

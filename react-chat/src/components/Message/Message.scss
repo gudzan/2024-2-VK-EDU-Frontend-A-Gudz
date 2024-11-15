@@ -20,24 +20,52 @@
   font-weight: 450;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 
+  &__voice {
+    padding: 10px;
+    max-width: 100%;
+  }
+
+  &__my {
+    background-color: var(--main-color);
+    color: white;
+    align-self: flex-end;
+    border-radius: 15px 1px 15px 15px;
+  }
+
+  &__another {
+    background-color: white;
+    color: var(--dark-green);
+    align-self: flex-start;
+    font-weight: 500;
+    border-radius: 1px 15px 15px 15px;
+  }
+
+  &__inner audio {
+    max-width: 230px;
+    margin-bottom: 10px;
+
+    &::-webkit-media-controls-current-time-display,
+    &::-webkit-media-controls-time-remaining-display {
+      display: none;
+    }
+  }
+
   a {
     text-decoration: underline;
   }
-}
 
-.message--my {
-  background-color: var(--main-color);
-  color: white;
-  align-self: flex-end;
-  border-radius: 15px 1px 15px 15px;
-}
+  .imageBox {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 10px;
 
-.message--another {
-  background-color: white;
-  color: var(--dark-green);
-  align-self: flex-start;
-  font-weight: 500;
-  border-radius: 1px 15px 15px 15px;
+    img {
+      width: 200px;
+      height: 200px;
+      border-radius: 15px;
+    }
+  }
 }
 
 .icons {
@@ -73,8 +101,20 @@
   animation: message-appear 0.3s ease-out forwards;
 }
 
+
+@media (min-width: 400px) {
+  .message__inner audio {
+    max-width: 100%;
+
+    &::-webkit-media-controls-current-time-display,
+    &::-webkit-media-controls-time-remaining-display {
+      display: block;
+    }
+  }
+}
+
 @media (min-width: 800px) {
-  .message--my {
+  .message__my {
     align-self: flex-start;
     font-weight: 500;
     border-radius: 1px 15px 15px 15px;
