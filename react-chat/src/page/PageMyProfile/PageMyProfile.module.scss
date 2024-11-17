@@ -90,7 +90,7 @@
       }
     }
 
-    .button-box {
+    .buttonBox {
       display: flex;
       justify-content: center;
       gap: 20px;
@@ -121,7 +121,7 @@
         }
       }
 
-      .profile__submit {
+      .submit {
         background-color: var(--main-color);
 
         &:active {

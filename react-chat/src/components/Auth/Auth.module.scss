@@ -1,9 +1,13 @@
-.register {
+.auth {
   overflow: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  a {
+    font-size: 12px;
+  }
 }
 
 .form {
@@ -11,7 +15,6 @@
   flex-direction: column;
   gap: 20px;
   align-items: center;
-  height: 100%;
   width: 100%;
   padding: 20px 30px;
 
@@ -30,7 +33,7 @@
       cursor: pointer;
       margin-bottom: 25px;
 
-      span{
+      span {
         position: absolute;
         display: flex;
         bottom: -25px;
@@ -72,7 +75,6 @@
       z-index: 1;
       font-size: 12px;
       padding: 10px;
-      background-color: var(--second-white-color);
       width: calc(100% - 10px);
       padding: 5px 0 5px 10px;
     }
@@ -97,9 +99,24 @@
       padding: 25px 15px 15px 20px;
       height: 150px;
     }
+
+    .showPassword {
+      position: absolute;
+      right: 10px;
+      top: 0;
+      bottom: 0;
+      margin: auto;
+      width: 30px;
+      height: 30px;
+
+      svg{
+        color: var(--main-color);
+        font-size: 30px;
+      }
+    }
   }
 
-  .button-box {
+  .buttonBox {
     display: flex;
     justify-content: center;
     gap: 20px;
@@ -130,7 +147,7 @@
       }
     }
 
-    .form__submit {
+    .submit {
       background-color: var(--main-color);
 
       &:active {
@@ -147,8 +164,10 @@
     }
   }
 
-  .link{
-    padding-bottom: 30px;
+  .error {
+    color: red;
+    font-size: 14px;
+    font-style: italic;
   }
 }
 
@@ -159,6 +178,9 @@
     width: 160px;
   }
 
+  .auth a {
+    font-size: 18px;
+  }
 }
 
 @media (min-width: 900px) {

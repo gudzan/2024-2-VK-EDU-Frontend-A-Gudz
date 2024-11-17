@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import EditIcon from '@mui/icons-material/Edit';
 import ChatList from "../../components/ChatsList"
-import './PageChatList.scss'
+import styles from "./PageChatList.module.scss"
 import NewChatModal from "../../components/NewChatModal";
 import Layout from "../../components/Layout";
 import { HeaderPageChatList } from "../../components/Headers";
@@ -56,10 +56,10 @@ const PageChatList = () => {
   return (
     <Layout>
       <HeaderPageChatList closeSearchInput={closeSearchInput} search={search} />
-      <main className="chats" ref={chatsRef}>
+      <main className={styles.chats} ref={chatsRef}>
         <NewChatModal openNewChat={openNewChat} closeNewChat={closeNewChat} addNewChat={addNewChat} />
         <ChatList chats={chats} newRow={newRow}></ChatList>
-        <button className="icon fix-button" onClick={openNewChatWindow}><EditIcon /></button>
+        <button className={styles.edit} onClick={openNewChatWindow}><EditIcon /></button>
       </main>
     </Layout>
   );

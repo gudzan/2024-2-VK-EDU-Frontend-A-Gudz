@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "../config/routes";
 import chatService from "../api/chat/chatService";
+import { useAuth } from "./useAuth";
 const ChatsContext = React.createContext();
 
 export const useChats = () => {
@@ -12,14 +13,17 @@ export const ChatsProvider = ({ children }) => {
   const navigate = useNavigate();
   const [chats, setChats] = useState(null)
   const [prevChats, setPrevChats] = useState(null)
+  const { isAuth } = useAuth()
 
   const getAllChats = async () => {
-    try {
-      const results = await chatService.getAllChats();
-      setChats(results)
-    } catch (error) {
-      navigate(ROUTES.auth); 
-      console.log(error);
+    if (isAuth) {
+      try {
+        const results = await chatService.getAllChats();
+        setChats(results)
+      } catch (error) {
+        navigate(ROUTES.auth);
+        console.log(error);
+      }
     }
   }
 
@@ -33,7 +37,7 @@ export const ChatsProvider = ({ children }) => {
       clearInterval(intervalId)
     };
   }, [])
-  
+
   return (
     <ChatsContext.Provider value={{ chats, setChats, prevChats, setPrevChats, getAllChats }}>
       {children}

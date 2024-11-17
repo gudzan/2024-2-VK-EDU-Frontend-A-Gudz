@@ -23,9 +23,10 @@ export const setTokens = (accessToken, refreshToken) => {
   localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
 }
 
-export const removeTokens = () => {
+export const logOutLocalStorage = () => {
   localStorage.removeItem(ACCESS_TOKEN_KEY);
   localStorage.removeItem(REFRESH_TOKEN_KEY);
+  localStorage.removeItem(USER_ID_KEY);
 }
 
 export const setUserId = (userId) => {

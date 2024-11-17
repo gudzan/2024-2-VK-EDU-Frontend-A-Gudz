@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import "./PageChat.scss"
+import styles from "./PageChat.module.scss"
 import MessagesList from "../../components/MessagesList";
 import Layout from "../../components/Layout";
 import FooterChat from "../../components/FooterChat";
@@ -34,7 +34,9 @@ const PageChat = () => {
 
   const getDiffChats = (current, prev) => {
     const filter = (item) => {
-      return item.id !== chatId && (item.last_message.text !== "" || item.last_message.files.length > 0 || item.last_message.voice !== undefined || item.last_message.voice !== null)
+      return item.id !== chatId 
+      && item.last_message !== undefined 
+      && (item.last_message.text !== "" || item.last_message.files.length > 0 || item.last_message.voice !== undefined || item.last_message.voice !== null)
     }
 
     if (current === null || prev === null) {
@@ -107,7 +109,7 @@ const PageChat = () => {
   return (
     <Layout>
       <HeaderPageChat chat={chat} />
-      <main className="messages" ref={messagesRef}>
+      <main className={styles.messages} ref={messagesRef}>
         <MessagesList messages={messages} newMessage={newMessage} />
       </main>
       <FooterChat sendMessage={sendMessage} />

@@ -1,11 +1,11 @@
 import React from "react";
-import "./HeaderPageLogin.scss"
+import styles from "./HeaderPageLogin.module.scss"
 
 const HeaderPageLogin = ({text}) => {
   return (
     <header>
-      <div className="header__box">
-        <div className="header__title login">
+      <div className={styles.header__box}>
+        <div className={styles.title}>
           {text}
         </div>
       </div>

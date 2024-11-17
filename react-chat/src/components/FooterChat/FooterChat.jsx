@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import "./FooterChat.scss"
+import styles from "./FooterChat.module.scss"
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import PhotoIcon from '@mui/icons-material/Photo';
 import KeyboardVoiceIcon from '@mui/icons-material/KeyboardVoice';
 import PlaceIcon from '@mui/icons-material/Place';
 import SendIcon from '@mui/icons-material/Send';
 import StopCircleIcon from '@mui/icons-material/StopCircle';
-import classNames from "classnames";
+import classnames from "classnames";
 
 const FooterChat = ({ sendMessage }) => {
   const inputRef = useRef(null);
@@ -21,14 +21,14 @@ const FooterChat = ({ sendMessage }) => {
   const [openAttach, setOpenAttach] = useState(false)
   const [isRecorder, setIsRecorder] = useState(false)
 
-  const attachClassName = classNames('attach', {
-    "open": openAttach,
-    "close": !openAttach
-  });
+  const attachClassName = classnames(styles.attach, {
+    [styles.open]: openAttach,
+    [styles.close]: !openAttach,
+  })
 
-  const inputClassName = classNames('footer-form__input', {
-    "voice": isRecorder
-  });
+  const inputClassName = classnames(styles.input, {
+    [styles.voice]: isRecorder,
+  })
 
   const handleDrop = (event) => {
     event.preventDefault();
@@ -152,9 +152,9 @@ const FooterChat = ({ sendMessage }) => {
 
   const getEventButton = () => {
     if (isRecorder || recordedBlob !== null) {
-      return <button type="button" className="icon stop" ref={stopRef} onClick={stopRecording}><StopCircleIcon /></button>
+      return <button type="button" className={styles.stop} ref={stopRef} onClick={stopRecording}><StopCircleIcon /></button>
     }
-    return <button type="submit" className="icon"><SendIcon /></button>
+    return <button type="submit" className={styles.icon}><SendIcon /></button>
   }
 
   const openFileInput = () => {
@@ -172,24 +172,26 @@ const FooterChat = ({ sendMessage }) => {
 
   return (
     <footer>
-      <form className="footer-form" action="/" onSubmit={handleSubmit} >
-        <button type="button" className="icon" onClick={toggleAttach} ref={attachRef}><AttachFileIcon /></button>
+      <form className={styles.form} action="/" onSubmit={handleSubmit} >
+        <button type="button" className={styles.icon} onClick={toggleAttach} ref={attachRef}><AttachFileIcon /></button>
         <div className={attachClassName}>
-          <div className="attach__row" onClick={getGeolocation}>
-            <PlaceIcon />Геопозиция
+          <div className={styles.row} onClick={getGeolocation}>
+            <PlaceIcon/>
+            Геопозиция
           </div>
-          <div className="attach__row" onClick={openFileInput}>
-            <PhotoIcon />Фото
+          <div className={styles.row} onClick={openFileInput}>
+            <PhotoIcon/>
+            Фото
           </div>
-          <div className="attach__row" onClick={startRecording}>
-            <KeyboardVoiceIcon />Аудио
+          <div className={styles.row} onClick={startRecording}>
+            <KeyboardVoiceIcon/>
+            Аудио
           </div>
         </div>
         <input type="file" name="files" ref={fileInput} hidden={true} onChange={handleFiles} accept=".jpg,.jpeg,.png" multiple></input>
         <input ref={inputRef} className={inputClassName} tabIndex="0" placeholder="Введите сообщение" type="text" value={messageText}
           onChange={inputChange} />
         {getEventButton()}
-        {/* <button type="submit" className="icon"><SendIcon /></button> */}
       </form>
     </footer>
   )
