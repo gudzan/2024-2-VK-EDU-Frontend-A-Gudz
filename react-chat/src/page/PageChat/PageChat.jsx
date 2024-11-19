@@ -3,30 +3,71 @@ import "./PageChat.scss"
 import MessagesList from "../../components/MessagesList";
 import Layout from "../../components/Layout";
 import FooterChat from "../../components/FooterChat";
-import {HeaderPageChat} from "../../components/Headers";
-import { createNewMessage, getMessagesByChatId } from "../../api/messages/messages";
-import { getChatFromById } from "../../api/chat/chat";
+import { HeaderPageChat } from "../../components/Headers";
 import { useParams } from "react-router-dom";
+import chatService from "../../api/chat/chatService";
+import messageService from "../../api/message/messageService";
 
 const PageChat = () => {
   const messagesRef = useRef(null)
   const { chatId } = useParams();
-  const chat = getChatFromById(chatId);
   const [newMessage, setNewMessage] = useState(null)
-  const messages = getMessagesByChatId(chatId);
+  const [messages, setMessages] = useState(null)
+  const [chat, setChat] = useState(null)
+
+  const getChat = async () => {
+    try {
+      const chat = await chatService.getChat(chatId);
+      if (chat) {
+        setChat(chat)
+      }
+    } catch (error) {
+      navigate(ROUTES.auth);
+      console.log(error);
+    }
+  }
+
+  const getMessages = async () => {
+    try {
+      const results = await messageService.getMessages(chatId);
+      setMessages(results)
+    } catch (e) {
+      navigate(ROUTES.auth);
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    getChat()
+    getMessages();
+
+    const intervalId = setInterval(() => {
+      getMessages();
+    }, 10000);
+
+    return () => {
+      clearInterval(intervalId)
+    };
+  }, [])
 
   useEffect(() => {
     messagesRef.current.scrollTo(0, messagesRef.current.scrollHeight)
   }, [newMessage]);
 
-  const sendMessage = (newMessageText) => {
-    const createdMessage = createNewMessage(newMessageText, chatId)
-    setNewMessage(createdMessage)
+  const sendMessage = async (newMessageText) => {
+    try {
+      const data = await messageService.createNewMessage(newMessageText, chatId);
+      if (data) {
+        setNewMessage(data)
+      }
+    } catch (error) {
+      navigate(ROUTES.auth); console.log(error);
+    }
   }
 
   return (
     <Layout>
-      <HeaderPageChat userName={chat.userName} userAvatar={chat.userAvatar} />
+      <HeaderPageChat chat={chat} />
       <main className="messages" ref={messagesRef}>
         <MessagesList messages={messages} newMessage={newMessage} />
       </main>

@@ -5,18 +5,43 @@ import './PageChatList.scss'
 import NewChatModal from "../../components/NewChatModal";
 import Layout from "../../components/Layout";
 import { HeaderPageChatList } from "../../components/Headers";
-import { getChats, getChatsByChatName } from "../../api/chat/chat.js";
+import { useNavigate } from "react-router-dom";
+import ROUTES from "../../config/routes.js";
+import chatService from "../../api/chat/chatService.js";
 
 const PageChatList = () => {
   const chatsRef = useRef(null)
-  const [chats, setChats] = useState(getChats())
+  const navigate = useNavigate();
+  const [chats, setChats] = useState(null)
   const [newRow, setNewRow] = useState(null)
   const [openNewChat, setOpenNewChat] = useState(false)
 
+  const getChats = async () => {
+    try {
+      const results = await chatService.getAllChats();
+      if (results) {
+        setChats(results)
+      }
+    } catch (error) {
+      navigate(ROUTES.auth); console.log(error);
+    }
+  }
+
   const refresh = () => {
-    setChats(getChats())
+    getChats()
     setNewRow(null)
   }
+
+  useEffect(() => {
+    refresh()
+    const intervalId = setInterval(() => {
+      getChats();
+    }, 10000);
+
+    return () => {
+      clearInterval(intervalId)
+    };
+  }, [])
 
   const addNewChat = (newChat) => {
     setNewRow(newChat)
@@ -30,13 +55,19 @@ const PageChatList = () => {
   const openNewChatWindow = () => setOpenNewChat(true)
   const closeNewChat = () => setOpenNewChat(false)
 
-  const search = (searchTerm) => {
+  const search = async (searchTerm) => {
     if (searchTerm === "") {
       refresh()
     }
     else {
-      const newChats = getChatsByChatName(searchTerm)
-      setChats(newChats)
+      try {
+        const results = await chatService.getAllChatsWithSearch(searchTerm);
+        if (results) {
+          setChats(results)
+        }
+      } catch (error) {
+        navigate(ROUTES.auth); console.log(error);
+      }
     }
   }
 

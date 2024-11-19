@@ -15,8 +15,8 @@ const HeaderPageChatList = ({ closeSearchInput, search }) => {
   const debouncedSearchTerm = useDebounce(searchString, 250);
 
   const leftTitleClassName = classnames('header__left-title', {
-    "close": !openSearch,
-    "open": openSearch
+    "close": openSearch,
+    "open": !openSearch
   });
   
   const boxSearchClassName = classnames('header__box-search', {

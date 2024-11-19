@@ -1,0 +1,15 @@
+.header__title {
+  &.login {
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 600px) {
+  .header__title {
+    &.login {
+      font-size: 20px;
+      width: 100%;
+      text-align: center;
+    }
+  }
+}
