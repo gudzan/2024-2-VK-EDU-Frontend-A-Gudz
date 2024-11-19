@@ -1,10 +1,9 @@
 import apiService from "../api.config.js";
-import { setUserId } from "../localSrorage.js";
 
 const userService = {
   getCurrentUser: async () => {
     const { data } = await apiService.get("/api/user/current/");
-    setUserId(data.id)
+    // setUserId(data.id)
     return data;
   },
 

@@ -1,5 +1,5 @@
 import apiService from "../api.config.js";
-import { setTokens } from "../localSrorage.js";
+import { setTokens } from "../localStorageService.js";
 
 const authService = {
   register: async (formData) => {
@@ -11,9 +11,12 @@ const authService = {
     return data;
   },
 
-  auth: async (formData) => {
-    const { data } = await apiService.post("/api/auth/", formData);
-    setTokens(data.access, data.refresh)
+  auth: async ({ username, password }) => {
+    // debugger
+    const { data } = await apiService.post("/api/auth/", { username, password });
+    // console.log(data);
+
+    // setTokens(data.access, data.refresh)
     return data;
   },
 };

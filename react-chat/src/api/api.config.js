@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getAccessToken, getRefreshToken, setTokens } from "./localSrorage";
+import { getAccessToken, getRefreshToken, setTokens } from "./localStorageService";
 
 const instance = axios.create({
   baseURL: import.meta.env.VITE_API_URL

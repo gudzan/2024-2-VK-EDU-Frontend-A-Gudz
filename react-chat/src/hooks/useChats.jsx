@@ -13,18 +13,18 @@ export const ChatsProvider = ({ children }) => {
   const navigate = useNavigate();
   const [chats, setChats] = useState(null)
   const [prevChats, setPrevChats] = useState(null)
-  const { isAuth } = useAuth()
+  // const { isAuth } = useAuth()
 
   const getAllChats = async () => {
-    if (isAuth) {
+    // if (isAuth) {
       try {
         const results = await chatService.getAllChats();
         setChats(results)
       } catch (error) {
-        navigate(ROUTES.auth);
+        // navigate(ROUTES.auth);
         console.log(error);
       }
-    }
+    // }
   }
 
   useEffect(() => {

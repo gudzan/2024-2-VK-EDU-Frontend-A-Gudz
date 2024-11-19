@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { getAccessToken, logOutLocalStorage } from "../api/localSrorage";
+import { getAccessToken, removeTokens } from "../api/localStorageService";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "../config/routes";
 const AuthContext = React.createContext();
@@ -15,17 +15,17 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const at = getAccessToken()
     if (at === null) {
-      toAuth()
+      // toAuth()
     }
-    
 
-    console.log(at);
+
+    // console.log(at);
   }, [])
 
   const toAuth = () => {
     setAuth(false)
-    logOutLocalStorage()
-    navigate(ROUTES.auth)
+    removeTokens()
+    // navigate(ROUTES.auth)
   }
 
   return (

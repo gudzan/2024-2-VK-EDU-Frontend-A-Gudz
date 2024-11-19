@@ -1,21 +1,24 @@
 import React from "react";
 import styles from "./DropdownChatListMenu.module.scss"
 import Overlay from "../Overlay";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ROUTES from "../../config/routes";
 import classnames from 'classnames';
 import { useAuth } from "../../hooks/useAuth";
+import { useDispatch } from "react-redux";
+import { logOut } from "../../store/auth";
 
 const DropdownChatList = ({ openDropdown, closeDropdown }) => {
-  const { toAuth } = useAuth()
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const dropdownClassName = classnames(styles.dropdown, {
     [styles.open]: openDropdown,
     [styles.close]: !openDropdown,
   })
 
-  const logOut = () => {
+  const exit = () => {
     closeDropdown()
-    toAuth()
+    dispatch(logOut())
   }
 
   return (
@@ -28,7 +31,7 @@ const DropdownChatList = ({ openDropdown, closeDropdown }) => {
           </button>
         </Link>
         <Link to={ROUTES.auth}>
-          <button type="button" onClick={logOut}>
+          <button type="button" onClick={exit}>
             Выйти
           </button>
         </Link>
