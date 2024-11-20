@@ -8,17 +8,18 @@ import { HeaderPageChatList } from "../../components/Headers";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "../../config/routes.js";
 import chatService from "../../api/chat/chatService.js";
-import { useChats } from "../../hooks/useChats.jsx";
+import { useDispatch, useSelector } from "react-redux";
+import { logOut } from "../../store/auth.js";
 
 const PageChatList = () => {
   const chatsRef = useRef(null)
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [newRow, setNewRow] = useState(null)
   const [openNewChat, setOpenNewChat] = useState(false)
-  const {chats, setChats, getAllChats} = useChats()
+  const { chats, error } = useSelector((state) => state.chats)
 
   const refresh = () => {
-    getAllChats()
+    // getAllChats()
     setNewRow(null)
   }
 
@@ -26,7 +27,7 @@ const PageChatList = () => {
     setNewRow(newChat)
     const oldChats = chats
     oldChats.unshift(newChat)
-    setChats(oldChats)
+    // setChats(oldChats)
     closeNewChat()
     chatsRef.current.scrollTo(0, 0)
   }
@@ -42,11 +43,10 @@ const PageChatList = () => {
       try {
         const results = await chatService.getAllChatsWithSearch(searchTerm);
         if (results) {
-          setChats(results)
+          // setChats(results)
         }
       } catch (error) {
-        navigate(ROUTES.auth); 
-        console.log(error);
+        dispatch(logOut())
       }
     }
   }

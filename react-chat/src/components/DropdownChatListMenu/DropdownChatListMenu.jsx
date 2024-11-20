@@ -1,15 +1,13 @@
 import React from "react";
 import styles from "./DropdownChatListMenu.module.scss"
 import Overlay from "../Overlay";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import ROUTES from "../../config/routes";
 import classnames from 'classnames';
-import { useAuth } from "../../hooks/useAuth";
 import { useDispatch } from "react-redux";
 import { logOut } from "../../store/auth";
 
 const DropdownChatList = ({ openDropdown, closeDropdown }) => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const dropdownClassName = classnames(styles.dropdown, {
     [styles.open]: openDropdown,

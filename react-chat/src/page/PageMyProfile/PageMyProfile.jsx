@@ -10,10 +10,12 @@ import ROUTES from "../../config/routes.js";
 import Spinner from "../../components/Spinner/Spinner.jsx";
 import userService from "../../api/user/userService.js";
 import defaultAvatar from "../../assets/images/default-avatar.jpg"
+import { logOut } from "../../store/auth.js";
+import { useDispatch } from "react-redux";
 
 const PageMyProfile = () => {
   const avatarInput = useRef(null)
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [initialProfile, setInitialProfile] = useState(null)
   const [profile, setProfile] = useState(initialProfile)
   const [isChanged, setIsChanged] = useState(false)
@@ -26,8 +28,7 @@ const PageMyProfile = () => {
         setProfile(user)
       }
     } catch (error) {
-      navigate(ROUTES.auth);
-      console.log(error);
+      dispatch(logOut())
     }
   }
 
@@ -67,8 +68,7 @@ const PageMyProfile = () => {
         setProfile(user)
       }
     } catch (error) {
-      navigate(ROUTES.auth);
-      console.log(error);
+      dispatch(logOut())
     }
   };
 

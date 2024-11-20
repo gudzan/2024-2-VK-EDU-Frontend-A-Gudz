@@ -4,11 +4,11 @@ import styles from './NewChatModal.module.scss'
 import Overlay from "../Overlay";
 import classnames from 'classnames';
 import chatService from "../../api/chat/chatService";
-import { useNavigate } from "react-router-dom";
-import ROUTES from "../../config/routes";
+import { useDispatch } from "react-redux";
+import { logOut } from "../../store/auth";
 
 const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const inputNewChatRef = useRef(null);
   const [newChatName, setNewChatName] = useState("")
   const newChatClassName = classnames(styles.newChat, { [styles.open]: openNewChat })
@@ -28,8 +28,7 @@ const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
         addNewChat(chat)
       }
     } catch (error) {
-      navigate(ROUTES.auth);
-      console.log(error);
+      dispatch(logOut())
     }
     setNewChatName("")
   }

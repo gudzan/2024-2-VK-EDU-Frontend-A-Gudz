@@ -1,7 +1,9 @@
-import { createAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import authService from "../api/auth/authService";
 import localStorageService from "../api/localStorageService";
 import getErrorTranslation from "../utils/errorTranslator";
+import globalRouter from "../globalRouter";
+import ROUTES from "../config/routes";
 
 const initialState = localStorageService.getAccessToken()
   ? {
@@ -23,6 +25,7 @@ export const login = createAsyncThunk("auth/login",
     try {
       const data = await authService.auth({ username, password });
       localStorageService.setTokens(data.access, data.refresh)
+      globalRouter.navigate(ROUTES.root);
     } catch (error) {
       const errorMessage = error.response.data.detail ?? error.message
       return rejectWithValue(getErrorTranslation(errorMessage))
@@ -60,6 +63,7 @@ const authSlice = createSlice({
 export const logOut = () => (dispatch) => {
   localStorageService.removeTokens();
   dispatch(authLoggedOut());
+  globalRouter.navigate(ROUTES.auth);
 };
 
 const { actions, reducer: authReduser } = authSlice;

@@ -1,8 +1,9 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import authReduser from "./auth";
+import chatsReduser from "./chats";
 
 const rootReducer = combineReducers({
-  // chats: chatsReduser,
+  chats: chatsReduser,
   auth: authReduser,
 });
 

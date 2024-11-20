@@ -1,9 +1,9 @@
 import apiService from "../api.config.js";
 
+const config = { skipAuth: false }
 const userService = {
   getCurrentUser: async () => {
-    const { data } = await apiService.get("/api/user/current/");
-    // setUserId(data.id)
+    const { data } = await apiService.get("/api/user/current/", config);
     return data;
   },
 
@@ -12,7 +12,8 @@ const userService = {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
-    });
+    },
+      config);
     return data;
   },
 };

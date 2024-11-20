@@ -8,6 +8,7 @@ import ROUTES from "../../config/routes";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import authService from "../../api/auth/authService.js"
+import getErrorTranslation from "../../utils/errorTranslator.js";
 
 const initialUser = {
   username: "",
@@ -24,7 +25,7 @@ const Register = () => {
   const [error, setError] = useState([])
   const [showPassword, setShowPassword] = useState(false);
   const typePasswordField = showPassword ? "text" : "password"
-  const buttonPasswordField = showPassword ? <VisibilityOffIcon /> : <VisibilityIcon /> 
+  const buttonPasswordField = showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />
   const [user, setUser] = useState(initialUser)
 
   const onChange = (e) => {
@@ -58,8 +59,7 @@ const Register = () => {
     try {
       const data = await authService.register(formData);
       if (data) {
-        navigate(ROUTES.auth); 
-        console.log(error);;
+        navigate(ROUTES.auth);
       }
     } catch (error) {
       if (error.status === 400) {
@@ -77,7 +77,8 @@ const Register = () => {
 
   const getError = () => {
     if (error.length > 0) {
-      return <div className={styles.error}>{error[0]}</div>
+      const errorMessage = getErrorTranslation(error[0])
+      return <div className={styles.error}>{errorMessage}</div>
     }
   }
 
@@ -119,7 +120,7 @@ const Register = () => {
         <div className={styles.buttonBox}>
           <button type="submit" className={styles.submit}>Зарегистрироваться</button>
         </div>
-        <div className={styles.link}><Link to={`${ROUTES.auth}`}>Уже есть аккаунт? Войди</Link></div>
+        <div className={styles.link}><Link to={`${ROUTES.auth}`}>Уже есть аккаунт? Войти</Link></div>
       </form>
     </div>
   )

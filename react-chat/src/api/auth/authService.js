@@ -6,17 +6,14 @@ const authService = {
     const { data } = await apiService.post("/api/register/", formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
-      }
+      },
+      skipAuth: true
     });
     return data;
   },
 
   auth: async ({ username, password }) => {
-    // debugger
-    const { data } = await apiService.post("/api/auth/", { username, password });
-    // console.log(data);
-
-    // setTokens(data.access, data.refresh)
+    const { data } = await apiService.post("/api/auth/", { username, password }, { skipAuth: true });
     return data;
   },
 };

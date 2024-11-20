@@ -1,48 +1,71 @@
 import axios from "axios";
-import { getAccessToken, getRefreshToken, setTokens } from "./localStorageService";
+import { getAccessToken, getExpiresAT, getExpiresRT, getRefreshToken, setTokens } from "./localStorageService";
+
+const URL = import.meta.env.VITE_API_URL
+
+const checkTokenValid = (expire) => {
+  if (expire === null || expire === undefined || expire === 0) {
+    return false
+  }
+  const now = Math.floor(Date.now() * 0.001);
+  return now < expire
+}
+
+const getValidAccessToken = async () => {
+  let accessToken = getAccessToken()
+  const refreshToken = getRefreshToken()
+  const expireRT = Number(getExpiresRT())
+  const expireAT = Number(getExpiresAT())
+  //если кто-то из пары отсутствует или просрочен RT, то сразу перекидываем на логин
+  if (refreshToken === null
+    || accessToken === null
+    || checkTokenValid(expireRT) === false) {
+    return false
+  }
+  //если at жив - возвращаем at
+  if (checkTokenValid(expireAT)) {
+    return accessToken
+  }
+  //если at мертв - обновляем at
+  const response = await instance.post("/api/auth/refresh/", {
+    refresh: refreshToken
+  }, { skipAuth: true });
+  setTokens(response.data.access, response.data.refresh)
+  accessToken = response.data.access
+  return accessToken
+}
 
 const instance = axios.create({
-  baseURL: import.meta.env.VITE_API_URL
+  baseURL: URL
 });
 
 instance.interceptors.request.use(
-  (config) => {
-    if (config.url !== "/api/register/") {
-      config.headers.Authorization = `Bearer ${getAccessToken()}`
+  async (config) => {
+    if (config.skipAuth) {
+      return config
+    }
+    const accessToken = await getValidAccessToken()
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`
+    }
+    else {
+      return Promise.reject("Unauthorized")
     }
     return config
+  },
+  (error) => {
+    return Promise.reject(error);
   }
 )
 
-// instance.interceptors.response.use(
-//   (config) => {
-//     return config;
-//   },
-//   async (error) => {
-//     const originalConfig = error.config;
-//     if (originalConfig.url !== "/api/auth/refresh/" && originalConfig.url !== "/api/register/" && error.response) {
-//       if (error.response.status === 401 && !originalConfig._retry) {
-//         originalConfig._retry = true;
-//         try {
-//           const token = getRefreshToken()
-//           if (token) {
-//             const response = await instance.post("/api/auth/refresh/", {
-//               refresh: token
-//             });
-//             setTokens(response.data.access, response.data.refresh)
-//             return instance(originalConfig);
-//           }
-//           else {
-//             return Promise.reject(new Error("Unauthorized"));
-//           }
-//         } catch (_error) {
-//           return Promise.reject(_error);
-//         }
-//       }
-//     }
-//     return Promise.reject(error);
-//   }
-// );
+instance.interceptors.response.use(
+  (config) => {
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 const apiService = {
   get: instance.get,
