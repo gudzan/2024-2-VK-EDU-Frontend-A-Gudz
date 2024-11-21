@@ -6,14 +6,17 @@ import classnames from 'classnames';
 import chatService from "../../api/chat/chatService";
 import { useDispatch } from "react-redux";
 import { logOut } from "../../store/auth";
+import getErrorTranslation from "../../utils/errorTranslator";
 
 const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
   const dispatch = useDispatch();
   const inputNewChatRef = useRef(null);
   const [newChatName, setNewChatName] = useState("")
+  const [error, setError] = useState([])
   const newChatClassName = classnames(styles.newChat, { [styles.open]: openNewChat })
 
   useEffect(() => {
+    setError([])
     if (openNewChat) {
       inputNewChatRef.current.focus();
     }
@@ -25,12 +28,29 @@ const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
     try {
       const chat = await chatService.createNewChat(newChatName);
       if (chat) {
+        
         addNewChat(chat)
       }
     } catch (error) {
-      dispatch(logOut())
+      if (error.status === 400) {
+        const data = error.response.data
+        const errors = []
+        for (let key in data) {
+          if (data.hasOwnProperty(key)) {
+            errors.push(...data[key])
+          }
+        }
+        setError(errors)
+      }
     }
     setNewChatName("")
+  }
+
+  const getError = () => {
+    if (error.length > 0) {
+      const errorMessage = getErrorTranslation(error[0])
+      return <div className={styles.error}>{errorMessage}</div>
+    }
   }
 
   const closeNewChatWindow = () => {
@@ -51,6 +71,7 @@ const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
             ref={inputNewChatRef}
             value={newChatName}
             onChange={inputNewChat} />
+          {getError()}
           <button type="submit" className={styles.submit}>Добавить</button>
         </form>
       </div>

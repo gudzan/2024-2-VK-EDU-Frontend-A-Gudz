@@ -10,24 +10,29 @@ import ROUTES from "../../config/routes.js";
 import chatService from "../../api/chat/chatService.js";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../../store/auth.js";
+import { addNewChat, setPrevChats } from "../../store/chats.js";
 
 const PageChatList = () => {
   const chatsRef = useRef(null)
   const dispatch = useDispatch();
   const [newRow, setNewRow] = useState(null)
   const [openNewChat, setOpenNewChat] = useState(false)
-  const { chats, error } = useSelector((state) => state.chats)
+  const [searchChats, setSearchChats] = useState(null)
+  const { chats, error, isLoading } = useSelector((state) => state.chats)
+  const isLoadingChats = chats.length > 0 ? false : isLoading
+
+  useEffect(() => {
+    dispatch(setPrevChats(chats))
+  }, [chats])
 
   const refresh = () => {
-    // getAllChats()
+    setSearchChats(null)
     setNewRow(null)
   }
 
-  const addNewChat = (newChat) => {
+  const newChat = (newChat) => {
     setNewRow(newChat)
-    const oldChats = chats
-    oldChats.unshift(newChat)
-    // setChats(oldChats)
+    dispatch(addNewChat(newChat))
     closeNewChat()
     chatsRef.current.scrollTo(0, 0)
   }
@@ -38,27 +43,25 @@ const PageChatList = () => {
   const search = async (searchTerm) => {
     if (searchTerm === "") {
       refresh()
+      return
     }
-    else {
-      try {
-        const results = await chatService.getAllChatsWithSearch(searchTerm);
-        if (results) {
-          // setChats(results)
-        }
-      } catch (error) {
-        dispatch(logOut())
-      }
+    try {
+      const results = await chatService.getAllChatsWithSearch(searchTerm);
+      setSearchChats(results)
+    } catch (error) {
+      dispatch(logOut())
     }
   }
 
   const closeSearchInput = () => refresh()
+  const chatList = searchChats !== null ? searchChats : chats
 
   return (
     <Layout>
       <HeaderPageChatList closeSearchInput={closeSearchInput} search={search} />
       <main className={styles.chats} ref={chatsRef}>
-        <NewChatModal openNewChat={openNewChat} closeNewChat={closeNewChat} addNewChat={addNewChat} />
-        <ChatList chats={chats} newRow={newRow}></ChatList>
+        <NewChatModal openNewChat={openNewChat} closeNewChat={closeNewChat} addNewChat={newChat} />
+        <ChatList chats={chatList} newRow={newRow} isLoading={isLoadingChats}></ChatList>
         <button className={styles.edit} onClick={openNewChatWindow}><EditIcon /></button>
       </main>
     </Layout>

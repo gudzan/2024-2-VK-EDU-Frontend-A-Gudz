@@ -4,6 +4,7 @@ import localStorageService from "../api/localStorageService";
 import getErrorTranslation from "../utils/errorTranslator";
 import globalRouter from "../globalRouter";
 import ROUTES from "../config/routes";
+import { parseJwt } from "../utils";
 
 const initialState = localStorageService.getAccessToken()
   ? {
@@ -24,8 +25,11 @@ export const login = createAsyncThunk("auth/login",
     const { username, password } = user;
     try {
       const data = await authService.auth({ username, password });
-      localStorageService.setTokens(data.access, data.refresh)
+      const { exp: expAT, user_id } = parseJwt(data.access)
+      const { exp: expRT } = parseJwt(data.refresh)
+      localStorageService.setTokens(data.access, data.refresh, expAT, expRT, user_id)
       globalRouter.navigate(ROUTES.root);
+      return user_id
     } catch (error) {
       const errorMessage = error.response.data.detail ?? error.message
       return rejectWithValue(getErrorTranslation(errorMessage))
@@ -51,6 +55,7 @@ const authSlice = createSlice({
         state.isLoading = false
         state.isSuccess = true
         state.error = null
+        state.userId = payload;
       })
       .addCase(login.rejected, (state, { payload }) => {
         state.isLoading = false

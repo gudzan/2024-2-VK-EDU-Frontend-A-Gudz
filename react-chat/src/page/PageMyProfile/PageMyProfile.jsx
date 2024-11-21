@@ -87,7 +87,6 @@ const PageMyProfile = () => {
   const cancel = () => {
     setProfile(initialProfile)
   }
-  console.log(profile);
 
   if (profile) {
     const avatar = profile.avatar ?? defaultAvatar

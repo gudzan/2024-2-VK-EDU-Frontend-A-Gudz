@@ -1,5 +1,7 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import chatService from "../api/chat/chatService";
+import getErrorTranslation from "../utils/errorTranslator";
+import { logOut } from "./auth";
 
 const initialState = {
   isLoading: false,
@@ -8,44 +10,44 @@ const initialState = {
   error: null,
 }
 
-export const chatRequest = createAsyncThunk("chats/chatRequest",
-  async (rejectWithValue) => {
-    try {
-      const results = await chatService.getAllChats();
-      return results
-    } catch (error) {
-      const errorMessage = error.response.data.detail ?? error.message
-      return rejectWithValue(getErrorTranslation(errorMessage))
-    }
-  })
-
 const chatsSlice = createSlice({
   name: "chats",
   initialState,
   reducers: {
+    setChatsRequest: (state) => {
+      state.isLoading = true
+      state.error = null
+    },
+    setChats: (state, action) => {
+      state.isLoading = false
+      state.error = null
+      state.chats = action.payload;
+    },
+    setChatsFailed: (state, action) => {
+      state.isLoading = false
+      state.error = action.payload.message
+    },
+    addNewChat: (state, action) => {
+      state.chats = [action.payload, ...state.chats]
+    },
     setPrevChats: (state, action) => {
       state.prevChats = action.payload;
     },
   },
-  extraReducers: builder => {
-    builder
-      .addCase(chatRequest.pending, (state) => {
-        state.isLoading = true
-        state.error = null
-      })
-      .addCase(chatRequest.fulfilled, (state, action) => {
-        state.isLoading = false
-        state.chats = action.payload
-        state.error = null
-      })
-      .addCase(chatRequest.rejected, (state, action) => {
-        state.isLoading = false
-
-        state.error = action.payload
-      });
-  }
 });
 
 const { actions, reducer: chatsReduser } = chatsSlice;
-export const { setPrevChats } = actions;
+export const { setPrevChats, setChatsRequest, setChatsFailed, setChats, addNewChat } = actions;
+
+export const chatRequest = () => async (dispatch) => {
+  dispatch(setChatsRequest())
+  try {
+    const results = await chatService.getAllChats();
+    dispatch(setChats(results))
+  } catch (error) {
+    dispatch(setChatsFailed(error.message))
+    dispatch(logOut())
+  }
+};
+
 export default chatsReduser;

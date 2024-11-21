@@ -1,4 +1,3 @@
-import parseJwt from "../utils/parseJwt";
 const ACCESS_TOKEN_KEY = "access_token"
 const REFRESH_TOKEN_KEY = "refresh_token"
 const EXPIRES_AT_KEY = "expiresAT";
@@ -25,9 +24,7 @@ export const getUserId = () => {
   return localStorage.getItem(USER_ID_KEY);
 }
 
-export const setTokens = (accessToken, refreshToken) => {
-  const { exp: expAT, user_id } = parseJwt(accessToken)
-  const { exp: expRT } = parseJwt(refreshToken)
+export const setTokens = (accessToken, refreshToken, expAT, expRT, user_id) => {
   localStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
   localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
   localStorage.setItem(EXPIRES_AT_KEY, expAT);

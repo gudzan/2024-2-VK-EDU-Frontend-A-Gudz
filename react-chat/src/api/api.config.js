@@ -49,7 +49,7 @@ instance.interceptors.request.use(
       config.headers.Authorization = `Bearer ${accessToken}`
     }
     else {
-      return Promise.reject("Unauthorized")
+      return Promise.reject(new Error("Unauthorized"))
     }
     return config
   },

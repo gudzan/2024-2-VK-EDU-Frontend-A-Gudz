@@ -22,7 +22,7 @@ const ChatPolling = ({ children }) => {
     return () => {
       clearInterval(intervalId)
     };
-  }, [])
+  }, [isSuccess])
 
   return (
     <>
