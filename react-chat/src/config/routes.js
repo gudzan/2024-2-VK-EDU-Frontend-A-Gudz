@@ -4,8 +4,11 @@ const ROUTES = {
   auth: '/auth',
   chats: '/chats',
   chat: '/chat',
+  info: '/info',
+  profile: '/profile',
   chatWithChatId: '/chat/:chatId',
-  myProfile: '/my-profile',
+  infoWithChatId: '/info/:chatId',
+  profileWithUserId: '/profile/:userId',
 };
 
 export default ROUTES

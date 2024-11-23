@@ -4,7 +4,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Link } from "react-router-dom";
 import ROUTES from "../../../config/routes";
 
-const HeaderPageMyProfile = () => {
+const HeaderPageMyProfile = ({ text }) => {
   return (
     <header>
       <div className={styles.header__box}>
@@ -12,7 +12,7 @@ const HeaderPageMyProfile = () => {
           <button type="button" className={styles.icon}><ArrowBackIcon /></button>
         </Link>
         <div className={styles.title}>
-          Мой профиль
+          {text}
         </div>
       </div>
     </header>

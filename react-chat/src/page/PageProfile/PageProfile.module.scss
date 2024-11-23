@@ -25,10 +25,13 @@
         justify-content: center;
         align-items: center;
         border-radius: 50%;
-        cursor: pointer;
 
         img {
           object-fit: cover;
+        }
+
+        svg{
+          cursor: pointer;
         }
 
         .avatar {
@@ -36,6 +39,10 @@
           width: 130px;
           border-radius: 50%;
           box-shadow: rgba(99, 99, 99, 0.4) 0px 2px 8px 2px;
+        }
+
+        .myAvatar {
+          cursor: pointer;
           transition: all .5s ease;
         }
 
@@ -45,13 +52,17 @@
           color: white;
           transition: all .5s ease;
           font-size: 50px;
+
+          &[hidden] {
+            display: none;
+          }
         }
 
         &:hover .hover {
           opacity: 1;
         }
 
-        &:hover .avatar {
+        &:hover .myAvatar {
           -webkit-filter: brightness(70%);
         }
       }

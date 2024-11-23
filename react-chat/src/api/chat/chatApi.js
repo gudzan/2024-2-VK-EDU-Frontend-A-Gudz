@@ -17,6 +17,11 @@ const chatApi = {
     return data.results;
   },
 
+  leaveChat: async (id) => {
+    const { data } = await apiService.post(`/api/chat/${id}/leave/`, config);
+    return data;
+  },
+
   createNewChat: async (memberId) => {
     const { data } = await apiService.post('/api/chats/',
       {
