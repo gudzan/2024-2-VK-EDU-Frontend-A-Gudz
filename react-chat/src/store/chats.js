@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import chatService from "../api/chat/chatService";
+import chatApi from "../api/chat/chatApi";
 import getErrorTranslation from "../utils/errorTranslator";
 import { logOut } from "./auth";
 
@@ -42,7 +42,7 @@ export const { setPrevChats, setChatsRequest, setChatsFailed, setChats, addNewCh
 export const chatRequest = () => async (dispatch) => {
   dispatch(setChatsRequest())
   try {
-    const results = await chatService.getAllChats();
+    const results = await chatApi.getAllChats();
     dispatch(setChats(results))
   } catch (error) {
     dispatch(setChatsFailed(error.message))

@@ -7,7 +7,7 @@ import Layout from "../../components/Layout";
 import { HeaderPageChatList } from "../../components/Headers";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "../../config/routes.js";
-import chatService from "../../api/chat/chatService.js";
+import chatApi from "../../api/chat/chatApi.js";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../../store/auth.js";
 import { addNewChat, setPrevChats } from "../../store/chats.js";
@@ -46,7 +46,7 @@ const PageChatList = () => {
       return
     }
     try {
-      const results = await chatService.getAllChatsWithSearch(searchTerm);
+      const results = await chatApi.getAllChatsWithSearch(searchTerm);
       setSearchChats(results)
     } catch (error) {
       dispatch(logOut())

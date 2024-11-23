@@ -1,7 +1,7 @@
 import apiService from "../api.config.js";
 
 const config = { skipAuth: false }
-const userService = {
+const userApi = {
   getCurrentUser: async () => {
     const { data } = await apiService.get("/api/user/current/", config);
     return data;
@@ -17,4 +17,4 @@ const userService = {
     return data;
   },
 };
-export default userService;
+export default userApi;

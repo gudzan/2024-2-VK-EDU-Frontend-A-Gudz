@@ -5,10 +5,8 @@ import { HeaderPageMyProfile } from "../../components/Headers/index.js";
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import { isEqual } from "lodash"
 import { convertFileToBase64 } from "../../utils";
-import { useNavigate } from "react-router-dom";
-import ROUTES from "../../config/routes.js";
 import Spinner from "../../components/Spinner/Spinner.jsx";
-import userService from "../../api/user/userService.js";
+import userApi from "../../api/user/userApi.js";
 import defaultAvatar from "../../assets/images/default-avatar.jpg"
 import { logOut } from "../../store/auth.js";
 import { useDispatch } from "react-redux";
@@ -22,7 +20,7 @@ const PageMyProfile = () => {
 
   const getCurrentUser = async () => {
     try {
-      const user = await userService.getCurrentUser();
+      const user = await userApi.getCurrentUser();//замена на http://localhost:8080/api/user/79fd339b-473d-4a1e-bb2e-6ce2934698f7
       if (user) {
         setInitialProfile(user)
         setProfile(user)
@@ -62,7 +60,7 @@ const PageMyProfile = () => {
     }
 
     try {
-      const user = await userService.updateUser(profile.id, data);
+      const user = await userApi.updateUser(profile.id, data);
       if (user) {
         setInitialProfile(user)
         setProfile(user)

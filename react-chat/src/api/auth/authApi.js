@@ -1,7 +1,6 @@
 import apiService from "../api.config.js";
-import { setTokens } from "../localStorageService.js";
 
-const authService = {
+const authApi = {
   register: async (formData) => {
     const { data } = await apiService.post("/api/register/", formData, {
       headers: {
@@ -17,4 +16,4 @@ const authService = {
     return data;
   },
 };
-export default authService;
+export default authApi;

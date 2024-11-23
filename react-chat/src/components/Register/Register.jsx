@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import ROUTES from "../../config/routes";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import authService from "../../api/auth/authService.js"
+import authApi from "../../api/auth/authApi.js"
 import getErrorTranslation from "../../utils/errorTranslator.js";
 
 const initialUser = {
@@ -57,7 +57,7 @@ const Register = () => {
     event.preventDefault()
     const formData = new FormData(event.target);
     try {
-      const data = await authService.register(formData);
+      const data = await authApi.register(formData);
       if (data) {
         navigate(ROUTES.auth);
       }

@@ -1,7 +1,7 @@
 import apiService from "../api.config.js";
 
 const config = { skipAuth: false }
-const chatService = {
+const chatApi = {
   getChat: async (id) => {
     const { data } = await apiService.get(`/api/chat/${id}`, config);
     return data;
@@ -31,4 +31,4 @@ const chatService = {
     return data;
   },
 };
-export default chatService;
+export default chatApi;

@@ -3,9 +3,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import styles from './NewChatModal.module.scss'
 import Overlay from "../Overlay";
 import classnames from 'classnames';
-import chatService from "../../api/chat/chatService";
+import chatApi from "../../api/chat/chatApi";
 import { useDispatch } from "react-redux";
-import { logOut } from "../../store/auth";
 import getErrorTranslation from "../../utils/errorTranslator";
 
 const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
@@ -26,9 +25,8 @@ const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
     event.preventDefault()
     if (newChatName === "") { return }
     try {
-      const chat = await chatService.createNewChat(newChatName);
+      const chat = await chatApi.createNewChat(newChatName);
       if (chat) {
-        
         addNewChat(chat)
       }
     } catch (error) {

@@ -5,8 +5,8 @@ import Layout from "../../components/Layout";
 import FooterChat from "../../components/FooterChat";
 import { HeaderPageChat } from "../../components/Headers";
 import { useParams } from "react-router-dom";
-import chatService from "../../api/chat/chatService";
-import messageService from "../../api/message/messageService";
+import chatApi from "../../api/chat/chatApi";
+import messageApi from "../../api/message/messageApi";
 import { notifyMe } from "../../utils";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../../store/auth";
@@ -23,7 +23,7 @@ const PageChat = () => {
 
   const getChat = async () => {
     try {
-      const chat = await chatService.getChat(chatId);
+      const chat = await chatApi.getChat(chatId);
       if (chat) {
         setChat(chat)
       }
@@ -68,7 +68,7 @@ const PageChat = () => {
 
   const getMessages = async () => {
     try {
-      const results = await messageService.getMessages(chatId);
+      const results = await messageApi.getMessages(chatId);
       setMessages(results)
     } catch (e) {
       dispatch(logOut())
@@ -94,7 +94,7 @@ const PageChat = () => {
   const sendMessage = async (formData) => {
     formData.append('chat', chatId);
     try {
-      const data = await messageService.createNewMessage(formData);
+      const data = await messageApi.createNewMessage(formData);
       if (data) {
         setNewMessage(data)
         getMessages();
