@@ -16,7 +16,6 @@ const PageChatInfo = () => {
   const [chat, setChat] = useState(null)
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  console.log(chat);
 
   const getChat = async () => {
     try {
@@ -51,7 +50,7 @@ const PageChatInfo = () => {
     )
     
     const members = chat.members.map((element) => (
-      <Member element={element} />
+      <Member element={element} key={element.id} />
     ))
 
     return (

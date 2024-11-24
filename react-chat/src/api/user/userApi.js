@@ -7,6 +7,11 @@ const userApi = {
     return data;
   },
 
+  getAllUsers: async () => {
+    const { data } = await apiService.get(`/api/users/`, config);
+    return data.results;
+  },
+
   getUserById: async (userId) => {
     const { data } = await apiService.get(`/api/user/${userId}`, config);
     return data;

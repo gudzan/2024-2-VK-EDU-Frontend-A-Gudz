@@ -1,16 +1,16 @@
 import React from "react";
 import styles from "./HeaderPageMyProfile.module.scss"
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { Link } from "react-router-dom";
-import ROUTES from "../../../config/routes";
+import { useNavigate } from "react-router-dom";
 
 const HeaderPageMyProfile = ({ text }) => {
+  const navigate = useNavigate()
+  const goBack = () => navigate(-1)
+
   return (
     <header>
       <div className={styles.header__box}>
-        <Link to={ROUTES.root}>
-          <button type="button" className={styles.icon}><ArrowBackIcon /></button>
-        </Link>
+        <button type="button" onClick={goBack} className={styles.icon}><ArrowBackIcon /></button>
         <div className={styles.title}>
           {text}
         </div>

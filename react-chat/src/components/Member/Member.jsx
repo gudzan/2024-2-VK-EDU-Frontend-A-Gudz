@@ -14,7 +14,7 @@ const Member = ({ element }) => {
   const creator = element.id === userId ? "Создатель" : null
 
   return (
-    <Link to={link} className={styles.member} key={element.id}>
+    <Link to={link} className={styles.member}>
       <div className={styles.left}>
         <img className={styles.avatar} src={memberAvatar} alt="Аватар" />
         <div className={styles.memberInfo}>

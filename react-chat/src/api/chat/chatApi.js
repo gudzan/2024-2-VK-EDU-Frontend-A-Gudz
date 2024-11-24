@@ -22,17 +22,8 @@ const chatApi = {
     return data;
   },
 
-  createNewChat: async (memberId) => {
-    const { data } = await apiService.post('/api/chats/',
-      {
-        "members": [
-          memberId
-        ],
-        "is_private": true,
-        "title": "Название чата" //временные заглушки
-      },
-      config
-    );
+  createNewChat: async (chat) => {
+    const { data } = await apiService.post('/api/chats/', chat, config);
     return data;
   },
 };
