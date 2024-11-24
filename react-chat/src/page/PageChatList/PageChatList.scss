@@ -20,6 +20,7 @@
   height: 100%;
   padding: 5px 5px;
   overflow-y: auto;
+  overflow-x: hidden;
   scrollbar-width: thin;
   scrollbar-color: var(--transparent-dark-green) var(--second-white-color);
 }

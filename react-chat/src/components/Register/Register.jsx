@@ -52,7 +52,8 @@ const Register = () => {
     try {
       const data = await authService.register(formData);
       if (data) {
-        navigate(ROUTES.auth); console.log(error);;
+        navigate(ROUTES.auth); 
+        console.log(error);;
       }
     } catch (error) {
 

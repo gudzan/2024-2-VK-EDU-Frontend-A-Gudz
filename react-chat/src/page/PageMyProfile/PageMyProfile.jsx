@@ -26,7 +26,8 @@ const PageMyProfile = () => {
         setProfile(user)
       }
     } catch (error) {
-      navigate(ROUTES.auth); console.log(error);
+      navigate(ROUTES.auth); 
+      console.log(error);
     }
   }
 
@@ -66,7 +67,8 @@ const PageMyProfile = () => {
         setProfile(user)
       }
     } catch (error) {
-      navigate(ROUTES.auth); console.log(error);
+      navigate(ROUTES.auth); 
+      console.log(error);
     }
   };
 
