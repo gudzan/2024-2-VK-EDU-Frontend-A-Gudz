@@ -1,16 +1,12 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { chatRequest } from "../../store/chats";
-
+import { useDispatch } from "react-redux";
+import { chatRequest } from "../../store/chats/chats";
 
 const ChatPolling = ({ children }) => {
   const dispatch = useDispatch();
-  const { isSuccess } = useSelector((state) => state.auth)
 
   const getAllChats = async () => {
-    if (isSuccess) {
-      dispatch(chatRequest())
-    }
+    dispatch(chatRequest())
   }
 
   useEffect(() => {
@@ -22,7 +18,7 @@ const ChatPolling = ({ children }) => {
     return () => {
       clearInterval(intervalId)
     };
-  }, [isSuccess])
+  }, [])
 
   return (
     <>

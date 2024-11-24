@@ -1,19 +1,20 @@
 import apiService from "../api.config.js";
 
-const config = { skipAuth: false }
 const chatService = {
   getChat: async (id) => {
-    const { data } = await apiService.get(`/api/chat/${id}`, config);
+    const { data } = await apiService.get(`/api/chat/${id}`);
     return data;
   },
 
   getAllChats: async () => {
-    const { data } = await apiService.get("/api/chats/", config);
+    const { data } = await apiService.get("/api/chats/");
     return data.results;
   },
 
   getAllChatsWithSearch: async (search) => {
-    const { data } = await apiService.get(`/api/chats/?search=${search}`, config);
+    const { data } = await apiService.get('/api/chats/', {
+      params: { search }
+    });
     return data.results;
   },
 
@@ -25,8 +26,7 @@ const chatService = {
         ],
         "is_private": true,
         "title": "Название чата" //временные заглушки
-      },
-      config
+      }
     );
     return data;
   },

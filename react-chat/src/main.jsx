@@ -11,9 +11,7 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <HashRouter>
       <Provider store={store}>
-        <ChatPolling>
-            <App />
-        </ChatPolling>
+        <App />
       </Provider>
     </HashRouter>
   </StrictMode>,

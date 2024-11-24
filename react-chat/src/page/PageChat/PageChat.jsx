@@ -9,8 +9,9 @@ import chatService from "../../api/chat/chatService";
 import messageService from "../../api/message/messageService";
 import { notifyMe } from "../../utils";
 import { useDispatch, useSelector } from "react-redux";
-import { logOut } from "../../store/auth";
-import { setPrevChats } from "../../store/chats";
+import { logOut } from "../../store/auth/auth";
+import { setPrevChats } from "../../store/chats/chats";
+import { selectChats, selectPrevChats } from "../../store/chats/chatsSelectors";
 
 const PageChat = () => {
   const dispatch = useDispatch();
@@ -19,7 +20,8 @@ const PageChat = () => {
   const [newMessage, setNewMessage] = useState(null)
   const [messages, setMessages] = useState(null)
   const [chat, setChat] = useState(null)
-  const { chats, prevChats } = useSelector((state) => state.chats)
+  const chats = useSelector(selectChats);
+  const prevChats = useSelector(selectPrevChats);
 
   const getChat = async () => {
     try {

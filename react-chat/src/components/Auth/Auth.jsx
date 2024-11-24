@@ -5,7 +5,9 @@ import ROUTES from "../../config/routes";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../store/auth.js";
+import { login } from "../../store/auth/auth.js";
+import { selectAuthError, selectAuthStatus } from "../../store/auth/authSelectors.js";
+import storeStatus from "../../store/storeStatus.js";
 
 const initialUser = {
   username: "",
@@ -19,11 +21,12 @@ const Auth = () => {
   const typePasswordField = showPassword ? "text" : "password"
   const buttonPasswordField = showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />
   const [user, setUser] = useState(initialUser)
-  const { isSuccess, error } = useSelector((state) => state.auth)
+  const authStatus = useSelector(selectAuthStatus);
+  const authError = useSelector(selectAuthError);
 
   useEffect(() => {
-    if (isSuccess) navigate(ROUTES.root)
-  }, [isSuccess])
+    if (authStatus === storeStatus.success) navigate(ROUTES.root)
+  }, [authStatus])
 
   const onChange = (e) => {
     const name = e.target.name;
@@ -40,8 +43,8 @@ const Auth = () => {
   }
 
   const getError = () => {
-    if (error) {
-      return <div className={styles.error}>{error}</div>
+    if (authError) {
+      return <div className={styles.error}>{authError}</div>
     }
   }
 

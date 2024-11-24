@@ -4,12 +4,9 @@ import styles from './NewChatModal.module.scss'
 import Overlay from "../Overlay";
 import classnames from 'classnames';
 import chatService from "../../api/chat/chatService";
-import { useDispatch } from "react-redux";
-import { logOut } from "../../store/auth";
 import getErrorTranslation from "../../utils/errorTranslator";
 
 const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
-  const dispatch = useDispatch();
   const inputNewChatRef = useRef(null);
   const [newChatName, setNewChatName] = useState("")
   const [error, setError] = useState([])

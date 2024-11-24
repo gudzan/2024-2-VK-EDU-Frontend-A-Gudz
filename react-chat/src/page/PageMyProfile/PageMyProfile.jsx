@@ -5,12 +5,10 @@ import { HeaderPageMyProfile } from "../../components/Headers/index.js";
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import { isEqual } from "lodash"
 import { convertFileToBase64 } from "../../utils";
-import { useNavigate } from "react-router-dom";
-import ROUTES from "../../config/routes.js";
 import Spinner from "../../components/Spinner/Spinner.jsx";
 import userService from "../../api/user/userService.js";
 import defaultAvatar from "../../assets/images/default-avatar.jpg"
-import { logOut } from "../../store/auth.js";
+import { logOut } from "../../store/auth/auth.js";
 import { useDispatch } from "react-redux";
 
 const PageMyProfile = () => {
