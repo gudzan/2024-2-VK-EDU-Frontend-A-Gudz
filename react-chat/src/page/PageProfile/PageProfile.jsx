@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from './PageProfile.module.scss'
 import Layout from "../../components/Layout/index.js";
-import { HeaderPageMyProfile } from "../../components/Headers/index.js";
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import { isEqual } from "lodash"
 import { convertFileToBase64 } from "../../utils/index.js";
@@ -12,6 +11,7 @@ import { logOut } from "../../store/auth.js";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import classNames from "classnames";
+import Header from "../../components/Headers/Header/Header.jsx";
 
 const PageProfile = () => {
   const avatarInput = useRef(null)
@@ -22,6 +22,7 @@ const PageProfile = () => {
   const [profile, setProfile] = useState(initialProfile)
   const [isChanged, setIsChanged] = useState(false)
   const isAnotherProfile = userId !== currentUserId
+  const headerText = isAnotherProfile ? "Профиль" : "Мой профиль"
 
   const avatarClassName = classNames(styles.avatar, {
     [styles.myAvatar]: !isAnotherProfile,
@@ -107,7 +108,7 @@ const PageProfile = () => {
     )
     return (
       <Layout>
-        <HeaderPageMyProfile text={"Мой профиль"} />
+        <Header text={headerText} />
         <main className={styles.profile}>
           <form className={styles.profile__form} onSubmit={handleSubmit}>
             <div className={styles.field__avatar} onClick={openFileInput}>
@@ -138,8 +139,8 @@ const PageProfile = () => {
     );
   }
   return (
-    <Layout>
-      <HeaderPageMyProfile />
+    <Layout >
+      <Header text={headerText} />
       <Spinner />
     </Layout>
   )

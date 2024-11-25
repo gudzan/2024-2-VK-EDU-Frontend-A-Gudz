@@ -90,7 +90,7 @@
         padding: 20px 10px 5px 20px;
         background-color: var(--second-white-color);
         height: 60px;
-        box-shadow: rgba(99, 99, 99, 0.2) 1px 1px 5px 1px;
+        box-shadow: rgb(99 99 99 / 42%) 1px 2px 5px 1px;
       }
 
       textarea {
@@ -98,6 +98,10 @@
         resize: none;
         padding: 25px 15px 15px 20px;
         height: 150px;
+      }
+
+      &:last-child{
+        padding-bottom: 30px;
       }
     }
 

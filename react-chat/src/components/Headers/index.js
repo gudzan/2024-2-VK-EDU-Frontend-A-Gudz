@@ -1,6 +1,4 @@
 import HeaderPageChatList from './HeaderPageChatList/HeaderPageChatList.jsx';
-import HeaderPageChat from './HeaderPageChat/HeaderPageChat.jsx';
-import HeaderPageMyProfile from './HeaderPageMyProfile/HeaderPageMyProfile.jsx';
-import HeaderPageLogin from './HeaderPageLogin/HeaderPageLogin.jsx';
+import Header from './Header/Header.jsx';
 
-export {HeaderPageChat, HeaderPageChatList, HeaderPageMyProfile, HeaderPageLogin};
+export {Header, HeaderPageChatList};

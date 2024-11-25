@@ -1,12 +1,12 @@
 import React from "react";
 import Register from "../../components/Register";
 import Layout from "../../components/Layout";
-import { HeaderPageLogin } from "../../components/Headers";
+import Header from "../../components/Headers/Header/Header";
 
 const PageRegister = () => {
   return (
     <Layout>
-      <HeaderPageLogin text="Регистрация" />
+      <Header text="Регистрация" arrowBack={false}/>
       <Register />
     </Layout>
   )

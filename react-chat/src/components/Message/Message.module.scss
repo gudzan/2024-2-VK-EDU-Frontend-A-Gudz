@@ -113,9 +113,11 @@
 }
 
 @media (min-width: 800px) {
-  .message .my {
-    align-self: flex-start;
-    font-weight: 500;
-    border-radius: 1px 15px 15px 15px;
+  .message {
+    &.my {
+      align-self: flex-start;
+      font-weight: 500;
+      border-radius: 1px 15px 15px 15px;
+    }
   }
 }

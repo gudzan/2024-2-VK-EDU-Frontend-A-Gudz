@@ -3,7 +3,6 @@ import styles from "./PageChat.module.scss"
 import MessagesList from "../../components/MessagesList";
 import Layout from "../../components/Layout";
 import FooterChat from "../../components/FooterChat";
-import { HeaderPageChat } from "../../components/Headers";
 import { useParams } from "react-router-dom";
 import chatApi from "../../api/chat/chatApi";
 import messageApi from "../../api/message/messageApi";
@@ -11,6 +10,7 @@ import { notifyMe } from "../../utils";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../../store/auth";
 import { setPrevChats } from "../../store/chats";
+import Header from "../../components/Headers/Header/Header";
 
 const PageChat = () => {
   const dispatch = useDispatch();
@@ -106,7 +106,7 @@ const PageChat = () => {
 
   return (
     <Layout>
-      <HeaderPageChat chat={chat} />
+      <Header chat={chat} />
       <main className={styles.messages} ref={messagesRef}>
         <MessagesList messages={messages} newMessage={newMessage} />
       </main>
