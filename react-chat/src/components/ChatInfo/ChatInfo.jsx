@@ -49,9 +49,12 @@ const ChatInfo = () => {
       <button className={styles.leave} onClick={leaveChat}>Покинуть чат</button>
     )
 
-    const members = chat.members.map((element) => (
-      <Member element={element} key={element.id} />
-    ))
+    const members = chat.members.map((element) => {
+      const creator = chat.creator.id === element.id
+      return (
+        <Member member={element} key={element.id} isCreator={creator} />
+      )
+    })
 
     return (
       <div className={styles.inner}>

@@ -16,17 +16,14 @@ const getValidAccessToken = async () => {
   const refreshToken = getRefreshToken()
   const expireRT = Number(getExpiresRT())
   const expireAT = Number(getExpiresAT())
-  //если кто-то из пары отсутствует или просрочен RT, то сразу перекидываем на логин
   if (refreshToken === null
     || accessToken === null
     || checkTokenValid(expireRT) === false) {
     return false
   }
-  //если at жив - возвращаем at
   if (checkTokenValid(expireAT)) {
     return accessToken
   }
-  //если at мертв - обновляем at
   const response = await instance.post("/api/auth/refresh/", {
     refresh: refreshToken
   }, { skipAuth: true });

@@ -5,14 +5,15 @@ import Overlay from "../Overlay";
 import classnames from 'classnames';
 import chatApi from "../../api/chat/chatApi";
 import { useDispatch } from "react-redux";
-import { logOut } from "../../store/auth.js";
 import getErrorTranslation from "../../utils/errorTranslator";
 import userApi from "../../api/user/userApi.js";
+import AvatarField from "../AvatarField/AvatarField.jsx";
 
 const initialNewChat = {
   "members": [],
   "is_private": true,
-  "title": ""
+  "title": "",
+  "avatar": null
 }
 
 const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
@@ -20,10 +21,10 @@ const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
   const inputNewChatRef = useRef(null);
   const [users, setUsers] = useState(null)
   const [chat, setChat] = useState(initialNewChat)
-  // const [members, setMembers] = useState([])
   const [newChatName, setNewChatName] = useState("")
   const [error, setError] = useState([])
   const [openSelect, setOpenSelect] = useState(false)
+  const selectText = chat.members.length > 0 ? `Выбрано ${chat.members.length} пользователей` : "Выбери пользователя"
 
   const openSelectClassName = classnames(styles.checkboxes, {
     [styles.open]: openSelect,
@@ -48,17 +49,33 @@ const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
   useEffect(() => {
     setError([])
     if (openNewChat) {
-      inputNewChatRef.current.focus();
       getCurrentUser()
     }
   }, [openNewChat])
 
+  useEffect(() => {
+    if (chat.members.length > 1) {
+      inputNewChatRef.current.focus();
+    }
+  }, [chat])
+
   const handleSubmit = async (event) => {
     event.preventDefault()
+    const data = new FormData(event.target)
+    if (!chat.is_private && data.get('avatar').size === 0) {
+      data.delete('avatar')
+    }
+    chat.members.forEach((item, index) => {
+      data.append('members', item);
+    });
+    data.append("is_private", chat.is_private)
+    data.append("title", chat.title)
+
     try {
-      const newChat = await chatApi.createNewChat(chat);
+      const newChat = await chatApi.createNewChat(data);
       if (newChat) {
         addNewChat(newChat)
+        closeNewChatWindow()
       }
     } catch (error) {
       if (error.status === 400) {
@@ -85,6 +102,7 @@ const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
   const closeNewChatWindow = () => {
     setNewChatName("")
     setOpenSelect(false)
+    setChat(initialNewChat)
     closeNewChat()
   }
 
@@ -113,9 +131,27 @@ const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
     }));
   }
 
-  useEffect(() => {
-    console.log(chat);
-  }, [chat])
+  const onChangeAvatar = (avatar) => {
+    setChat((prevState) => ({
+      ...prevState,
+      avatar: avatar,
+    }));
+  }
+
+  const getInput = () => {
+    if (chat.members.length < 2) {
+      return null
+    }
+    return (
+      <>
+        <input tabIndex="0" className={styles.input} name="new-сhat-name" placeholder="Название чата" type="text"
+          ref={inputNewChatRef}
+          value={chat.title}
+          onChange={inputNewChat} required={true} />
+        <AvatarField avatarImg={chat.avatar} canEdit={true} onChange={onChangeAvatar} />
+      </>
+    )
+  }
 
   return (
     <>
@@ -124,28 +160,22 @@ const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
         <button type="button" className={styles.close} onClick={closeNewChatWindow}><CloseIcon /></button>
         <form className={styles.form} onSubmit={handleSubmit}>
           <span className={styles.title}>Добавление нового чата</span>
-          <input tabIndex="0" className={styles.input} name="new-сhat-name" placeholder="Название чата" type="text"
-            ref={inputNewChatRef}
-            value={chat.title}
-            onChange={inputNewChat} />
           <div className={styles.multiselect}>
             <div className={styles.selectBox} onClick={() => setOpenSelect((prev) => !prev)}>
-              <select
-                id="members"
-                name="members"
-                onChange={changeMember}>
-                <option>Выбери пользователя</option>
+              <select onChange={changeMember}>
+                <option >{selectText}</option>
               </select>
               <div className={styles.overSelect}></div>
             </div>
             <div className={openSelectClassName}>
               {users && users.map((user) => (
                 <label htmlFor={user.id} key={user.id}>
-                  <input type="checkbox" id={user.id} onChange={changeMember} />{user.first_name} {user.last_name}
+                  <input type="checkbox" checked={chat.members.includes(user.id)} id={user.id} onChange={changeMember} />{user.first_name} {user.last_name}
                 </label>
               ))}
             </div>
           </div>
+          {getInput()}
           {getError()}
           <button type="submit" className={styles.submit}>Добавить</button>
         </form>

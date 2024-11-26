@@ -1,14 +1,13 @@
 import React, { useState, useRef } from "react";
 import styles from "./Register.module.scss"
-import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import defaultAvatar from "../../assets/images/default-avatar.jpg"
-import { convertFileToBase64 } from "../../utils";
 import { Link, useNavigate } from "react-router-dom";
 import ROUTES from "../../config/routes";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import authApi from "../../api/auth/authApi.js"
 import getErrorTranslation from "../../utils/errorTranslator.js";
+import AvatarField from "../AvatarField/AvatarField.jsx";
 
 const initialUser = {
   username: "",
@@ -41,18 +40,13 @@ const Register = () => {
     avatarInput.current.click()
   }
 
-  const handleFiles = async (e) => {
-    if (e.target.files[0].size > 5 * 1024 * 1024) {
-      alert('Файл слишком большой! Выбери другой');
-      return
-    }
-    const avatar = await convertFileToBase64(e.target.files[0]);
+  const onChangeAvatar = (avatar)=>{
     setUser((prevState) => ({
       ...prevState,
       avatar: avatar,
     }));
   }
-
+  
   const handleSubmit = async (event) => {
     event.preventDefault()
     const formData = new FormData(event.target);
@@ -89,12 +83,13 @@ const Register = () => {
   return (
     <div className={styles.register}>
       <form className={styles.form} onSubmit={handleSubmit}>
-        <div className={styles.field__avatar} onClick={openFileInput}>
+        <AvatarField avatarImg={user.avatar} canEdit={true} onChange={onChangeAvatar} />
+        {/* <div className={styles.field__avatar} onClick={openFileInput}>
           <img src={user.avatar} alt="Аватар" className={styles.avatar} />
           <PhotoCameraIcon className={styles.hover} />
           <input type="file" name="avatar" ref={avatarInput} onChange={handleFiles} hidden={true} accept=".jpg,.jpeg,.png"></input>
           <span>Аватар</span>
-        </div>
+        </div> */}
         <div className={styles.field}>
           <label>Логин</label>
           <input autoComplete="off" type="text" value={user.username} name="username" onChange={onChange} required={true}></input>

@@ -33,7 +33,6 @@
 
 .checkboxes {
   max-height: 180px;
-
   overflow: auto;
   padding: 5px;
   background-color: var(--third-white-color);
@@ -77,10 +76,6 @@
   width: 280px;
   height: fit-content;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 14px 12px;
-
-  &.cutHeight{
-    height: 230px;
-  }
 
   &.open {
     display: block;
@@ -161,7 +156,6 @@
 @media (min-width: 700px) {
   .newChat {
     width: 380px;
-    height: 180px;
   }
 
   .form {
@@ -181,7 +175,6 @@
 @media (min-width: 700px) {
   .newChat {
     width: 380px;
-    height: 180px;
   }
 
   .form {
@@ -201,7 +194,6 @@
 @media (min-width: 1300px) {
   .newChat {
     width: 480px;
-    height: 200px;
   }
 
   .form {
