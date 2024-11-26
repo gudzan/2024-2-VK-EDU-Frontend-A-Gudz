@@ -33,7 +33,8 @@
 
 .checkboxes {
   max-height: 180px;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   padding: 5px;
   background-color: var(--third-white-color);
   border-radius: 15px;

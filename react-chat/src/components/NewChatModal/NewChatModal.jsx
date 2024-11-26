@@ -19,11 +19,14 @@ const initialNewChat = {
 const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
   const dispatch = useDispatch();
   const inputNewChatRef = useRef(null);
-  const [users, setUsers] = useState(null)
+  const usersList = useRef(null)
+  const [users, setUsers] = useState([])
+  const [totalCount, setTotalCount] = useState(0)
+  const [fetching, setFetching] = useState(true)
   const [chat, setChat] = useState(initialNewChat)
-  const [newChatName, setNewChatName] = useState("")
   const [error, setError] = useState([])
   const [openSelect, setOpenSelect] = useState(false)
+  const [currentPage, setCurrentPage] = useState(1)
   const selectText = chat.members.length > 0 ? `Выбрано ${chat.members.length} пользователей` : "Выбери пользователя"
 
   const openSelectClassName = classnames(styles.checkboxes, {
@@ -37,21 +40,39 @@ const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
 
   const getCurrentUser = async () => {
     try {
-      const users = await userApi.getAllUsers()
-      if (users) {
-        setUsers(users)
+      const { results, count: totalCount } = await userApi.getAllUsers(currentPage, 10)
+      if (results && users) {
+        const newUsers = [...users, ...results]
+        setUsers(newUsers)
+        setTotalCount(totalCount)
+        setCurrentPage(prevState => prevState + 1)
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setFetching(false)
+    }
+  }
+
+  const scrollHandler = (e) => {
+    const scrollHeight = e.target.scrollHeight;
+    const scrollTop = e.target.scrollTop;
+    const innerHeight = 180
+    if ((scrollHeight - (scrollTop + innerHeight) < 20) && (users.length < totalCount)) {
+      setFetching(true)
     }
   }
 
   useEffect(() => {
+    usersList.current.addEventListener('scroll', scrollHandler)
+  }, [totalCount])
+
+  useEffect(() => {
     setError([])
-    if (openNewChat) {
+    if (openNewChat && fetching) {
       getCurrentUser()
     }
-  }, [openNewChat])
+  }, [openNewChat, fetching])
 
   useEffect(() => {
     if (chat.members.length > 1) {
@@ -100,9 +121,10 @@ const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
   }
 
   const closeNewChatWindow = () => {
-    setNewChatName("")
     setOpenSelect(false)
     setChat(initialNewChat)
+    setUsers([])
+    usersList.current.removeEventListener('scroll', scrollHandler)
     closeNewChat()
   }
 
@@ -167,8 +189,8 @@ const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
               </select>
               <div className={styles.overSelect}></div>
             </div>
-            <div className={openSelectClassName}>
-              {users && users.map((user) => (
+            <div className={openSelectClassName} ref={usersList}>
+              {users.map((user) => (
                 <label htmlFor={user.id} key={user.id}>
                   <input type="checkbox" checked={chat.members.includes(user.id)} id={user.id} onChange={changeMember} />{user.first_name} {user.last_name}
                 </label>
