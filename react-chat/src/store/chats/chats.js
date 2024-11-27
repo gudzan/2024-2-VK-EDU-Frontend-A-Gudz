@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import chatApi from "../api/chat/chatApi";
-import getErrorTranslation from "../utils/errorTranslator";
-import { logOut } from "./auth";
+import chatService from "../../api/chat/chatService";
+import { logOut } from "../auth/auth";
+import storeStatus from "../storeStatus";
 
 const initialState = {
-  isLoading: false,
+  status: storeStatus.success,
   chats: [],
   prevChats: [],
   error: null,
@@ -15,16 +15,16 @@ const chatsSlice = createSlice({
   initialState,
   reducers: {
     setChatsRequest: (state) => {
-      state.isLoading = true
+      state.status = storeStatus.loading
       state.error = null
     },
     setChats: (state, action) => {
-      state.isLoading = false
+      state.status = storeStatus.success
       state.error = null
       state.chats = action.payload;
     },
     setChatsFailed: (state, action) => {
-      state.isLoading = false
+      state.status = storeStatus.error
       state.error = action.payload.message
     },
     addNewChat: (state, action) => {
@@ -42,7 +42,7 @@ export const { setPrevChats, setChatsRequest, setChatsFailed, setChats, addNewCh
 export const chatRequest = () => async (dispatch) => {
   dispatch(setChatsRequest())
   try {
-    const results = await chatApi.getAllChats();
+    const results = await chatService.getAllChats();
     dispatch(setChats(results))
   } catch (error) {
     dispatch(setChatsFailed(error.message))

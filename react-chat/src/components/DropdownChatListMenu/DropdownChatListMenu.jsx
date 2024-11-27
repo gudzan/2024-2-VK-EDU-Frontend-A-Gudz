@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import ROUTES from "../../config/routes";
 import classnames from 'classnames';
 import { useDispatch, useSelector } from "react-redux";
-import { logOut } from "../../store/auth";
+import { logOut } from "../../store/auth/auth";
 
 const DropdownChatList = ({ openDropdown, closeDropdown }) => {
   const dispatch = useDispatch();

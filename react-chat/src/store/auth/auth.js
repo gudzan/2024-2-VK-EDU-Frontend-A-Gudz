@@ -1,32 +1,31 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import authApi from "../api/auth/authApi";
-import localStorageService from "../api/localStorageService";
-import getErrorTranslation from "../utils/errorTranslator";
-import globalRouter from "../globalRouter";
-import ROUTES from "../config/routes";
-import { parseJwt } from "../utils";
+import { jwtDecode } from "jwt-decode";
+import storeStatus from "../storeStatus";
+import authService from "../../api/auth/authService";
+import ROUTES from "../../config/routes";
+import globalRouter from "../../globalRouter";
+import getErrorTranslation from "../../utils/errorTranslator";
+import localStorageService from "../../api/localStorageService";
 
 const initialState = localStorageService.getAccessToken()
   ? {
-    isLoading: false,
+    status: storeStatus.success,
     error: null,
     userId: localStorageService.getUserId(),
-    isSuccess: true,
   }
   : {
-    isLoading: false,
+    status: storeStatus.idle,
     error: null,
     userId: null,
-    isSuccess: false,
   };
 
 export const login = createAsyncThunk("auth/login",
   async (user, { rejectWithValue }) => {
     const { username, password } = user;
     try {
-      const data = await authApi.auth({ username, password });
-      const { exp: expAT, user_id } = parseJwt(data.access)
-      const { exp: expRT } = parseJwt(data.refresh)
+      const data = await authService.auth({ username, password });
+      const { exp: expAT, user_id } = jwtDecode(data.access)
+      const { exp: expRT } = jwtDecode(data.refresh)
       localStorageService.setTokens(data.access, data.refresh, expAT, expRT, user_id)
       globalRouter.navigate(ROUTES.root);
       return user_id
@@ -41,25 +40,23 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     authLoggedOut: (state) => {
-      state.isSuccess = false;
+      state.status = storeStatus.idle
       state.userId = null;
     },
   },
   extraReducers: builder => {
     builder
       .addCase(login.pending, (state) => {
-        state.isLoading = true
+        state.status = storeStatus.loading
         state.error = null
       })
       .addCase(login.fulfilled, (state, { payload }) => {
-        state.isLoading = false
-        state.isSuccess = true
+        state.status = storeStatus.success
         state.error = null
         state.userId = payload;
       })
       .addCase(login.rejected, (state, { payload }) => {
-        state.isLoading = false
-        state.isSuccess = false
+        state.status = storeStatus.error
         state.error = payload
       });
   }

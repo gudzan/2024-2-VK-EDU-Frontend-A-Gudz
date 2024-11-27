@@ -17,7 +17,6 @@ const initialNewChat = {
 }
 
 const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
-  const dispatch = useDispatch();
   const inputNewChatRef = useRef(null);
   const usersList = useRef(null)
   const [users, setUsers] = useState([])

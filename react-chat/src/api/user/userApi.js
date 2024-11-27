@@ -1,6 +1,5 @@
 import apiService from "../api.config.js";
 
-const config = { skipAuth: false }
 const userApi = {
   getCurrentUser: async () => {
     const { data } = await apiService.get("/api/user/current/", config);
@@ -24,8 +23,7 @@ const userApi = {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
-    },
-      config);
+    });
     return data;
   },
 };

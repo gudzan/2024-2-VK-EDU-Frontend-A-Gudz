@@ -8,8 +8,9 @@ import chatApi from "../../api/chat/chatApi";
 import messageApi from "../../api/message/messageApi";
 import { notifyMe } from "../../utils";
 import { useDispatch, useSelector } from "react-redux";
-import { logOut } from "../../store/auth";
-import { setPrevChats } from "../../store/chats";
+import { logOut } from "../../store/auth/auth";
+import { setPrevChats } from "../../store/chats/chats";
+import { selectChats, selectPrevChats } from "../../store/chats/chatsSelectors";
 import Header from "../../components/Headers/Header/Header";
 
 const PageChat = () => {
@@ -19,7 +20,8 @@ const PageChat = () => {
   const [newMessage, setNewMessage] = useState(null)
   const [messages, setMessages] = useState(null)
   const [chat, setChat] = useState(null)
-  const { chats, prevChats } = useSelector((state) => state.chats)
+  const chats = useSelector(selectChats);
+  const prevChats = useSelector(selectPrevChats);
 
   const getChat = async () => {
     try {

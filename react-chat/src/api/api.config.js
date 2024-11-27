@@ -37,7 +37,7 @@ const instance = axios.create({
 });
 
 instance.interceptors.request.use(
-  async (config) => {
+  async (config) => {    
     if (config.skipAuth) {
       return config
     }
