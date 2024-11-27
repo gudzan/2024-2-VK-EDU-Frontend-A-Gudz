@@ -7,7 +7,7 @@ import defaultAvatar from "../../assets/images/default-avatar.jpg"
 import Spinner from "../../components/Spinner/Spinner.jsx";
 import ROUTES from "../../config/routes.js";
 import Member from "../../components/Member/index.js";
-import { logOut } from "../../store/auth.js";
+import { logOut } from "../../store/auth/auth.js";
 
 const ChatInfo = () => {
   const { chatId } = useParams();

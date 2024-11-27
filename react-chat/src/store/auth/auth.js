@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { jwtDecode } from "jwt-decode";
 import storeStatus from "../storeStatus";
-import authService from "../../api/auth/authService";
+import authApi from "../../api/auth/authApi";
 import ROUTES from "../../config/routes";
 import globalRouter from "../../globalRouter";
 import getErrorTranslation from "../../utils/errorTranslator";
@@ -23,7 +23,7 @@ export const login = createAsyncThunk("auth/login",
   async (user, { rejectWithValue }) => {
     const { username, password } = user;
     try {
-      const data = await authService.auth({ username, password });
+      const data = await authApi.auth({ username, password });
       const { exp: expAT, user_id } = jwtDecode(data.access)
       const { exp: expRT } = jwtDecode(data.refresh)
       localStorageService.setTokens(data.access, data.refresh, expAT, expRT, user_id)
