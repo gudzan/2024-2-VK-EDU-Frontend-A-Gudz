@@ -2,7 +2,7 @@ import apiService from "../api.config.js";
 
 const userApi = {
   getCurrentUser: async () => {
-    const { data } = await apiService.get("/api/user/current/", config);
+    const { data } = await apiService.get("/api/user/current/");
     return data;
   },
 
@@ -14,7 +14,7 @@ const userApi = {
   },
 
   getUserById: async (userId) => {
-    const { data } = await apiService.get(`/api/user/${userId}`, config);
+    const { data } = await apiService.get(`/api/user/${userId}`);
     return data;
   },
 

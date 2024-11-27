@@ -29,6 +29,7 @@ const PageProfile = () => {
         setProfile(user)
       }
     } catch (error) {
+      debugger
       dispatch(logOut())
     }
   }
