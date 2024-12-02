@@ -37,7 +37,7 @@ const PageChat = () => {
   const getDiffChats = (current, prev) => {
     const filter = (item) => {
       return item.id !== chatId
-        && item.last_message !== undefined
+        && item.last_message !== undefined && item.last_message !== null
         && (item.last_message.text !== "" || item.last_message.files.length > 0 || item.last_message.voice !== undefined || item.last_message.voice !== null)
     }
 
