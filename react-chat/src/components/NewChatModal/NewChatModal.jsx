@@ -64,6 +64,11 @@ const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
 
   useEffect(() => {
     usersList.current.addEventListener('scroll', scrollHandler)
+    return () => {
+      if (usersList.current) {
+        usersList.current.removeEventListener('scroll', scrollHandler)
+      }
+    };
   }, [totalCount])
 
   useEffect(() => {
@@ -122,7 +127,6 @@ const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
     setOpenSelect(false)
     setChat(initialNewChat)
     setUsers([])
-    usersList.current.removeEventListener('scroll', scrollHandler)
     setFetching(true)
     closeNewChat()
   }
