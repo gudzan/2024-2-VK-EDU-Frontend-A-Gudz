@@ -23,8 +23,13 @@ const chatApi = {
     return data;
   },
 
-  createNewChat: async (chat) => {
-    const { data } = await apiService.post('/api/chats/', chat);
+  deleteChat: async (id) => {
+    const { data } = await apiService.delete(`/api/chat/${id}/`);
+    return data;
+  },
+
+  createNewChat: async (formData) => {
+    const { data } = await apiService.post('/api/chats/', formData);
     return data;
   },
 };

@@ -3,7 +3,7 @@ import styles from "./PageChat.module.scss"
 import MessagesList from "../../components/MessagesList";
 import Layout from "../../components/Layout";
 import FooterChat from "../../components/FooterChat";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import chatApi from "../../api/chat/chatApi";
 import messageApi from "../../api/message/messageApi";
 import { notifyMe } from "../../utils";
@@ -12,9 +12,11 @@ import { logOut } from "../../store/auth/auth";
 import { setPrevChats } from "../../store/chats/chats";
 import { selectChats, selectPrevChats } from "../../store/chats/chatsSelectors";
 import Header from "../../components/Headers/Header/Header";
+import ROUTES from "../../config/routes";
 
 const PageChat = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const messagesRef = useRef(null)
   const { chatId } = useParams();
   const [newMessage, setNewMessage] = useState(null)
@@ -30,7 +32,12 @@ const PageChat = () => {
         setChat(chat)
       }
     } catch (error) {
-      dispatch(logOut())
+      if (error.status === 401) {
+        dispatch(logOut())
+      }
+      if (error.status === 404) {
+        navigate(ROUTES.root)
+      }
     }
   }
 
@@ -72,8 +79,11 @@ const PageChat = () => {
     try {
       const results = await messageApi.getMessages(chatId);
       setMessages(results)
-    } catch (e) {
-      dispatch(logOut())
+    } catch (error) {
+      console.log(error);
+      if (error.status === 401) {
+        dispatch(logOut())
+      }
     }
   }
 
@@ -102,7 +112,10 @@ const PageChat = () => {
         getMessages();
       }
     } catch (error) {
-      dispatch(logOut())
+      console.log(error);
+      if (error.status === 401) {
+        dispatch(logOut())
+      }
     }
   }
 

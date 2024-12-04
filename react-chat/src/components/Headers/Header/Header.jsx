@@ -5,11 +5,12 @@ import { useNavigate } from "react-router-dom";
 import HeaderUserInfo from "../HeaderUserInfo/HeaderUserInfo";
 import { getLastOnline } from "../../../utils";
 import { useSelector } from "react-redux";
+import { selectAuthUserId } from "../../../store/auth/authSelectors";
 
 const Header = ({ text, chat, arrowBack = true }) => {
   const navigate = useNavigate()
   const goBack = () => navigate(-1)
-  const { userId } = useSelector((state) => state.auth)
+  const userId = useSelector(selectAuthUserId);
 
   const goBackButton = arrowBack ? (
     <button type="button" onClick={goBack} className={styles.icon}><ArrowBackIcon /></button>

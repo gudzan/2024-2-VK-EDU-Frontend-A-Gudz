@@ -89,7 +89,6 @@ const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
       data.append('members', item);
     });
     data.append("is_private", chat.is_private)
-    data.append("title", chat.title)
 
     try {
       const newChat = await chatApi.createNewChat(data);
@@ -124,6 +123,7 @@ const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
     setChat(initialNewChat)
     setUsers([])
     usersList.current.removeEventListener('scroll', scrollHandler)
+    setFetching(true)
     closeNewChat()
   }
 
@@ -165,7 +165,7 @@ const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
     }
     return (
       <>
-        <input tabIndex="0" className={styles.input} name="new-сhat-name" placeholder="Название чата" type="text"
+        <input tabIndex="0" className={styles.input} name="title" placeholder="Название чата" type="text"
           ref={inputNewChatRef}
           value={chat.title}
           onChange={inputNewChat} required={true} />

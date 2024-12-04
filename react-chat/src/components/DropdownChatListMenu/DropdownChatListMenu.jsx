@@ -6,10 +6,11 @@ import ROUTES from "../../config/routes";
 import classnames from 'classnames';
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../../store/auth/auth";
+import { selectAuthUserId } from "../../store/auth/authSelectors";
 
 const DropdownChatList = ({ openDropdown, closeDropdown }) => {
   const dispatch = useDispatch();
-  const { userId } = useSelector((state) => state.auth)
+  const userId = useSelector(selectAuthUserId);
   const link = `${ROUTES.profile}/${userId}`
 
   const dropdownClassName = classnames(styles.dropdown, {
