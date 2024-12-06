@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from './PageProfile.module.scss'
 import Layout from "../../components/Layout/index.js";
-import { isEqual } from "lodash"
-import { convertFileToBase64 } from "../../utils";
 import Spinner from "../../components/Spinner/Spinner.jsx";
 import userApi from "../../api/user/userApi.js";
 import { logOut } from "../../store/auth/auth.js";
@@ -10,11 +8,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import Header from "../../components/Headers/Header/Header.jsx";
 import AvatarField from "../../components/AvatarField/AvatarField.jsx";
+import isEqual from "../../utils/isEqual.js";
+import { selectAuthUserId } from "../../store/auth/authSelectors.js";
 
 const PageProfile = () => {
   const dispatch = useDispatch();
   const { userId } = useParams();
-  const { userId: currentUserId } = useSelector((state) => state.auth)
+  const currentUserId = useSelector(selectAuthUserId);
   const [initialProfile, setInitialProfile] = useState(null)
   const [profile, setProfile] = useState(initialProfile)
   const [isChanged, setIsChanged] = useState(false)
@@ -29,8 +29,10 @@ const PageProfile = () => {
         setProfile(user)
       }
     } catch (error) {
-      debugger
-      dispatch(logOut())
+      console.log(error);
+      if (error.status === 401) {
+        dispatch(logOut())
+      }
     }
   }
 
@@ -72,7 +74,10 @@ const PageProfile = () => {
         setProfile(user)
       }
     } catch (error) {
-      dispatch(logOut())
+      console.log(error);
+      if (error.status === 401) {
+        dispatch(logOut())
+      }
     }
   };
 

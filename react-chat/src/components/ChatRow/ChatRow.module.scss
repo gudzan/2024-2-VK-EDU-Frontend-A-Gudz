@@ -31,6 +31,14 @@
   animation: chat 0.2s;
   cursor: pointer;
 
+  .skeleton{
+    width: 60px;
+    min-width: 60px;
+    background-color: lightgray;
+    border-radius: 50%;
+    height: 60px;
+  }
+
   img {
     background-color: white;
     width: 60px;
@@ -110,7 +118,7 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
-  
+
   .message {
     -webkit-line-clamp: 1;
     display: -webkit-box;
@@ -144,8 +152,6 @@
   }
 }
 
-
-
 @media (min-width: 700px) {
   .chat {
     padding: 10px 0;
@@ -156,6 +162,15 @@
       min-height: 80px;
       width: 80px;
       min-width: 80px;
+    }
+
+    .skeleton{
+      height: 80px;
+      min-height: 80px;
+      width: 80px;
+      min-width: 80px;
+      background-color: lightgray;
+      border-radius: 50%;
     }
   }
 

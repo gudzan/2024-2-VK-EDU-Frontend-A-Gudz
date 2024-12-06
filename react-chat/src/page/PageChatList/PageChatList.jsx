@@ -50,7 +50,10 @@ const PageChatList = () => {
       const results = await chatApi.getAllChatsWithSearch(searchTerm);
       setSearchChats(results)
     } catch (error) {
-      dispatch(logOut())
+      console.log(error);
+      if (error.status === 401) {
+        dispatch(logOut())
+      }
     }
   }
 

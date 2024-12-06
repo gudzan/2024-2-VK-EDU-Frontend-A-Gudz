@@ -54,6 +54,11 @@ const FooterChat = ({ sendMessage }) => {
   useEffect(() => {
     inputRef.current.focus();
     inputRef.current.addEventListener('drop', handleDrop);
+    return () => {
+      if (inputRef.current) {
+        inputRef.current.removeEventListener('drop', handleDrop);
+      }
+    };
   }, []);
 
   useEffect(() => {
@@ -176,15 +181,15 @@ const FooterChat = ({ sendMessage }) => {
         <button type="button" className={styles.icon} onClick={toggleAttach} ref={attachRef}><AttachFileIcon /></button>
         <div className={attachClassName}>
           <div className={styles.row} onClick={getGeolocation}>
-            <PlaceIcon/>
+            <PlaceIcon />
             Геопозиция
           </div>
           <div className={styles.row} onClick={openFileInput}>
-            <PhotoIcon/>
+            <PhotoIcon />
             Фото
           </div>
           <div className={styles.row} onClick={startRecording}>
-            <KeyboardVoiceIcon/>
+            <KeyboardVoiceIcon />
             Аудио
           </div>
         </div>

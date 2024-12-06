@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from "react";
 import styles from "./ChatInfo.module.scss"
 import { useNavigate, useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import chatApi from "../../api/chat/chatApi.js";
 import defaultAvatar from "../../assets/images/default-avatar.jpg"
 import Spinner from "../../components/Spinner/Spinner.jsx";
 import ROUTES from "../../config/routes.js";
 import Member from "../../components/Member/index.js";
 import { logOut } from "../../store/auth/auth.js";
+import { selectAuthUserId } from "../../store/auth/authSelectors.js";
 
 const ChatInfo = () => {
   const { chatId } = useParams();
   const [chat, setChat] = useState(null)
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const currentUserId = useSelector(selectAuthUserId);
 
   const getChat = async () => {
     try {
@@ -23,7 +25,9 @@ const ChatInfo = () => {
       }
     } catch (error) {
       console.log(error);
-      dispatch(logOut())
+      if (error.status === 401) {
+        dispatch(logOut())
+      }
     }
   }
 
@@ -35,7 +39,23 @@ const ChatInfo = () => {
       }
     } catch (error) {
       console.log(error);
-      dispatch(logOut())
+      if (error.status === 401) {
+        dispatch(logOut())
+      }
+    }
+  }
+
+  const deleteChat = async () => {
+    try {
+      const chat = await chatApi.deleteChat(chatId);
+      if (chat === "") {
+        navigate(ROUTES.root)
+      }
+    } catch (error) {
+      console.log(error);
+      if (error.status === 401) {
+        dispatch(logOut())
+      }
     }
   }
 
@@ -45,12 +65,20 @@ const ChatInfo = () => {
 
   if (chat) {
     const avatarImage = chat.avatar ?? defaultAvatar
-    const buttonLeave = chat.is_private ? null : (
-      <button className={styles.leave} onClick={leaveChat}>Покинуть чат</button>
-    )
+    const creatorId = chat.creator.id
+    let buttonLeave = null
+    const iCreator = currentUserId === creatorId
+    if (!chat.is_private) {
+      if (iCreator) {
+        buttonLeave = <button className={styles.leave} onClick={deleteChat}>Удалить чат</button>
+      }
+      else {
+        buttonLeave = <button className={styles.leave} onClick={leaveChat}>Покинуть чат</button>
+      }
+    }
 
     const members = chat.members.map((element) => {
-      const creator = chat.creator.id === element.id
+      const creator = creatorId === element.id
       return (
         <Member member={element} key={element.id} isCreator={creator} />
       )

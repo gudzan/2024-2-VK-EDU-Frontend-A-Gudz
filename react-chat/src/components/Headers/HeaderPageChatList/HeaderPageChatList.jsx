@@ -46,7 +46,6 @@ const HeaderPageChatList = ({ closeSearchInput, search }) => {
 
   const inputSearchChange = (e) => {
     setSearchString(e.target.value)
-    search(e.target.value)
   }
 
   const toggleDropdown = () => setOpenDropdown((prevState) => !prevState)
