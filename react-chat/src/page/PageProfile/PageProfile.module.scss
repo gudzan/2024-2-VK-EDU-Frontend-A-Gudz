@@ -25,10 +25,13 @@
         justify-content: center;
         align-items: center;
         border-radius: 50%;
-        cursor: pointer;
 
         img {
           object-fit: cover;
+        }
+
+        svg{
+          cursor: pointer;
         }
 
         .avatar {
@@ -36,6 +39,10 @@
           width: 130px;
           border-radius: 50%;
           box-shadow: rgba(99, 99, 99, 0.4) 0px 2px 8px 2px;
+        }
+
+        .myAvatar {
+          cursor: pointer;
           transition: all .5s ease;
         }
 
@@ -45,13 +52,17 @@
           color: white;
           transition: all .5s ease;
           font-size: 50px;
+
+          &[hidden] {
+            display: none;
+          }
         }
 
         &:hover .hover {
           opacity: 1;
         }
 
-        &:hover .avatar {
+        &:hover .myAvatar {
           -webkit-filter: brightness(70%);
         }
       }
@@ -79,7 +90,7 @@
         padding: 20px 10px 5px 20px;
         background-color: var(--second-white-color);
         height: 60px;
-        box-shadow: rgba(99, 99, 99, 0.2) 1px 1px 5px 1px;
+        box-shadow: rgb(99 99 99 / 42%) 1px 2px 5px 1px;
       }
 
       textarea {
@@ -87,6 +98,10 @@
         resize: none;
         padding: 25px 15px 15px 20px;
         height: 150px;
+      }
+
+      &:last-child{
+        padding-bottom: 30px;
       }
     }
 

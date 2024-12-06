@@ -3,6 +3,7 @@ import { getRandomColor, getRandomNumber, getRandomId } from './random.js';
 import convertFileToBase64 from "./convertFileToBase64.js"
 import isValidUrl from "./checkUrl.js"
 import notifyMe from "./notification.js"
+import getLastOnline from "./getLastOnline.js"
 
 export {
   getRandomColor,
@@ -12,4 +13,5 @@ export {
   convertFileToBase64,
   isValidUrl,
   notifyMe,
+  getLastOnline,
 };

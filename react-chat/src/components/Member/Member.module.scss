@@ -1,0 +1,42 @@
+.member {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+
+  .left{
+    display: flex;
+    gap: 15px;
+  }
+
+  .memberInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+
+    .name {
+      font-size: 18px;
+      -webkit-line-clamp: 1;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .online {
+      font-size: 12px;
+    }
+  }
+
+  .creator{
+    font-size: 12px;
+  }
+}
+
+.avatar {
+  height: 50px;
+  width: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+  box-shadow: rgba(99, 99, 99, 0.4) 0px 2px 8px 2px;
+}

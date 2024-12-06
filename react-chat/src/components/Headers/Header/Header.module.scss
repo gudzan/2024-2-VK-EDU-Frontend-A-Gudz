@@ -1,6 +1,6 @@
 .header__box {
   gap: 10px;
-  justify-content: start;
+  justify-content: center;
   padding: 10px;
   display: flex;
   align-items: center;
@@ -16,7 +16,10 @@
 
 .icon {
   transition: all .1s;
-  height: 32px;
+  position: absolute;
+  top: 2px;
+  left: 10px;
+  height: 100%;
 
   &:hover {
     scale: 1.05;

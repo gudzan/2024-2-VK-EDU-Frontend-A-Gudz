@@ -1,8 +1,20 @@
 import apiService from "../api.config.js";
 
-const userService = {
+const userApi = {
   getCurrentUser: async () => {
     const { data } = await apiService.get("/api/user/current/");
+    return data;
+  },
+
+  getAllUsers: async (page, page_size) => {
+    const { data } = await apiService.get(`/api/users/`, {
+      params: { page: page, page_size: page_size }
+    });
+    return data;
+  },
+
+  getUserById: async (userId) => {
+    const { data } = await apiService.get(`/api/user/${userId}`);
     return data;
   },
 
@@ -15,4 +27,4 @@ const userService = {
     return data;
   },
 };
-export default userService;
+export default userApi;

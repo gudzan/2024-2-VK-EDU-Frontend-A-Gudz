@@ -4,11 +4,14 @@ import Overlay from "../Overlay";
 import { Link } from "react-router-dom";
 import ROUTES from "../../config/routes";
 import classnames from 'classnames';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../../store/auth/auth";
 
 const DropdownChatList = ({ openDropdown, closeDropdown }) => {
   const dispatch = useDispatch();
+  const { userId } = useSelector((state) => state.auth)
+  const link = `${ROUTES.profile}/${userId}`
+
   const dropdownClassName = classnames(styles.dropdown, {
     [styles.open]: openDropdown,
     [styles.close]: !openDropdown,
@@ -23,7 +26,7 @@ const DropdownChatList = ({ openDropdown, closeDropdown }) => {
     <>
       <Overlay openOverlay={openDropdown} closeOverlay={closeDropdown} />
       <div className={dropdownClassName}>
-        <Link to={ROUTES.myProfile}>
+        <Link to={link}>
           <button type="button" onClick={closeDropdown}>
             Мой профиль
           </button>

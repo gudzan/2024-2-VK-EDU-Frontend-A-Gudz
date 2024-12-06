@@ -3,15 +3,15 @@ import styles from "./PageChat.module.scss"
 import MessagesList from "../../components/MessagesList";
 import Layout from "../../components/Layout";
 import FooterChat from "../../components/FooterChat";
-import { HeaderPageChat } from "../../components/Headers";
 import { useParams } from "react-router-dom";
-import chatService from "../../api/chat/chatService";
-import messageService from "../../api/message/messageService";
+import chatApi from "../../api/chat/chatApi";
+import messageApi from "../../api/message/messageApi";
 import { notifyMe } from "../../utils";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../../store/auth/auth";
 import { setPrevChats } from "../../store/chats/chats";
 import { selectChats, selectPrevChats } from "../../store/chats/chatsSelectors";
+import Header from "../../components/Headers/Header/Header";
 
 const PageChat = () => {
   const dispatch = useDispatch();
@@ -25,7 +25,7 @@ const PageChat = () => {
 
   const getChat = async () => {
     try {
-      const chat = await chatService.getChat(chatId);
+      const chat = await chatApi.getChat(chatId);
       if (chat) {
         setChat(chat)
       }
@@ -70,7 +70,7 @@ const PageChat = () => {
 
   const getMessages = async () => {
     try {
-      const results = await messageService.getMessages(chatId);
+      const results = await messageApi.getMessages(chatId);
       setMessages(results)
     } catch (e) {
       dispatch(logOut())
@@ -96,7 +96,7 @@ const PageChat = () => {
   const sendMessage = async (formData) => {
     formData.append('chat', chatId);
     try {
-      const data = await messageService.createNewMessage(formData);
+      const data = await messageApi.createNewMessage(formData);
       if (data) {
         setNewMessage(data)
         getMessages();
@@ -108,7 +108,7 @@ const PageChat = () => {
 
   return (
     <Layout>
-      <HeaderPageChat chat={chat} />
+      <Header chat={chat} />
       <main className={styles.messages} ref={messagesRef}>
         <MessagesList messages={messages} newMessage={newMessage} />
       </main>

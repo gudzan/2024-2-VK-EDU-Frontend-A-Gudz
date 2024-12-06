@@ -1,6 +1,6 @@
 import apiService from "../api.config.js";
 
-const messageService = {
+const messageApi = {
   getMessages: async (id) => {
     const { data } = await apiService.get('/api/messages/', {
       params: { chat: id }
@@ -13,4 +13,4 @@ const messageService = {
     return data;
   },
 };
-export default messageService;
+export default messageApi;

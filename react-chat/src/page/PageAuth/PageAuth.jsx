@@ -1,12 +1,12 @@
 import React from "react";
 import Layout from "../../components/Layout";
-import { HeaderPageLogin } from "../../components/Headers";
 import Auth from "../../components/Auth/Auth";
+import Header from "../../components/Headers/Header/Header";
 
 const PageAuth = () => {
   return (
     <Layout>
-      <HeaderPageLogin text="Вход" />
+      <Header text="Вход" arrowBack={false}/>
       <Auth />
     </Layout>
   )

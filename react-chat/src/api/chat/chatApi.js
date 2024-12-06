@@ -1,6 +1,6 @@
 import apiService from "../api.config.js";
 
-const chatService = {
+const chatApi = {
   getChat: async (id) => {
     const { data } = await apiService.get(`/api/chat/${id}`);
     return data;
@@ -18,17 +18,14 @@ const chatService = {
     return data.results;
   },
 
-  createNewChat: async (memberId) => {
-    const { data } = await apiService.post('/api/chats/',
-      {
-        "members": [
-          memberId
-        ],
-        "is_private": true,
-        "title": "Название чата" //временные заглушки
-      }
-    );
+  leaveChat: async (id) => {
+    const { data } = await apiService.post(`/api/chat/${id}/leave/`);
+    return data;
+  },
+
+  createNewChat: async (chat) => {
+    const { data } = await apiService.post('/api/chats/', chat);
     return data;
   },
 };
-export default chatService;
+export default chatApi;
