@@ -4,4 +4,12 @@ import convertFileToBase64 from "./convertFileToBase64.js"
 import isValidUrl from "./checkUrl.js"
 import notifyMe from "./notification.js"
 
-export { getRandomColor, getRandomNumber, getRandomId, transformDate, convertFileToBase64, isValidUrl, notifyMe };
+export {
+  getRandomColor,
+  getRandomNumber,
+  getRandomId,
+  transformDate,
+  convertFileToBase64,
+  isValidUrl,
+  notifyMe,
+};

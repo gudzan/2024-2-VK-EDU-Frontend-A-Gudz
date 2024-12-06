@@ -12,7 +12,9 @@ const chatService = {
   },
 
   getAllChatsWithSearch: async (search) => {
-    const { data } = await apiService.get(`/api/chats/?search=${search}`);
+    const { data } = await apiService.get('/api/chats/', {
+      params: { search }
+    });
     return data.results;
   },
 

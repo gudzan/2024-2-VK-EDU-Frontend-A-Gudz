@@ -20,19 +20,23 @@
   font-weight: 450;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 
-  &__voice {
+  &.new {
+    animation: message-appear 0.3s ease-out forwards;
+  }
+
+  &.voice {
     padding: 10px;
     max-width: 100%;
   }
 
-  &__my {
+  &.my {
     background-color: var(--main-color);
     color: white;
     align-self: flex-end;
     border-radius: 15px 1px 15px 15px;
   }
 
-  &__another {
+  &.another {
     background-color: white;
     color: var(--dark-green);
     align-self: flex-start;
@@ -81,26 +85,21 @@
   .icons svg {
     font-size: 15px;
   }
-}
 
-.message__info-time {
-  font-size: 12px;
-}
+  .time {
+    font-size: 12px;
+  }
 
-.message__info--my {
-  justify-content: flex-end;
-  color: var(--light-green);
-}
+  &.my {
+    justify-content: flex-end;
+    color: var(--light-green);
+  }
 
-.message__info--another {
-  justify-content: flex-start;
-  color: var(--dark-green);
+  &.another {
+    justify-content: flex-start;
+    color: var(--dark-green);
+  }
 }
-
-.message--new {
-  animation: message-appear 0.3s ease-out forwards;
-}
-
 
 @media (min-width: 400px) {
   .message__inner audio {
@@ -114,7 +113,7 @@
 }
 
 @media (min-width: 800px) {
-  .message__my {
+  .message .my {
     align-self: flex-start;
     font-weight: 500;
     border-radius: 1px 15px 15px 15px;

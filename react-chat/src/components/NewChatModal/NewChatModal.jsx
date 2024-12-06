@@ -1,18 +1,19 @@
 import React, { useEffect, useRef, useState } from "react";
 import CloseIcon from '@mui/icons-material/Close';
-import './NewChatModal.scss'
+import styles from './NewChatModal.module.scss'
 import Overlay from "../Overlay";
 import classnames from 'classnames';
 import chatService from "../../api/chat/chatService";
+import getErrorTranslation from "../../utils/errorTranslator";
 
 const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
   const inputNewChatRef = useRef(null);
   const [newChatName, setNewChatName] = useState("")
-  const newChatClassName = classnames('new-сhat', {
-    'open': openNewChat
-  });
+  const [error, setError] = useState([])
+  const newChatClassName = classnames(styles.newChat, { [styles.open]: openNewChat })
 
   useEffect(() => {
+    setError([])
     if (openNewChat) {
       inputNewChatRef.current.focus();
     }
@@ -24,13 +25,29 @@ const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
     try {
       const chat = await chatService.createNewChat(newChatName);
       if (chat) {
+        
         addNewChat(chat)
       }
     } catch (error) {
-      navigate(ROUTES.auth); 
-      console.log(error);
+      if (error.status === 400) {
+        const data = error.response.data
+        const errors = []
+        for (let key in data) {
+          if (data.hasOwnProperty(key)) {
+            errors.push(...data[key])
+          }
+        }
+        setError(errors)
+      }
     }
     setNewChatName("")
+  }
+
+  const getError = () => {
+    if (error.length > 0) {
+      const errorMessage = getErrorTranslation(error[0])
+      return <div className={styles.error}>{errorMessage}</div>
+    }
   }
 
   const closeNewChatWindow = () => {
@@ -44,14 +61,15 @@ const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
     <>
       <Overlay openOverlay={openNewChat} closeOverlay={closeNewChatWindow} />
       <div className={newChatClassName}>
-        <button type="button" className="icon new-сhat__close" onClick={closeNewChatWindow}><CloseIcon /></button>
-        <form className="new-сhat__form" onSubmit={handleSubmit}>
-          <span className="new-сhat__title">Добавление нового чата</span>
-          <input tabIndex="0" className="new-сhat__form-input" name="new-сhat-name" placeholder="Введите id чата" type="text"
+        <button type="button" className={styles.close} onClick={closeNewChatWindow}><CloseIcon /></button>
+        <form className={styles.form} onSubmit={handleSubmit}>
+          <span className={styles.title}>Добавление нового чата</span>
+          <input tabIndex="0" className={styles.input} name="new-сhat-name" placeholder="Введите id чата" type="text"
             ref={inputNewChatRef}
             value={newChatName}
             onChange={inputNewChat} />
-          <button type="submit" className="new-сhat__submit">Добавить</button>
+          {getError()}
+          <button type="submit" className={styles.submit}>Добавить</button>
         </form>
       </div>
     </>

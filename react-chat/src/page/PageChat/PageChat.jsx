@@ -1,24 +1,27 @@
 import React, { useEffect, useRef, useState } from "react";
-import "./PageChat.scss"
+import styles from "./PageChat.module.scss"
 import MessagesList from "../../components/MessagesList";
 import Layout from "../../components/Layout";
 import FooterChat from "../../components/FooterChat";
 import { HeaderPageChat } from "../../components/Headers";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import chatService from "../../api/chat/chatService";
 import messageService from "../../api/message/messageService";
-import ROUTES from "../../config/routes";
-import { useChats } from "../../hooks/useChats";
 import { notifyMe } from "../../utils";
+import { useDispatch, useSelector } from "react-redux";
+import { logOut } from "../../store/auth/auth";
+import { setPrevChats } from "../../store/chats/chats";
+import { selectChats, selectPrevChats } from "../../store/chats/chatsSelectors";
 
 const PageChat = () => {
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const messagesRef = useRef(null)
   const { chatId } = useParams();
   const [newMessage, setNewMessage] = useState(null)
   const [messages, setMessages] = useState(null)
   const [chat, setChat] = useState(null)
-  const { chats, prevChats, setPrevChats } = useChats()
+  const chats = useSelector(selectChats);
+  const prevChats = useSelector(selectPrevChats);
 
   const getChat = async () => {
     try {
@@ -27,17 +30,18 @@ const PageChat = () => {
         setChat(chat)
       }
     } catch (error) {
-      navigate(ROUTES.auth);
-      console.log(error);
+      dispatch(logOut())
     }
   }
 
   const getDiffChats = (current, prev) => {
     const filter = (item) => {
-      return item.id !== chatId && (item.last_message.text !== "" || item.last_message.files.length > 0 || item.last_message.voice !== undefined || item.last_message.voice !== null)
+      return item.id !== chatId
+        && item.last_message !== undefined
+        && (item.last_message.text !== "" || item.last_message.files.length > 0 || item.last_message.voice !== undefined || item.last_message.voice !== null)
     }
 
-    if (current === null || prev === null) {
+    if (current.length === 0 || prev.length === 0) {
       return []
     }
 
@@ -50,17 +54,17 @@ const PageChat = () => {
   }
 
   useEffect(() => {
-    if (chats !== null && prevChats !== null) {
+    if (chats.length !== 0 && prevChats.length !== 0) {
       const diffChats = getDiffChats(chats, prevChats)
       if (diffChats.length > 0) {
         diffChats.forEach(element => {
           notifyMe(element.last_message, element.avatar)
         });
-        setPrevChats(chats)
+        dispatch(setPrevChats(chats))
       }
     }
-    else if (prevChats === null) {
-      setPrevChats(chats)
+    else if (prevChats.length === 0) {
+      dispatch(setPrevChats(chats))
     }
   }, [chats, prevChats])
 
@@ -69,8 +73,7 @@ const PageChat = () => {
       const results = await messageService.getMessages(chatId);
       setMessages(results)
     } catch (e) {
-      navigate(ROUTES.auth);
-      console.log(error);
+      dispatch(logOut())
     }
   }
 
@@ -99,15 +102,14 @@ const PageChat = () => {
         getMessages();
       }
     } catch (error) {
-      navigate(ROUTES.auth);
-      console.log(error);
+      dispatch(logOut())
     }
   }
 
   return (
     <Layout>
       <HeaderPageChat chat={chat} />
-      <main className="messages" ref={messagesRef}>
+      <main className={styles.messages} ref={messagesRef}>
         <MessagesList messages={messages} newMessage={newMessage} />
       </main>
       <FooterChat sendMessage={sendMessage} />

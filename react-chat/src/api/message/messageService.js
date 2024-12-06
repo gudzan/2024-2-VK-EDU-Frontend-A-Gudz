@@ -2,7 +2,9 @@ import apiService from "../api.config.js";
 
 const messageService = {
   getMessages: async (id) => {
-    const { data } = await apiService.get(`/api/messages/?chat=${id}`);
+    const { data } = await apiService.get('/api/messages/', {
+      params: { chat: id }
+    });
     return data.results;
   },
 

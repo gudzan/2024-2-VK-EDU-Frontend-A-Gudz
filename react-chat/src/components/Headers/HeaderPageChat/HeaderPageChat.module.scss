@@ -1,0 +1,41 @@
+.header__box {
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 70px;
+  gap: 10px;
+
+  .icon {
+    transition: all .1s;
+    height: 32px;
+  
+    &:hover {
+      scale: 1.05;
+      text-shadow: 1px 3px 2px var(--transparent-light-green);
+    }
+  
+    svg {
+      color: white;
+      font-size: 32px;
+    }
+  }
+
+  .header__settings {
+    display: flex;
+  }
+}
+
+@media (min-width: 700px) {
+  .header__box {
+    gap: 20px;
+  }
+
+  .header__settings {
+    gap: 20px;
+  }
+
+  .header__user {
+    gap: 20px;
+  }
+}

@@ -1,10 +1,10 @@
 import React from 'react';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import "./Spinner.scss"
+import styles from "./Spinner.module.scss"
 
 const Spinner = () => {
   return (
-    <div className="spinner">
+    <div className={styles.spinner}>
       <RefreshIcon />
     </div>
   )

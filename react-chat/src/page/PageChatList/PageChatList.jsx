@@ -1,32 +1,39 @@
 import React, { useEffect, useRef, useState } from "react";
 import EditIcon from '@mui/icons-material/Edit';
 import ChatList from "../../components/ChatsList"
-import './PageChatList.scss'
+import styles from "./PageChatList.module.scss"
 import NewChatModal from "../../components/NewChatModal";
 import Layout from "../../components/Layout";
 import { HeaderPageChatList } from "../../components/Headers";
-import { useNavigate } from "react-router-dom";
-import ROUTES from "../../config/routes.js";
 import chatService from "../../api/chat/chatService.js";
-import { useChats } from "../../hooks/useChats.jsx";
+import { useDispatch, useSelector } from "react-redux";
+import { logOut } from "../../store/auth/auth.js";
+import { addNewChat, setPrevChats } from "../../store/chats/chats.js";
+import { selectChats, selectChatsStatus } from "../../store/chats/chatsSelectors.js";
+import storeStatus from "../../store/storeStatus.js";
 
 const PageChatList = () => {
   const chatsRef = useRef(null)
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [newRow, setNewRow] = useState(null)
   const [openNewChat, setOpenNewChat] = useState(false)
-  const {chats, setChats, getAllChats} = useChats()
+  const [searchChats, setSearchChats] = useState(null)
+  const chats = useSelector(selectChats);
+  const chatStatus = useSelector(selectChatsStatus);
+  const isLoadingChats = chats.length > 0 ? false : chatStatus === storeStatus.loading
+
+  useEffect(() => {
+    dispatch(setPrevChats(chats))
+  }, [chats])
 
   const refresh = () => {
-    getAllChats()
+    setSearchChats(null)
     setNewRow(null)
   }
 
-  const addNewChat = (newChat) => {
+  const newChat = (newChat) => {
     setNewRow(newChat)
-    const oldChats = chats
-    oldChats.unshift(newChat)
-    setChats(oldChats)
+    dispatch(addNewChat(newChat))
     closeNewChat()
     chatsRef.current.scrollTo(0, 0)
   }
@@ -37,29 +44,26 @@ const PageChatList = () => {
   const search = async (searchTerm) => {
     if (searchTerm === "") {
       refresh()
+      return
     }
-    else {
-      try {
-        const results = await chatService.getAllChatsWithSearch(searchTerm);
-        if (results) {
-          setChats(results)
-        }
-      } catch (error) {
-        navigate(ROUTES.auth); 
-        console.log(error);
-      }
+    try {
+      const results = await chatService.getAllChatsWithSearch(searchTerm);
+      setSearchChats(results)
+    } catch (error) {
+      dispatch(logOut())
     }
   }
 
   const closeSearchInput = () => refresh()
+  const chatList = searchChats !== null ? searchChats : chats
 
   return (
     <Layout>
       <HeaderPageChatList closeSearchInput={closeSearchInput} search={search} />
-      <main className="chats" ref={chatsRef}>
-        <NewChatModal openNewChat={openNewChat} closeNewChat={closeNewChat} addNewChat={addNewChat} />
-        <ChatList chats={chats} newRow={newRow}></ChatList>
-        <button className="icon fix-button" onClick={openNewChatWindow}><EditIcon /></button>
+      <main className={styles.chats} ref={chatsRef}>
+        <NewChatModal openNewChat={openNewChat} closeNewChat={closeNewChat} addNewChat={newChat} />
+        <ChatList chats={chatList} newRow={newRow} isLoading={isLoadingChats}></ChatList>
+        <button className={styles.edit} onClick={openNewChatWindow}><EditIcon /></button>
       </main>
     </Layout>
   );

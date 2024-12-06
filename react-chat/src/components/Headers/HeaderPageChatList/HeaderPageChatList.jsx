@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import './HeaderPageChatList.scss'
+import styles from './HeaderPageChatList.module.scss'
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import SearchIcon from '@mui/icons-material/Search';
@@ -14,15 +14,15 @@ const HeaderPageChatList = ({ closeSearchInput, search }) => {
   const [openDropdown, setOpenDropdown] = useState(false)
   const debouncedSearchTerm = useDebounce(searchString, 250);
 
-  const leftTitleClassName = classnames('header__left-title', {
-    "close": openSearch,
-    "open": !openSearch
-  });
-  
-  const boxSearchClassName = classnames('header__box-search', {
-    "close": !openSearch,
-    "open": openSearch
-  });
+  const leftTitleClassName = classnames(styles.title, {
+    [styles.close]: openSearch,
+    [styles.open]: !openSearch,
+  })
+
+  const boxSearchClassName = classnames(styles.search, {
+    [styles.close]: !openSearch,
+    [styles.open]: openSearch,
+  })
 
   useEffect(() => {
     if (openSearch) {
@@ -54,24 +54,24 @@ const HeaderPageChatList = ({ closeSearchInput, search }) => {
 
   return (
     <header>
-      <div className="header__box">
-        <div className="header__box-left">
-          <button type="button" className="icon" onClick={toggleDropdown}><MenuIcon /></button>
+      <div className={styles.header__box}>
+        <div className={styles.left}>
+          <button type="button" className={styles.icon} onClick={toggleDropdown}><MenuIcon /></button>
           <DropdownChatListMenu openDropdown={openDropdown} closeDropdown={closeDropdown} />
           <span className={leftTitleClassName}>Все чаты</span>
         </div>
-        <div className="header__box-right">
+        <div className={styles.right}>
           <div className={boxSearchClassName}>
             <input ref={inputSearchRef} tabIndex="0"
-              className="search-input"
+              className={styles.input}
               name="header-box-search"
               placeholder="Поиск"
               type="text"
               value={searchString}
               onChange={inputSearchChange} />
-            <button type="button" className="icon header-box__close" onClick={clickClose}><CloseIcon /></button>
+            <button type="button" className={styles.closeIcon} onClick={clickClose}><CloseIcon /></button>
           </div>
-          <button type="button" className="icon header__box-search-button" onClick={clickOpen}><SearchIcon /></button>
+          <button type="button" className={styles.searchIcon} onClick={clickOpen}><SearchIcon /></button>
         </div>
       </div>
     </header>

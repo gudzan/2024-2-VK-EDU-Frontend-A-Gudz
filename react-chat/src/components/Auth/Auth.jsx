@@ -1,20 +1,32 @@
-import React, { useState } from "react";
-import "./Auth.scss"
+import React, { useEffect, useState } from "react";
+import styles from "./Auth.module.scss"
 import { Link, useNavigate } from "react-router-dom";
 import ROUTES from "../../config/routes";
-import { useAuth } from "../../hooks/useAuth";
-import userService from "../../api/user/userService.js";
-import authService from "../../api/auth/authService.js"
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../store/auth/auth.js";
+import { selectAuthError, selectAuthStatus } from "../../store/auth/authSelectors.js";
+import storeStatus from "../../store/storeStatus.js";
+
+const initialUser = {
+  username: "",
+  password: ""
+}
 
 const Auth = () => {
   const navigate = useNavigate();
-  const initialUser = {
-    username: "",
-    password: ""
-  }
-
+  const dispatch = useDispatch();
+  const [showPassword, setShowPassword] = useState(false);
+  const typePasswordField = showPassword ? "text" : "password"
+  const buttonPasswordField = showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />
   const [user, setUser] = useState(initialUser)
-  const { setAuth } = useAuth()
+  const authStatus = useSelector(selectAuthStatus);
+  const authError = useSelector(selectAuthError);
+
+  useEffect(() => {
+    if (authStatus === storeStatus.success) navigate(ROUTES.root)
+  }, [authStatus])
 
   const onChange = (e) => {
     const name = e.target.name;
@@ -27,33 +39,34 @@ const Auth = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault()
-    const formData = new FormData(event.target);
-    try {
-      const data = await authService.auth(formData);
-      const user = await userService.getCurrentUser();
-      if (data && user) {
-        setAuth(true)
-        navigate(ROUTES.root)
-      }
-    } catch (error) {
-      navigate(ROUTES.auth); 
-      console.log(error);
+    dispatch(login(user));
+  }
+
+  const getError = () => {
+    if (authError) {
+      return <div className={styles.error}>{authError}</div>
     }
   }
 
+  const toggleShowPassword = () => {
+    setShowPassword((prevState) => !prevState);
+  }
+
   return (
-    <div className="auth">
-      <form className="form" onSubmit={handleSubmit}>
-        <div className="field">
+    <div className={styles.auth}>
+      <form className={styles.form} onSubmit={handleSubmit}>
+        <div className={styles.field}>
           <label>Логин</label>
-          <input autoComplete="off" type="text" value={user.username} name="username" onChange={onChange}></input>
+          <input autoComplete="off" type="text" value={user.username} name="username" onChange={onChange} required={true}></input>
         </div>
-        <div className="field">
+        <div className={styles.field}>
           <label>Пароль</label>
-          <input autoComplete="off" type="password" value={user.password} name="password" onChange={onChange}></input>
+          <input autoComplete="off" type={typePasswordField} value={user.password} name="password" onChange={onChange} required={true}></input>
+          <button className={styles.showPassword} type="button" onClick={toggleShowPassword} >{buttonPasswordField} </button>
         </div>
-        <div className="button-box">
-          <button type="submit" className="form__submit">Войти</button>
+        {getError()}
+        <div className={styles.buttonBox}>
+          <button type="submit" className={styles.submit}>Войти</button>
         </div>
         <Link to={`${ROUTES.register}`}>Еще нет аккауна? Зарегистрируйся</Link>
       </form>

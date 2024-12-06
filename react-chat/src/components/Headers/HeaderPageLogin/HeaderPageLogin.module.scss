@@ -1,0 +1,22 @@
+.header__box {
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 70px;
+  gap: 10px;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+@media (min-width: 600px) {
+  .title {
+    font-size: 20px;
+    width: 100%;
+    text-align: center;
+  }
+}

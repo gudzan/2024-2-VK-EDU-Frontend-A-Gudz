@@ -1,10 +1,11 @@
-.profile {
+.register {
   overflow: auto;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 
-  &__form {
+  .form {
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -12,13 +13,13 @@
     height: 100%;
     width: 100%;
     padding: 20px 30px;
-
+  
     .field {
       display: flex;
       flex-direction: column;
       position: relative;
       width: 100%;
-
+  
       &__avatar {
         position: relative;
         display: flex;
@@ -26,11 +27,18 @@
         align-items: center;
         border-radius: 50%;
         cursor: pointer;
-
+        margin-bottom: 25px;
+  
+        span{
+          position: absolute;
+          display: flex;
+          bottom: -25px;
+        }
+  
         img {
           object-fit: cover;
         }
-
+  
         .avatar {
           height: 130px;
           width: 130px;
@@ -38,7 +46,7 @@
           box-shadow: rgba(99, 99, 99, 0.4) 0px 2px 8px 2px;
           transition: all .5s ease;
         }
-
+  
         .hover {
           opacity: 0;
           position: absolute;
@@ -46,16 +54,16 @@
           transition: all .5s ease;
           font-size: 50px;
         }
-
+  
         &:hover .hover {
           opacity: 1;
         }
-
+  
         &:hover .avatar {
           -webkit-filter: brightness(70%);
         }
       }
-
+  
       label {
         position: absolute;
         font-family: "Montserrat", sans-serif;
@@ -63,11 +71,14 @@
         z-index: 1;
         font-size: 12px;
         padding: 10px;
-        background-color: var(--second-white-color);
         width: calc(100% - 10px);
         padding: 5px 0 5px 10px;
       }
 
+      .colorLabel{
+        background-color: var(--second-white-color);
+      }
+  
       input,
       textarea {
         font-size: 16px;
@@ -88,15 +99,30 @@
         padding: 25px 15px 15px 20px;
         height: 150px;
       }
+      
+      .showPassword {
+        position: absolute;
+        right: 10px;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        width: 30px;
+        height: 30px;
+  
+        svg{
+          color: var(--main-color);
+          font-size: 30px;
+        }
+      }
     }
-
-    .button-box {
+  
+    .buttonBox {
       display: flex;
       justify-content: center;
       gap: 20px;
       width: 100%;
-      padding: 0 10px 30px;
-
+      padding: 0 10px 10px;
+  
       button {
         width: 200px;
         height: 40px;
@@ -104,82 +130,80 @@
         cursor: pointer;
         transition: all .1s;
         color: white;
-
+  
         &[disabled] {
           color: #d2d5db;
           background: #6c7589;
           cursor: not-allowed;
         }
-
+  
         &:hover {
           scale: 1.05;
         }
-
+  
         &:active {
           scale: 0.95;
           background-color: var(--dark-green);
         }
       }
-
-      .profile__submit {
+  
+      .submit {
         background-color: var(--main-color);
-
+  
         &:active {
           background-color: var(--dark-green);
         }
       }
-
+  
       .cancel {
         background-color: red;
-
+  
         &:active {
           background-color: darkred;
         }
       }
     }
+
+    .error{
+      color: red;
+      font-size: 14px;
+      font-style: italic;
+      text-align: center;
+    }
+  
+    .link{
+      padding-bottom: 30px;
+    }
   }
 }
 
 @media (min-width: 700px) {
-  .profile__form .field__avatar .avatar {
-    height: 180px;
-    width: 180px;
+  .register .form .field__avatar .avatar {
+    height: 160px;
+    width: 160px;
   }
 }
 
 @media (min-width: 900px) {
-  .profile__form {
+  .register .form {
     width: 90%;
   }
 }
 
 @media (min-width: 1100px) {
-  .profile__form .field__avatar .avatar {
-    height: 200px;
-    width: 200px;
-  }
-
-  .profile__form .field input {
-    height: 70px;
-  }
-
-  .profile__form .field textarea {
-    height: 200px;
-  }
-
-  .profile__form {
+  .register .form {
     width: 70%;
   }
 }
 
 @media (min-width: 1400px) {
-  .profile__form {
+  .register .form {
     width: 60%;
   }
 }
 
 @media (min-width: 1600px) {
-  .profile__form {
+  .register .form {
     width: 50%;
   }
 }

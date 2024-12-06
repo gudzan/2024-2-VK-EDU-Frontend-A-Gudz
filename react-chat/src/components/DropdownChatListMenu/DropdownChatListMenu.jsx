@@ -1,25 +1,22 @@
 import React from "react";
-import "./DropdownChatListMenu.scss"
+import styles from "./DropdownChatListMenu.module.scss"
 import Overlay from "../Overlay";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import ROUTES from "../../config/routes";
 import classnames from 'classnames';
-import { removeTokens } from "../../api/localSrorage";
-import { useAuth } from "../../hooks/useAuth";
+import { useDispatch } from "react-redux";
+import { logOut } from "../../store/auth/auth";
 
 const DropdownChatList = ({ openDropdown, closeDropdown }) => {
-  const navigate = useNavigate();
-  const { setAuth } = useAuth()
-  const dropdownClassName = classnames('dropdown', 'profile', {
-    "open": openDropdown,
-    "close": !openDropdown
-  });
+  const dispatch = useDispatch();
+  const dropdownClassName = classnames(styles.dropdown, {
+    [styles.open]: openDropdown,
+    [styles.close]: !openDropdown,
+  })
 
-  const logOut = () => {
-    removeTokens()
+  const exit = () => {
     closeDropdown()
-    setAuth(false)
-    navigate(ROUTES.auth)
+    dispatch(logOut())
   }
 
   return (
@@ -27,13 +24,15 @@ const DropdownChatList = ({ openDropdown, closeDropdown }) => {
       <Overlay openOverlay={openDropdown} closeOverlay={closeDropdown} />
       <div className={dropdownClassName}>
         <Link to={ROUTES.myProfile}>
-          <button type="button" className="dropdown-item" onClick={closeDropdown}>
+          <button type="button" onClick={closeDropdown}>
             Мой профиль
           </button>
         </Link>
-        <button type="button" className="dropdown-item" onClick={logOut}>
-          Выйти
-        </button>
+        <Link to={ROUTES.auth}>
+          <button type="button" onClick={exit}>
+            Выйти
+          </button>
+        </Link>
       </div>
     </>
   )
