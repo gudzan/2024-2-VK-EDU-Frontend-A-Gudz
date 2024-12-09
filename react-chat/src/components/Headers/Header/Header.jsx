@@ -1,6 +1,5 @@
-import React from "react";
 import styles from "./Header.module.scss"
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router-dom";
 import HeaderUserInfo from "../HeaderUserInfo/HeaderUserInfo";
 import { getLastOnline } from "../../../utils";

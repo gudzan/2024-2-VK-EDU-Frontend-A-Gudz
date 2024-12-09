@@ -1,10 +1,9 @@
-import React from "react";
 import DeliveredIcon from "../DliveredIcon/DeliveredIcon";
 import { transformDate } from "../../utils";
 import styles from "./ChatRow.module.scss"
 import { Link } from "react-router-dom";
 import ROUTES from "../../config/routes";
-import classnames from 'classnames';
+import classnames from "classnames";
 import defaultAvatar from "../../assets/images/default-avatar.jpg"
 import { useInView } from "react-intersection-observer";
 

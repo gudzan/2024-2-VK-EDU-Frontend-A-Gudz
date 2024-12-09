@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./PageChatInfo.module.scss"
 import Layout from "../../components/Layout/index.js";
 import Header from "../../components/Headers/Header/Header.jsx";

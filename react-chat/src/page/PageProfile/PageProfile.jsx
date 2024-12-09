@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import styles from './PageProfile.module.scss'
+import { useEffect, useState } from "react";
+import styles from "./PageProfile.module.scss"
 import Layout from "../../components/Layout/index.js";
 import Spinner from "../../components/Spinner/Spinner.jsx";
 import userApi from "../../api/user/userApi.js";
@@ -63,8 +63,8 @@ const PageProfile = () => {
     event.preventDefault();
     const data = new FormData(event.target)
 
-    if (data.get('avatar').size === 0) {
-      data.delete('avatar')
+    if (data.get("avatar").size === 0) {
+      data.delete("avatar")
     }
 
     try {

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./PageChat.module.scss"
 import MessagesList from "../../components/MessagesList";
 import Layout from "../../components/Layout";
@@ -104,7 +104,7 @@ const PageChat = () => {
   }, [messages, newMessage]);
 
   const sendMessage = async (formData) => {
-    formData.append('chat', chatId);
+    formData.append("chat", chatId);
     try {
       const data = await messageApi.createNewMessage(formData);
       if (data) {

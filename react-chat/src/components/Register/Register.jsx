@@ -1,10 +1,10 @@
-import React, { useState, useRef } from "react";
+import { useState } from "react";
 import styles from "./Register.module.scss"
 import defaultAvatar from "../../assets/images/default-avatar.jpg"
 import { Link, useNavigate } from "react-router-dom";
 import ROUTES from "../../config/routes";
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import authApi from "../../api/auth/authApi.js"
 import getErrorTranslation from "../../utils/errorTranslator.js";
 import AvatarField from "../AvatarField/AvatarField.jsx";
@@ -19,7 +19,6 @@ const initialUser = {
 }
 
 const Register = () => {
-  const avatarInput = useRef(null)
   const navigate = useNavigate();
   const [error, setError] = useState([])
   const [showPassword, setShowPassword] = useState(false);
@@ -34,10 +33,6 @@ const Register = () => {
       ...prevState,
       [name]: value,
     }));
-  }
-
-  const openFileInput = () => {
-    avatarInput.current.click()
   }
 
   const onChangeAvatar = (avatar)=>{
@@ -60,7 +55,7 @@ const Register = () => {
         const data = error.response.data
         const errors = []
         for (let key in data) {
-          if (data.hasOwnProperty(key)) {
+          if (Object.prototype.hasOwnProperty.call(data, key)) {
             errors.push(...data[key])
           }
         }
