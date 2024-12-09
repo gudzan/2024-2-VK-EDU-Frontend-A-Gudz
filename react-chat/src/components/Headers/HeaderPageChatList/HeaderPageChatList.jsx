@@ -1,11 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
-import styles from './HeaderPageChatList.module.scss'
-import MenuIcon from '@mui/icons-material/Menu';
-import CloseIcon from '@mui/icons-material/Close';
-import SearchIcon from '@mui/icons-material/Search';
+import { useEffect, useRef, useState } from "react";
+import styles from "./HeaderPageChatList.module.scss"
+import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from "@mui/icons-material/Close";
+import SearchIcon from "@mui/icons-material/Search";
 import useDebounce from "../../../hooks/useDebounce";
 import DropdownChatListMenu from "../../DropdownChatListMenu";
-import classnames from 'classnames';
+import classnames from "classnames";
 
 const HeaderPageChatList = ({ closeSearchInput, search }) => {
   const inputSearchRef = useRef(null);

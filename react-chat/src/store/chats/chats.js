@@ -1,13 +1,13 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit"
 import chatApi from "../../api/chat/chatApi"
-import { logOut } from "../auth/auth";
-import storeStatus from "../storeStatus";
+import { logOut } from "../auth/auth"
+import storeStatus from "../storeStatus"
 
 const initialState = {
   status: storeStatus.success,
   chats: [],
   prevChats: [],
-  error: null,
+  error: null
 }
 
 const chatsSlice = createSlice({
@@ -21,7 +21,7 @@ const chatsSlice = createSlice({
     setChats: (state, action) => {
       state.status = storeStatus.success
       state.error = null
-      state.chats = action.payload;
+      state.chats = action.payload
     },
     setChatsFailed: (state, action) => {
       state.status = storeStatus.error
@@ -31,23 +31,23 @@ const chatsSlice = createSlice({
       state.chats = [action.payload, ...state.chats]
     },
     setPrevChats: (state, action) => {
-      state.prevChats = action.payload;
-    },
-  },
-});
+      state.prevChats = action.payload
+    }
+  }
+})
 
-const { actions, reducer: chatsReduser } = chatsSlice;
-export const { setPrevChats, setChatsRequest, setChatsFailed, setChats, addNewChat } = actions;
+const { actions, reducer: chatsReduser } = chatsSlice
+export const { setPrevChats, setChatsRequest, setChatsFailed, setChats, addNewChat } = actions
 
 export const chatRequest = () => async (dispatch) => {
   dispatch(setChatsRequest())
   try {
-    const results = await chatApi.getAllChats();
+    const results = await chatApi.getAllChats()
     dispatch(setChats(results))
   } catch (error) {
     dispatch(setChatsFailed(error.message))
     dispatch(logOut())
   }
-};
+}
 
-export default chatsReduser;
+export default chatsReduser

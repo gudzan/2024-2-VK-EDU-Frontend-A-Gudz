@@ -1,10 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
-import CloseIcon from '@mui/icons-material/Close';
-import styles from './NewChatModal.module.scss'
+import { useEffect, useRef, useState } from "react";
+import CloseIcon from "@mui/icons-material/Close";
+import styles from "./NewChatModal.module.scss"
 import Overlay from "../Overlay";
-import classnames from 'classnames';
+import classnames from "classnames";
 import chatApi from "../../api/chat/chatApi";
-import { useDispatch } from "react-redux";
 import getErrorTranslation from "../../utils/errorTranslator";
 import userApi from "../../api/user/userApi.js";
 import AvatarField from "../AvatarField/AvatarField.jsx";
@@ -63,10 +62,10 @@ const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
   }
 
   useEffect(() => {
-    usersList.current.addEventListener('scroll', scrollHandler)
+    usersList.current.addEventListener("scroll", scrollHandler)
     return () => {
       if (usersList.current) {
-        usersList.current.removeEventListener('scroll', scrollHandler)
+        usersList.current.removeEventListener("scroll", scrollHandler)
       }
     };
   }, [totalCount])
@@ -87,11 +86,11 @@ const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
   const handleSubmit = async (event) => {
     event.preventDefault()
     const data = new FormData(event.target)
-    if (!chat.is_private && data.get('avatar').size === 0) {
-      data.delete('avatar')
+    if (!chat.is_private && data.get("avatar").size === 0) {
+      data.delete("avatar")
     }
-    chat.members.forEach((item, index) => {
-      data.append('members', item);
+    chat.members.forEach((item) => {
+      data.append("members", item);
     });
     data.append("is_private", chat.is_private)
 
@@ -106,7 +105,7 @@ const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
         const data = error.response.data
         const errors = []
         for (let key in data) {
-          if (data.hasOwnProperty(key)) {
+          if (Object.prototype.hasOwnProperty.call(data, key)) {
             errors.push(...data[key])
           }
         }

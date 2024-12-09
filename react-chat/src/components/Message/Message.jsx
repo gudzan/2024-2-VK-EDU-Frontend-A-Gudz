@@ -1,8 +1,7 @@
-import React from "react";
 import styles from "./Message.module.scss"
 import DeliveredIcon from "../DliveredIcon/DeliveredIcon";
 import { isValidUrl, transformDate } from "../../utils";
-import classnames from 'classnames';
+import classnames from "classnames";
 
 const Message = ({ message, userId, isNew }) => {
   const sender = message.sender ? message.sender.id : userId;

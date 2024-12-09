@@ -1,33 +1,33 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { jwtDecode } from "jwt-decode";
-import storeStatus from "../storeStatus";
-import authApi from "../../api/auth/authApi";
-import ROUTES from "../../config/routes";
-import globalRouter from "../../globalRouter";
-import getErrorTranslation from "../../utils/errorTranslator";
-import localStorageService from "../../api/localStorageService";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { jwtDecode } from "jwt-decode"
+import storeStatus from "../storeStatus"
+import authApi from "../../api/auth/authApi"
+import ROUTES from "../../config/routes"
+import globalRouter from "../../globalRouter"
+import getErrorTranslation from "../../utils/errorTranslator"
+import localStorageService from "../../api/localStorageService"
 
 const initialState = localStorageService.getAccessToken()
   ? {
-    status: storeStatus.success,
-    error: null,
-    userId: localStorageService.getUserId(),
-  }
+      status: storeStatus.success,
+      error: null,
+      userId: localStorageService.getUserId()
+    }
   : {
-    status: storeStatus.idle,
-    error: null,
-    userId: null,
-  };
+      status: storeStatus.idle,
+      error: null,
+      userId: null
+    }
 
 export const login = createAsyncThunk("auth/login",
   async (user, { rejectWithValue }) => {
-    const { username, password } = user;
+    const { username, password } = user
     try {
-      const data = await authApi.auth({ username, password });
+      const data = await authApi.auth({ username, password })
       const { exp: expAT, user_id } = jwtDecode(data.access)
       const { exp: expRT } = jwtDecode(data.refresh)
       localStorageService.setTokens(data.access, data.refresh, expAT, expRT, user_id)
-      globalRouter.navigate(ROUTES.root);
+      globalRouter.navigate(ROUTES.root)
       return user_id
     } catch (error) {
       const errorMessage = error.response.data.detail ?? error.message
@@ -41,8 +41,8 @@ const authSlice = createSlice({
   reducers: {
     authLoggedOut: (state) => {
       state.status = storeStatus.idle
-      state.userId = null;
-    },
+      state.userId = null
+    }
   },
   extraReducers: builder => {
     builder
@@ -53,21 +53,21 @@ const authSlice = createSlice({
       .addCase(login.fulfilled, (state, { payload }) => {
         state.status = storeStatus.success
         state.error = null
-        state.userId = payload;
+        state.userId = payload
       })
       .addCase(login.rejected, (state, { payload }) => {
         state.status = storeStatus.error
         state.error = payload
-      });
+      })
   }
-});
+})
 
 export const logOut = () => (dispatch) => {
-  localStorageService.removeTokens();
-  dispatch(authLoggedOut());
-  globalRouter.navigate(ROUTES.auth);
-};
+  localStorageService.removeTokens()
+  dispatch(authLoggedOut())
+  globalRouter.navigate(ROUTES.auth)
+}
 
-const { actions, reducer: authReduser } = authSlice;
-const { authLoggedOut } = actions;
-export default authReduser;
+const { actions, reducer: authReduser } = authSlice
+const { authLoggedOut } = actions
+export default authReduser
