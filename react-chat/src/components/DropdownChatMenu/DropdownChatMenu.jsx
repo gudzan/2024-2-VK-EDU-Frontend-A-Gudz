@@ -1,7 +1,6 @@
-import React from "react";
 import styles from "./DropdownChatMenu.module.scss"
 import Overlay from "../Overlay";
-import classnames from 'classnames';
+import classnames from "classnames";
 
 const DropdownChatMenu = ({ openDropdown, closeDropdown }) => {
   const dropdownClassName = classnames(styles.dropdown, {

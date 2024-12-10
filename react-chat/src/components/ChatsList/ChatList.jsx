@@ -1,4 +1,3 @@
-import React from "react";
 import ChatRow from "../ChatRow";
 import styles from "./ChatList.module.scss"
 import Spinner from "../Spinner/Spinner.jsx";

@@ -1,13 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
-import CloseIcon from '@mui/icons-material/Close';
-import styles from './NewChatModal.module.scss'
+import { useEffect, useRef, useState } from "react";
+import CloseIcon from "@mui/icons-material/Close";
+import styles from "./NewChatModal.module.scss"
 import Overlay from "../Overlay";
-import classnames from 'classnames';
+import classnames from "classnames";
 import chatApi from "../../api/chat/chatApi";
-import { useDispatch } from "react-redux";
-import getErrorTranslation from "../../utils/errorTranslator";
 import userApi from "../../api/user/userApi.js";
 import AvatarField from "../AvatarField/AvatarField.jsx";
+import { translate } from "../../ts/utils/dist/src/translate.js";
 
 const initialNewChat = {
   "members": [],
@@ -23,7 +22,7 @@ const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
   const [totalCount, setTotalCount] = useState(0)
   const [fetching, setFetching] = useState(true)
   const [chat, setChat] = useState(initialNewChat)
-  const [error, setError] = useState([])
+  const [error, setError] = useState(null)
   const [openSelect, setOpenSelect] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
   const selectText = chat.members.length > 0 ? `Выбрано ${chat.members.length} пользователей` : "Выбери пользователя"
@@ -63,16 +62,16 @@ const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
   }
 
   useEffect(() => {
-    usersList.current.addEventListener('scroll', scrollHandler)
+    usersList.current.addEventListener("scroll", scrollHandler)
     return () => {
       if (usersList.current) {
-        usersList.current.removeEventListener('scroll', scrollHandler)
+        usersList.current.removeEventListener("scroll", scrollHandler)
       }
     };
   }, [totalCount])
 
   useEffect(() => {
-    setError([])
+    setError(null)
     if (openNewChat && fetching) {
       getCurrentUser()
     }
@@ -87,11 +86,11 @@ const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
   const handleSubmit = async (event) => {
     event.preventDefault()
     const data = new FormData(event.target)
-    if (!chat.is_private && data.get('avatar').size === 0) {
-      data.delete('avatar')
+    if (!chat.is_private && data.get("avatar").size === 0) {
+      data.delete("avatar")
     }
-    chat.members.forEach((item, index) => {
-      data.append('members', item);
+    chat.members.forEach((item) => {
+      data.append("members", item);
     });
     data.append("is_private", chat.is_private)
 
@@ -106,21 +105,19 @@ const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
         const data = error.response.data
         const errors = []
         for (let key in data) {
-          if (data.hasOwnProperty(key)) {
+          if (Object.prototype.hasOwnProperty.call(data, key)) {
             errors.push(...data[key])
           }
         }
-        setError(errors)
+        if (errors.length > 0) {
+          const translateError = await translate({
+            text: errors[0]
+          });
+          setError(translateError.translatedText)
+        }
       }
     }
     setChat(initialNewChat)
-  }
-
-  const getError = () => {
-    if (error.length > 0) {
-      const errorMessage = getErrorTranslation(error[0])
-      return <div className={styles.error}>{errorMessage}</div>
-    }
   }
 
   const closeNewChatWindow = () => {
@@ -128,6 +125,7 @@ const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
     setChat(initialNewChat)
     setUsers([])
     setFetching(true)
+    setCurrentPage(1)
     closeNewChat()
   }
 
@@ -201,7 +199,7 @@ const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
             </div>
           </div>
           {getInput()}
-          {getError()}
+          <div className={styles.error}>{error}</div>
           <button type="submit" className={styles.submit}>Добавить</button>
         </form>
       </div>

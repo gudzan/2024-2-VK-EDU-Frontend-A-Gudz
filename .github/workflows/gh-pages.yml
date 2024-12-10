@@ -12,6 +12,9 @@ jobs:
     - name: Install npm deps
       working-directory: ./react-chat
       run: npm i
+    - name: Compile TypeScript
+      working-directory: ./react-chat/src/ts/utils
+      run: tsc
     - name: Build app
       working-directory: ./react-chat
       run: npm run build

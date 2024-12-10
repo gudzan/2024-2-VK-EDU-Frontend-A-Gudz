@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./MessagesList.module.scss"
 import Message from "../Message/Message";
 import Spinner from "../Spinner/Spinner.jsx";
