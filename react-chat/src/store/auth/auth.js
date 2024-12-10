@@ -4,8 +4,8 @@ import storeStatus from "../storeStatus"
 import authApi from "../../api/auth/authApi"
 import ROUTES from "../../config/routes"
 import globalRouter from "../../globalRouter"
-import getErrorTranslation from "../../utils/errorTranslator"
 import localStorageService from "../../api/localStorageService"
+import { translate } from "../../ts/utils/dist/src/translate"
 
 const initialState = localStorageService.getAccessToken()
   ? {
@@ -31,7 +31,10 @@ export const login = createAsyncThunk("auth/login",
       return user_id
     } catch (error) {
       const errorMessage = error.response.data.detail ?? error.message
-      return rejectWithValue(getErrorTranslation(errorMessage))
+      const translateError = await translate({
+        text: errorMessage
+      });
+      return rejectWithValue(translateError.translatedText)
     }
   })
 
