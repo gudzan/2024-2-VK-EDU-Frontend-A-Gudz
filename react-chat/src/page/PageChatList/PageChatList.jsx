@@ -5,7 +5,7 @@ import styles from "./PageChatList.module.scss";
 import NewChatModal from "../../components/NewChatModal";
 import Layout from "../../components/Layout";
 import { HeaderPageChatList } from "../../components/Headers";
-import chatApi from "../../api/chat/chatApi.js";
+import chatApi from "../../api/chat/chatApi";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../../store/auth/auth.js";
 import { addNewChat, setPrevChats } from "../../store/chats/chats.js";

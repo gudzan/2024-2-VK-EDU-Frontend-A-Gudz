@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import ROUTES from "../../config/routes";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import authApi from "../../api/auth/authApi.js";
+import authApi from "../../api/auth/authApi";
 import AvatarField from "../AvatarField/AvatarField.jsx";
 import { translate } from "../../ts/utils/src/translate.ts";
 

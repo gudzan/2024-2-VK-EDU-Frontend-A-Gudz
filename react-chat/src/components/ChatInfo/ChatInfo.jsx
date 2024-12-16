@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import styles from "./ChatInfo.module.scss";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import chatApi from "../../api/chat/chatApi.js";
+import chatApi from "../../api/chat/chatApi";
 import defaultAvatar from "../../assets/images/default-avatar.jpg";
 import Spinner from "../../components/Spinner/Spinner.jsx";
 import ROUTES from "../../config/routes.js";
@@ -33,10 +33,8 @@ const ChatInfo = () => {
 
   const leaveChat = async () => {
     try {
-      const chat = await chatApi.leaveChat(chatId);
-      if (chat === "") {
-        navigate(ROUTES.root);
-      }
+      await chatApi.leaveChat(chatId);
+      navigate(ROUTES.root);
     } catch (error) {
       console.log(error);
       if (error.status === 401) {

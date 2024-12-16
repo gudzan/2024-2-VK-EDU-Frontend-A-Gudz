@@ -4,7 +4,7 @@ import styles from "./NewChatModal.module.scss";
 import Overlay from "../Overlay";
 import classnames from "classnames";
 import chatApi from "../../api/chat/chatApi";
-import userApi from "../../api/user/userApi.js";
+import userApi from "../../api/user/userApi";
 import AvatarField from "../AvatarField/AvatarField.jsx";
 import { translate } from "../../ts/utils/src/translate.ts";
 

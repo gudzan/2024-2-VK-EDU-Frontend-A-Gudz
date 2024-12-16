@@ -26,7 +26,7 @@ export const login = createAsyncThunk("auth/login",
       const data = await authApi.auth({ username, password });
       const { exp: expAT, user_id } = jwtDecode(data.access);
       const { exp: expRT } = jwtDecode(data.refresh);
-      localStorageService.setTokens(data.access, data.refresh, expAT, expRT, user_id);
+      localStorageService.setAllInfo(data.access, data.refresh, expAT, expRT, user_id);
       globalRouter.navigate(ROUTES.root);
       return user_id;
     } catch (error) {

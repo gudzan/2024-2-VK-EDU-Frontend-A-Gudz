@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import styles from "./PageProfile.module.scss";
 import Layout from "../../components/Layout/index.js";
 import Spinner from "../../components/Spinner/Spinner.jsx";
-import userApi from "../../api/user/userApi.js";
+import userApi from "../../api/user/userApi";
 import { logOut } from "../../store/auth/auth.js";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
