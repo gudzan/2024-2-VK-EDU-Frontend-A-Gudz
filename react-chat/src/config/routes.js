@@ -9,6 +9,6 @@ const ROUTES = {
   chatWithChatId: "/chat/:chatId",
   infoWithChatId: "/info/:chatId",
   profileWithUserId: "/profile/:userId"
-}
+};
 
-export default ROUTES
+export default ROUTES;

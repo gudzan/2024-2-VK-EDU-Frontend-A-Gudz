@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import styles from "./HeaderPageChatList.module.scss"
+import styles from "./HeaderPageChatList.module.scss";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import SearchIcon from "@mui/icons-material/Search";
@@ -9,47 +9,47 @@ import classnames from "classnames";
 
 const HeaderPageChatList = ({ closeSearchInput, search }) => {
   const inputSearchRef = useRef(null);
-  const [openSearch, setOpenSearch] = useState(false)
-  const [searchString, setSearchString] = useState("")
-  const [openDropdown, setOpenDropdown] = useState(false)
+  const [openSearch, setOpenSearch] = useState(false);
+  const [searchString, setSearchString] = useState("");
+  const [openDropdown, setOpenDropdown] = useState(false);
   const debouncedSearchTerm = useDebounce(searchString, 250);
 
   const leftTitleClassName = classnames(styles.title, {
     [styles.close]: openSearch,
     [styles.open]: !openSearch,
-  })
+  });
 
   const boxSearchClassName = classnames(styles.search, {
     [styles.close]: !openSearch,
     [styles.open]: openSearch,
-  })
+  });
 
   useEffect(() => {
     if (openSearch) {
       inputSearchRef.current.focus();
     }
-  }, [openSearch])
+  }, [openSearch]);
 
   useEffect(() => {
-    search(debouncedSearchTerm)
+    search(debouncedSearchTerm);
   }, [debouncedSearchTerm]);
 
   const clickClose = () => {
-    setOpenSearch(false)
-    closeSearchInput()
-  }
+    setOpenSearch(false);
+    closeSearchInput();
+  };
 
   const clickOpen = () => {
-    setOpenSearch(true)
-    setSearchString("")
-  }
+    setOpenSearch(true);
+    setSearchString("");
+  };
 
   const inputSearchChange = (e) => {
-    setSearchString(e.target.value)
-  }
+    setSearchString(e.target.value);
+  };
 
-  const toggleDropdown = () => setOpenDropdown((prevState) => !prevState)
-  const closeDropdown = () => setOpenDropdown(false)
+  const toggleDropdown = () => setOpenDropdown((prevState) => !prevState);
+  const closeDropdown = () => setOpenDropdown(false);
 
   return (
     <header>
@@ -74,7 +74,7 @@ const HeaderPageChatList = ({ closeSearchInput, search }) => {
         </div>
       </div>
     </header>
-  )
-}
+  );
+};
 
-export default HeaderPageChatList
+export default HeaderPageChatList;

@@ -3,6 +3,6 @@ const storeStatus = {
   success: "success",
   error: "error",
   idle: "idle"
-}
+};
 
-export default storeStatus
+export default storeStatus;

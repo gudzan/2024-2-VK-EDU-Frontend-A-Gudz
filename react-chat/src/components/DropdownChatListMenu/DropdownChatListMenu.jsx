@@ -1,4 +1,4 @@
-import styles from "./DropdownChatListMenu.module.scss"
+import styles from "./DropdownChatListMenu.module.scss";
 import Overlay from "../Overlay";
 import { Link } from "react-router-dom";
 import ROUTES from "../../config/routes";
@@ -10,17 +10,17 @@ import { selectAuthUserId } from "../../store/auth/authSelectors";
 const DropdownChatList = ({ openDropdown, closeDropdown }) => {
   const dispatch = useDispatch();
   const userId = useSelector(selectAuthUserId);
-  const link = `${ROUTES.profile}/${userId}`
+  const link = `${ROUTES.profile}/${userId}`;
 
   const dropdownClassName = classnames(styles.dropdown, {
     [styles.open]: openDropdown,
     [styles.close]: !openDropdown,
-  })
+  });
 
   const exit = () => {
-    closeDropdown()
-    dispatch(logOut())
-  }
+    closeDropdown();
+    dispatch(logOut());
+  };
 
   return (
     <>
@@ -38,7 +38,7 @@ const DropdownChatList = ({ openDropdown, closeDropdown }) => {
         </Link>
       </div>
     </>
-  )
-}
+  );
+};
 
 export default DropdownChatList;

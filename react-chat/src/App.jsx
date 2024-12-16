@@ -25,7 +25,7 @@ function App() {
       </Route>
       <Route path="*" element={<div>404...Страница не найдена </div>} />
     </Routes>
-  )
+  );
 }
 
-export default App
+export default App;

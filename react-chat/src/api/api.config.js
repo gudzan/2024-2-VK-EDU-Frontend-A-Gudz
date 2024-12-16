@@ -1,67 +1,67 @@
-import axios from "axios"
-import { getAccessToken, getExpiresAT, getExpiresRT, getRefreshToken, setTokens } from "./localStorageService"
+import axios from "axios";
+import { getAccessToken, getExpiresAT, getExpiresRT, getRefreshToken, setTokens } from "./localStorageService";
 
-const URL = import.meta.env.VITE_API_URL
+const URL = import.meta.env.VITE_API_URL;
 
 const checkTokenValid = (expire) => {
   if (expire === null || expire === undefined || expire === 0) {
-    return false
+    return false;
   }
-  const now = Math.floor(Date.now() * 0.001)
-  return now < expire
-}
+  const now = Math.floor(Date.now() * 0.001);
+  return now < expire;
+};
 
 const getValidAccessToken = async () => {
-  let accessToken = getAccessToken()
-  const refreshToken = getRefreshToken()
-  const expireRT = Number(getExpiresRT())
-  const expireAT = Number(getExpiresAT())
+  let accessToken = getAccessToken();
+  const refreshToken = getRefreshToken();
+  const expireRT = Number(getExpiresRT());
+  const expireAT = Number(getExpiresAT());
   if (refreshToken === null ||
     accessToken === null ||
     checkTokenValid(expireRT) === false) {
-    return false
+    return false;
   }
   if (checkTokenValid(expireAT)) {
-    return accessToken
+    return accessToken;
   }
   const response = await instance.post("/api/auth/refresh/", {
     refresh: refreshToken
-  }, { skipAuth: true })
-  setTokens(response.data.access, response.data.refresh)
-  accessToken = response.data.access
-  return accessToken
-}
+  }, { skipAuth: true });
+  setTokens(response.data.access, response.data.refresh);
+  accessToken = response.data.access;
+  return accessToken;
+};
 
 const instance = axios.create({
   baseURL: URL
-})
+});
 
 instance.interceptors.request.use(
   async (config) => {
     if (config.skipAuth) {
-      return config
+      return config;
     }
-    const accessToken = await getValidAccessToken()
+    const accessToken = await getValidAccessToken();
     if (accessToken) {
-      config.headers.Authorization = `Bearer ${accessToken}`
+      config.headers.Authorization = `Bearer ${accessToken}`;
     } else {
-      return Promise.reject(new Error("Unauthorized"))
+      return Promise.reject(new Error("Unauthorized"));
     }
-    return config
+    return config;
   },
   (error) => {
-    return Promise.reject(error)
+    return Promise.reject(error);
   }
-)
+);
 
 instance.interceptors.response.use(
   (config) => {
-    return config
+    return config;
   },
   (error) => {
-    return Promise.reject(error)
+    return Promise.reject(error);
   }
-)
+);
 
 const apiService = {
   get: instance.get,
@@ -69,6 +69,6 @@ const apiService = {
   put: instance.put,
   delete: instance.delete,
   patch: instance.patch
-}
+};
 
-export default apiService
+export default apiService;

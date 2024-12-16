@@ -1,13 +1,13 @@
 import { useState } from "react";
-import styles from "./Register.module.scss"
-import defaultAvatar from "../../assets/images/default-avatar.jpg"
+import styles from "./Register.module.scss";
+import defaultAvatar from "../../assets/images/default-avatar.jpg";
 import { Link, useNavigate } from "react-router-dom";
 import ROUTES from "../../config/routes";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import authApi from "../../api/auth/authApi.js"
+import authApi from "../../api/auth/authApi.js";
 import AvatarField from "../AvatarField/AvatarField.jsx";
-import { translate } from "../../ts/utils/dist/src/translate.js";
+import { translate } from "../../ts/utils/src/translate.ts";
 
 const initialUser = {
   username: "",
@@ -16,34 +16,34 @@ const initialUser = {
   last_name: "",
   bio: "",
   avatar: defaultAvatar
-}
+};
 
 const Register = () => {
   const navigate = useNavigate();
-  const [error, setError] = useState(null)
+  const [error, setError] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
-  const typePasswordField = showPassword ? "text" : "password"
-  const buttonPasswordField = showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />
-  const [user, setUser] = useState(initialUser)
+  const typePasswordField = showPassword ? "text" : "password";
+  const buttonPasswordField = showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />;
+  const [user, setUser] = useState(initialUser);
 
   const onChange = (e) => {
     const name = e.target.name;
-    const value = e.target.value
+    const value = e.target.value;
     setUser((prevState) => ({
       ...prevState,
       [name]: value,
     }));
-  }
+  };
 
   const onChangeAvatar = (avatar) => {
     setUser((prevState) => ({
       ...prevState,
       avatar: avatar,
     }));
-  }
+  };
 
   const handleSubmit = async (event) => {
-    event.preventDefault()
+    event.preventDefault();
     const formData = new FormData(event.target);
     try {
       const data = await authApi.register(formData);
@@ -52,26 +52,26 @@ const Register = () => {
       }
     } catch (error) {
       if (error.status === 400) {
-        const data = error.response.data
-        const errors = []
+        const data = error.response.data;
+        const errors = [];
         for (let key in data) {
           if (Object.prototype.hasOwnProperty.call(data, key)) {
-            errors.push(...data[key])
+            errors.push(...data[key]);
           }
         }
         if (errors.length > 0) {
           const translateError = await translate({
             text: errors[0]
           });
-          setError(translateError.translatedText)
+          setError(translateError.translatedText);
         }
       }
     }
-  }
+  };
 
   const toggleShowPassword = () => {
     setShowPassword((prevState) => !prevState);
-  }
+  };
 
   return (
     <div className={styles.register}>
@@ -105,7 +105,7 @@ const Register = () => {
         <div className={styles.link}><Link to={`${ROUTES.auth}`}>Уже есть аккаунт? Войти</Link></div>
       </form>
     </div>
-  )
-}
+  );
+};
 
 export default Register;

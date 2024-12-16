@@ -1,21 +1,21 @@
-import apiService from "../api.config.js"
+import apiService from "../api.config.js";
 
 const userApi = {
   getCurrentUser: async () => {
-    const { data } = await apiService.get("/api/user/current/")
-    return data
+    const { data } = await apiService.get("/api/user/current/");
+    return data;
   },
 
   getAllUsers: async (page, page_size) => {
     const { data } = await apiService.get("/api/users/", {
       params: { page, page_size }
-    })
-    return data
+    });
+    return data;
   },
 
   getUserById: async (userId) => {
-    const { data } = await apiService.get(`/api/user/${userId}`)
-    return data
+    const { data } = await apiService.get(`/api/user/${userId}`);
+    return data;
   },
 
   updateUser: async (id, formData) => {
@@ -23,8 +23,8 @@ const userApi = {
       headers: {
         "Content-Type": "multipart/form-data"
       }
-    })
-    return data
+    });
+    return data;
   }
-}
-export default userApi
+};
+export default userApi;

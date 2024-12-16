@@ -1,4 +1,4 @@
-import apiService from "../api.config.js"
+import apiService from "../api.config.js";
 
 const authApi = {
   register: async (formData) => {
@@ -7,13 +7,13 @@ const authApi = {
         "Content-Type": "multipart/form-data"
       },
       skipAuth: true
-    })
-    return data
+    });
+    return data;
   },
 
   auth: async ({ username, password }) => {
-    const { data } = await apiService.post("/api/auth/", { username, password }, { skipAuth: true })
-    return data
+    const { data } = await apiService.post("/api/auth/", { username, password }, { skipAuth: true });
+    return data;
   }
-}
-export default authApi
+};
+export default authApi;

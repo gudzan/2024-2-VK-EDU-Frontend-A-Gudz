@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import styles from "./PageProfile.module.scss"
+import styles from "./PageProfile.module.scss";
 import Layout from "../../components/Layout/index.js";
 import Spinner from "../../components/Spinner/Spinner.jsx";
 import userApi from "../../api/user/userApi.js";
@@ -15,82 +15,82 @@ const PageProfile = () => {
   const dispatch = useDispatch();
   const { userId } = useParams();
   const currentUserId = useSelector(selectAuthUserId);
-  const [initialProfile, setInitialProfile] = useState(null)
-  const [profile, setProfile] = useState(initialProfile)
-  const [isChanged, setIsChanged] = useState(false)
-  const isAnotherProfile = userId !== currentUserId
-  const headerText = isAnotherProfile ? "Профиль" : "Мой профиль"
+  const [initialProfile, setInitialProfile] = useState(null);
+  const [profile, setProfile] = useState(initialProfile);
+  const [isChanged, setIsChanged] = useState(false);
+  const isAnotherProfile = userId !== currentUserId;
+  const headerText = isAnotherProfile ? "Профиль" : "Мой профиль";
 
   const getCurrentUser = async () => {
     try {
-      const user = await userApi.getUserById(userId)
+      const user = await userApi.getUserById(userId);
       if (user) {
-        setInitialProfile(user)
-        setProfile(user)
+        setInitialProfile(user);
+        setProfile(user);
       }
     } catch (error) {
       console.log(error);
       if (error.status === 401) {
-        dispatch(logOut())
+        dispatch(logOut());
       }
     }
-  }
+  };
 
   useEffect(() => {
     if (userId) {
-      getCurrentUser()
+      getCurrentUser();
     }
-  }, [userId])
+  }, [userId]);
 
   useEffect(() => {
-    setIsChanged(isEqual(initialProfile, profile))
-  }, [profile, initialProfile])
+    setIsChanged(isEqual(initialProfile, profile));
+  }, [profile, initialProfile]);
 
   const onChange = (e) => {
     const name = e.target.name;
-    const value = e.target.value
+    const value = e.target.value;
     setProfile((prevState) => ({
       ...prevState,
       [name]: value,
     }));
-  }
+  };
 
   const notNullText = (text) => {
-    return text === null ? "" : text
-  }
+    return text === null ? "" : text;
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.target)
+    const data = new FormData(event.target);
 
     if (data.get("avatar").size === 0) {
-      data.delete("avatar")
+      data.delete("avatar");
     }
 
     try {
       const user = await userApi.updateUser(profile.id, data);
       if (user) {
-        setInitialProfile(user)
-        setProfile(user)
+        setInitialProfile(user);
+        setProfile(user);
       }
     } catch (error) {
       console.log(error);
       if (error.status === 401) {
-        dispatch(logOut())
+        dispatch(logOut());
       }
     }
   };
 
   const cancel = () => {
-    setProfile(initialProfile)
-  }
+    setProfile(initialProfile);
+  };
 
   const onChangeAvatar = (avatar)=>{
     setProfile((prevState) => ({
       ...prevState,
       avatar: avatar,
     }));
-  }
+  };
 
   if (profile) {
     const buttonBox = isAnotherProfile ? null : (
@@ -98,7 +98,7 @@ const PageProfile = () => {
         <button type="submit" className={styles.submit} disabled={isChanged}>Сохранить</button>
         <button type="button" className={styles.cancel} onClick={cancel} disabled={isChanged}>Отмена</button>
       </div>
-    )
+    );
     return (
       <Layout>
         <Header text={headerText} />
@@ -132,7 +132,7 @@ const PageProfile = () => {
       <Header text={headerText} />
       <Spinner />
     </Layout>
-  )
+  );
 };
 
 export default PageProfile;
