@@ -4,9 +4,9 @@ import styles from "./NewChatModal.module.scss"
 import Overlay from "../Overlay";
 import classnames from "classnames";
 import chatApi from "../../api/chat/chatApi";
-import getErrorTranslation from "../../utils/errorTranslator";
 import userApi from "../../api/user/userApi.js";
 import AvatarField from "../AvatarField/AvatarField.jsx";
+import { translate } from "../../ts/utils/dist/src/translate.js";
 
 const initialNewChat = {
   "members": [],
@@ -22,7 +22,7 @@ const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
   const [totalCount, setTotalCount] = useState(0)
   const [fetching, setFetching] = useState(true)
   const [chat, setChat] = useState(initialNewChat)
-  const [error, setError] = useState([])
+  const [error, setError] = useState(null)
   const [openSelect, setOpenSelect] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
   const selectText = chat.members.length > 0 ? `Выбрано ${chat.members.length} пользователей` : "Выбери пользователя"
@@ -71,7 +71,7 @@ const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
   }, [totalCount])
 
   useEffect(() => {
-    setError([])
+    setError(null)
     if (openNewChat && fetching) {
       getCurrentUser()
     }
@@ -109,17 +109,15 @@ const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
             errors.push(...data[key])
           }
         }
-        setError(errors)
+        if (errors.length > 0) {
+          const translateError = await translate({
+            text: errors[0]
+          });
+          setError(translateError.translatedText)
+        }
       }
     }
     setChat(initialNewChat)
-  }
-
-  const getError = () => {
-    if (error.length > 0) {
-      const errorMessage = getErrorTranslation(error[0])
-      return <div className={styles.error}>{errorMessage}</div>
-    }
   }
 
   const closeNewChatWindow = () => {
@@ -127,6 +125,7 @@ const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
     setChat(initialNewChat)
     setUsers([])
     setFetching(true)
+    setCurrentPage(1)
     closeNewChat()
   }
 
@@ -200,7 +199,7 @@ const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
             </div>
           </div>
           {getInput()}
-          {getError()}
+          <div className={styles.error}>{error}</div>
           <button type="submit" className={styles.submit}>Добавить</button>
         </form>
       </div>
