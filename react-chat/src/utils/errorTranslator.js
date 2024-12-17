@@ -5,13 +5,13 @@ const errors = {
   "This password is too common.": "Этот пароль слишком распространен.",
   "This password is entirely numeric.": "Этот пароль полностью цифровой.",
   "Private chat with these members already exists": "Приватный чат с этими участниками уже существует"
-};
+}
 
 const getErrorTranslation = (errorName) => {
   if (errors[errorName] === undefined) {
     return `Неизвестная ошибка: ${errorName}`
   }
-  return errors[errorName];
+  return errors[errorName]
 }
 
 export default getErrorTranslation

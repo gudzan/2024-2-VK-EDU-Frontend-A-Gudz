@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
-import EditIcon from '@mui/icons-material/Edit';
+import { useEffect, useRef, useState } from "react";
+import EditIcon from "@mui/icons-material/Edit";
 import ChatList from "../../components/ChatsList"
 import styles from "./PageChatList.module.scss"
 import NewChatModal from "../../components/NewChatModal";

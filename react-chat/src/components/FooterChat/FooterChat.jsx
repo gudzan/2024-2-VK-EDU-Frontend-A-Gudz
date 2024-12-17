@@ -1,11 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./FooterChat.module.scss"
-import AttachFileIcon from '@mui/icons-material/AttachFile';
-import PhotoIcon from '@mui/icons-material/Photo';
-import KeyboardVoiceIcon from '@mui/icons-material/KeyboardVoice';
-import PlaceIcon from '@mui/icons-material/Place';
-import SendIcon from '@mui/icons-material/Send';
-import StopCircleIcon from '@mui/icons-material/StopCircle';
+import AttachFileIcon from "@mui/icons-material/AttachFile";
+import PhotoIcon from "@mui/icons-material/Photo";
+import KeyboardVoiceIcon from "@mui/icons-material/KeyboardVoice";
+import PlaceIcon from "@mui/icons-material/Place";
+import SendIcon from "@mui/icons-material/Send";
+import StopCircleIcon from "@mui/icons-material/StopCircle";
 import classnames from "classnames";
 
 const FooterChat = ({ sendMessage }) => {
@@ -36,7 +36,7 @@ const FooterChat = ({ sendMessage }) => {
     if (droppedFiles.length > 0) {
       let formData = new FormData()
       for (let i = 0; i < droppedFiles.length; i++) {
-        formData.append('files', droppedFiles[i]);
+        formData.append("files", droppedFiles[i]);
       }
       sendMessage(formData)
     }
@@ -53,10 +53,10 @@ const FooterChat = ({ sendMessage }) => {
 
   useEffect(() => {
     inputRef.current.focus();
-    inputRef.current.addEventListener('drop', handleDrop);
+    inputRef.current.addEventListener("drop", handleDrop);
     return () => {
       if (inputRef.current) {
-        inputRef.current.removeEventListener('drop', handleDrop);
+        inputRef.current.removeEventListener("drop", handleDrop);
       }
     };
   }, []);
@@ -77,16 +77,16 @@ const FooterChat = ({ sendMessage }) => {
   useEffect(() => {
     inputRef.current.focus();
     if (openAttach) {
-      document.addEventListener('mousedown', toggleAttach)
+      document.addEventListener("mousedown", toggleAttach)
     }
-    return () => document.removeEventListener('mousedown', toggleAttach)
+    return () => document.removeEventListener("mousedown", toggleAttach)
   }, [openAttach])
 
   const handleSubmit = (event) => {
     event.preventDefault()
     if (messageText === "") { return }
     let formData = new FormData();
-    formData.append('text', messageText);
+    formData.append("text", messageText);
     sendMessage(formData)
     setMessageText("")
     inputRef.current.focus();
@@ -101,7 +101,7 @@ const FooterChat = ({ sendMessage }) => {
     const success = (pos) => {
       const { latitude, longitude } = pos.coords;
       let formData = new FormData();
-      formData.append('text', `https://www.openstreetmap.org/#map=18/${latitude}/${longitude}`);
+      formData.append("text", `https://www.openstreetmap.org/#map=18/${latitude}/${longitude}`);
       sendMessage(formData)
     }
     const error = (err) => {
@@ -124,12 +124,12 @@ const FooterChat = ({ sendMessage }) => {
       };
       mediaRecorder.current.onstop = async () => {
         const recordedBlob = new Blob(
-          chunks.current, { type: 'audio/mp3' }
+          chunks.current, { type: "audio/mp3" }
         );
         setRecordedBlob(recordedBlob);
-        const file = new File([recordedBlob], "voice.mp3", { type: 'audio/mp3' })
+        const file = new File([recordedBlob], "voice.mp3", { type: "audio/mp3" })
         let formData = new FormData();
-        formData.append('voice', file);
+        formData.append("voice", file);
         sendMessage(formData)
         setIsRecorder(false)
         setRecordedBlob(null)
@@ -138,12 +138,12 @@ const FooterChat = ({ sendMessage }) => {
       setIsRecorder(true)
       mediaRecorder.current.start();
     } catch (error) {
-      console.error('Error accessing microphone:', error);
+      console.error("Error accessing microphone:", error);
     }
   };
 
-  const stopRecording = (e) => {
-    if (mediaRecorder.current && mediaRecorder.current.state === 'recording') {
+  const stopRecording = () => {
+    if (mediaRecorder.current && mediaRecorder.current.state === "recording") {
       mediaRecorder.current.stop();
     }
     if (mediaStream.current) {
@@ -170,7 +170,7 @@ const FooterChat = ({ sendMessage }) => {
     let formData = new FormData()
     const fileList = e.target.files
     for (let i = 0; i < fileList.length; i++) {
-      formData.append('files', fileList[i]);
+      formData.append("files", fileList[i]);
     }
     sendMessage(formData)
   }

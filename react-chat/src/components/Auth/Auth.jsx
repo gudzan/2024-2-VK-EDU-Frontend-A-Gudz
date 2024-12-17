@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./Auth.module.scss"
 import { Link, useNavigate } from "react-router-dom";
 import ROUTES from "../../config/routes";
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../store/auth/auth.js";
 import { selectAuthError, selectAuthStatus } from "../../store/auth/authSelectors.js";

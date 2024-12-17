@@ -1,15 +1,15 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import authReduser from "./auth/auth";
-import chatsReduser from "./chats/chats";
+import { combineReducers, configureStore } from "@reduxjs/toolkit"
+import authReduser from "./auth/auth"
+import chatsReduser from "./chats/chats"
 
 const rootReducer = combineReducers({
   chats: chatsReduser,
-  auth: authReduser,
-});
+  auth: authReduser
+})
 
 export const store = configureStore({
   reducer: rootReducer,
-  devTools: process.env.NODE_ENV !== "production",
-});
+  devTools: import.meta.env.NODE_ENV !== "production"
+})
 
-export default store;
+export default store

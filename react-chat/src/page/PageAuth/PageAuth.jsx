@@ -1,4 +1,3 @@
-import React from "react";
 import Layout from "../../components/Layout";
 import Auth from "../../components/Auth/Auth";
 import Header from "../../components/Headers/Header/Header";

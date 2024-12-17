@@ -1,6 +1,5 @@
-import React from "react";
 import styles from "./Overlay.module.scss"
-import classnames from 'classnames';
+import classnames from "classnames";
 
 const Overlay = ({ openOverlay, closeOverlay }) => {
   const overlayClassName = classnames(styles.overlay, {

@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./HeaderUserInfo.module.scss"
 import defaultAvatar from "../../../assets/images/default-avatar.jpg"
 import { Link } from "react-router-dom";
