@@ -4,11 +4,11 @@ import DoneAllIcon from "@mui/icons-material/DoneAll";
 const DeliveredIcon = ({ chatIcon }) => {
   switch (chatIcon) {
     case "check":
-      return <CheckIcon />
+      return <CheckIcon />;
     case "done_all":
-      return <DoneAllIcon />
+      return <DoneAllIcon />;
     default:
-      return null
+      return null;
   }
 };
 

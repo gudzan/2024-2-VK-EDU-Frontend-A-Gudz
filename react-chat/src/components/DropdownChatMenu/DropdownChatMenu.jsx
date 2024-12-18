@@ -1,4 +1,4 @@
-import styles from "./DropdownChatMenu.module.scss"
+import styles from "./DropdownChatMenu.module.scss";
 import Overlay from "../Overlay";
 import classnames from "classnames";
 
@@ -6,7 +6,7 @@ const DropdownChatMenu = ({ openDropdown, closeDropdown }) => {
   const dropdownClassName = classnames(styles.dropdown, {
     [styles.open]: openDropdown,
     [styles.close]: !openDropdown,
-  })
+  });
 
   return (
     <>
@@ -16,7 +16,7 @@ const DropdownChatMenu = ({ openDropdown, closeDropdown }) => {
         <button type="button" className={styles.item} onClick={closeDropdown}>Mute</button>
       </div>
     </>
-  )
-}
+  );
+};
 
 export default DropdownChatMenu;

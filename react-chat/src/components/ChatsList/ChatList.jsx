@@ -1,18 +1,18 @@
 import ChatRow from "../ChatRow";
-import styles from "./ChatList.module.scss"
+import styles from "./ChatList.module.scss";
 import Spinner from "../Spinner/Spinner.jsx";
 
 const ChatList = ({ chats, newRow, isLoading }) => {
   const isNew = (chatId) => {
-    if (newRow === null) return false
-    return chatId === newRow.id
-  }
+    if (newRow === null) return false;
+    return chatId === newRow.id;
+  };
 
   if (isLoading) {
-    return <Spinner />
+    return <Spinner />;
   }
   else if (chats.length === 0) {
-    return <span className={styles.notFound}>Чатов нет</span>
+    return <span className={styles.notFound}>Чатов нет</span>;
   }
 
   return (

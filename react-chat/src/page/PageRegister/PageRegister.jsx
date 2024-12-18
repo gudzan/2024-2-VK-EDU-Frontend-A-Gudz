@@ -8,7 +8,7 @@ const PageRegister = () => {
       <Header text="Регистрация" arrowBack={false}/>
       <Register />
     </Layout>
-  )
-}
+  );
+};
 
 export default PageRegister;

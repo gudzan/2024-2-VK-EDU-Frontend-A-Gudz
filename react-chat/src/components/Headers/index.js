@@ -1,4 +1,4 @@
-import HeaderPageChatList from "./HeaderPageChatList/HeaderPageChatList.jsx"
-import Header from "./Header/Header.jsx"
+import HeaderPageChatList from "./HeaderPageChatList/HeaderPageChatList.jsx";
+import Header from "./Header/Header.jsx";
 
-export { Header, HeaderPageChatList }
+export { Header, HeaderPageChatList };

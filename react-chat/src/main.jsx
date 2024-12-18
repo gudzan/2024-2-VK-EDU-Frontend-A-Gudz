@@ -1,10 +1,10 @@
-import { StrictMode } from "react"
-import { createRoot } from "react-dom/client"
-import App from "./App.jsx"
-import "./index.scss"
-import { HashRouter } from "react-router-dom"
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import App from "./App.jsx";
+import "./index.scss";
+import { HashRouter } from "react-router-dom";
 import { Provider } from "react-redux";
-import { store } from "./store/createStore.js"
+import { store } from "./store/createStore.js";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -14,4 +14,4 @@ createRoot(document.getElementById("root")).render(
       </Provider>
     </HashRouter>
   </StrictMode>,
-)
+);

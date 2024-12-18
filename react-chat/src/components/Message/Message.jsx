@@ -1,26 +1,26 @@
-import styles from "./Message.module.scss"
+import styles from "./Message.module.scss";
 import DeliveredIcon from "../DliveredIcon/DeliveredIcon";
 import { isValidUrl, transformDate } from "../../utils";
 import classnames from "classnames";
 
 const Message = ({ message, userId, isNew }) => {
   const sender = message.sender ? message.sender.id : userId;
-  const icon = sender === userId ? "done_all" : null
+  const icon = sender === userId ? "done_all" : null;
   const liClassName = classnames(styles.message, {
     [styles.my]: sender === userId,
     [styles.another]: sender !== userId,
     [styles.new]: isNew,
     [styles.voice]: message.voice !== null
-  })
+  });
   const infoClassName = classnames(styles.message__info, {
     [styles.my]: sender === userId,
     [styles.another]: sender !== userId
-  })
+  });
 
   const getMessage = () => {
     if (message.text !== null) {
-      const text = isValidUrl(message.text) ? (<a href={message.text} target="_blank">{message.text}</a>) : message.text
-      return <span className={styles.text}>{text}</span>
+      const text = isValidUrl(message.text) ? (<a href={message.text} target="_blank">{message.text}</a>) : message.text;
+      return <span className={styles.text}>{text}</span>;
     }
     else if (message.files.length > 0) {
       return (
@@ -29,13 +29,13 @@ const Message = ({ message, userId, isNew }) => {
             <img key={index} src={file.item} alt="Фото" />
           )}
         </div>
-      )
+      );
     }
     else if (message.voice !== null) {
-      return <audio controls src={message.voice} />
+      return <audio controls src={message.voice} />;
     }
-    return null
-  }
+    return null;
+  };
 
   return (
     <li className={liClassName}>
@@ -48,4 +48,4 @@ const Message = ({ message, userId, isNew }) => {
   );
 };
 
-export default Message
+export default Message;

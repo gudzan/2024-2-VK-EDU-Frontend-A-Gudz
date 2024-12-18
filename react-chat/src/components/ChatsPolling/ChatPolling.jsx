@@ -6,8 +6,8 @@ const ChatPolling = ({ children }) => {
   const dispatch = useDispatch();
 
   const getAllChats = async () => {
-    dispatch(chatRequest())
-  }
+    dispatch(chatRequest());
+  };
 
   useEffect(() => {
     getAllChats();
@@ -16,15 +16,15 @@ const ChatPolling = ({ children }) => {
     }, 5000);
 
     return () => {
-      clearInterval(intervalId)
+      clearInterval(intervalId);
     };
-  }, [])
+  }, []);
 
   return (
     <>
       {children}
     </>
   );
-}
+};
 
 export default ChatPolling;

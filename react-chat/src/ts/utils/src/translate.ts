@@ -1,5 +1,5 @@
-import { TranslateParams, TranslationResult } from './types';
-import { buildApiUrl, isCacheValid } from './helpers';
+import { TranslateParams, TranslationResult } from './types.ts';
+import { buildApiUrl, isCacheValid } from './helpers.ts';
 
 const cache = new Map<string, string>();
 
@@ -12,7 +12,7 @@ export const translate = async ({ text, from = "en", to = "ru" }: TranslateParam
   if (isCacheValid(cache, cacheKey)) {
     return {
       originalText: text,
-      translatedText: cache.get(cacheKey)!,
+      translatedText: cache.get(cacheKey) ?? "",
       fromLanguage: from,
       toLanguage: to,
     };
@@ -21,6 +21,7 @@ export const translate = async ({ text, from = "en", to = "ru" }: TranslateParam
   try {
     const apiUrl = buildApiUrl(text, from, to);
     const response = await fetch(apiUrl);
+    console.log(response.json());
     const data = await response.json();
 
     if (data.responseStatus !== 200) {

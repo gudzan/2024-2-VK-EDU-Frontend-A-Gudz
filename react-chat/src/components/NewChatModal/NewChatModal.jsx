@@ -1,169 +1,169 @@
 import { useEffect, useRef, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
-import styles from "./NewChatModal.module.scss"
+import styles from "./NewChatModal.module.scss";
 import Overlay from "../Overlay";
 import classnames from "classnames";
 import chatApi from "../../api/chat/chatApi";
-import userApi from "../../api/user/userApi.js";
+import userApi from "../../api/user/userApi";
 import AvatarField from "../AvatarField/AvatarField.jsx";
-import { translate } from "../../ts/utils/dist/src/translate.js";
+import { translate } from "../../ts/utils/src/translate.ts";
 
 const initialNewChat = {
   "members": [],
   "is_private": true,
   "title": "",
   "avatar": null
-}
+};
 
 const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
   const inputNewChatRef = useRef(null);
-  const usersList = useRef(null)
-  const [users, setUsers] = useState([])
-  const [totalCount, setTotalCount] = useState(0)
-  const [fetching, setFetching] = useState(true)
-  const [chat, setChat] = useState(initialNewChat)
-  const [error, setError] = useState(null)
-  const [openSelect, setOpenSelect] = useState(false)
-  const [currentPage, setCurrentPage] = useState(1)
-  const selectText = chat.members.length > 0 ? `Выбрано ${chat.members.length} пользователей` : "Выбери пользователя"
+  const usersList = useRef(null);
+  const [users, setUsers] = useState([]);
+  const [totalCount, setTotalCount] = useState(0);
+  const [fetching, setFetching] = useState(true);
+  const [chat, setChat] = useState(initialNewChat);
+  const [error, setError] = useState(null);
+  const [openSelect, setOpenSelect] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const selectText = chat.members.length > 0 ? `Выбрано ${chat.members.length} пользователей` : "Выбери пользователя";
 
   const openSelectClassName = classnames(styles.checkboxes, {
     [styles.open]: openSelect,
     [styles.close]: !openSelect,
-  })
+  });
   const newChatClassName = classnames(styles.newChat, {
     [styles.open]: openNewChat,
     [styles.cutHeight]: !openSelect
-  })
+  });
 
   const getCurrentUser = async () => {
     try {
-      const { results, count: totalCount } = await userApi.getAllUsers(currentPage, 10)
+      const { results, count: totalCount } = await userApi.getAllUsers(currentPage, 10);
       if (results && users) {
-        const newUsers = [...users, ...results]
-        setUsers(newUsers)
-        setTotalCount(totalCount)
-        setCurrentPage(prevState => prevState + 1)
+        const newUsers = [...users, ...results];
+        setUsers(newUsers);
+        setTotalCount(totalCount);
+        setCurrentPage(prevState => prevState + 1);
       }
     } catch (error) {
       console.log(error);
     } finally {
-      setFetching(false)
+      setFetching(false);
     }
-  }
+  };
 
   const scrollHandler = (e) => {
     const scrollHeight = e.target.scrollHeight;
     const scrollTop = e.target.scrollTop;
-    const innerHeight = 180
+    const innerHeight = 180;
     if ((scrollHeight - (scrollTop + innerHeight) < 20) && (users.length < totalCount)) {
-      setFetching(true)
+      setFetching(true);
     }
-  }
+  };
 
   useEffect(() => {
-    usersList.current.addEventListener("scroll", scrollHandler)
+    usersList.current.addEventListener("scroll", scrollHandler);
     return () => {
       if (usersList.current) {
-        usersList.current.removeEventListener("scroll", scrollHandler)
+        usersList.current.removeEventListener("scroll", scrollHandler);
       }
     };
-  }, [totalCount])
+  }, [totalCount]);
 
   useEffect(() => {
-    setError(null)
+    setError(null);
     if (openNewChat && fetching) {
-      getCurrentUser()
+      getCurrentUser();
     }
-  }, [openNewChat, fetching])
+  }, [openNewChat, fetching]);
 
   useEffect(() => {
     if (chat.members.length > 1) {
       inputNewChatRef.current.focus();
     }
-  }, [chat])
+  }, [chat]);
 
   const handleSubmit = async (event) => {
-    event.preventDefault()
-    const data = new FormData(event.target)
+    event.preventDefault();
+    const data = new FormData(event.target);
     if (!chat.is_private && data.get("avatar").size === 0) {
-      data.delete("avatar")
+      data.delete("avatar");
     }
     chat.members.forEach((item) => {
       data.append("members", item);
     });
-    data.append("is_private", chat.is_private)
+    data.append("is_private", chat.is_private);
 
     try {
       const newChat = await chatApi.createNewChat(data);
       if (newChat) {
-        addNewChat(newChat)
-        closeNewChatWindow()
+        addNewChat(newChat);
+        closeNewChatWindow();
       }
     } catch (error) {
       if (error.status === 400) {
-        const data = error.response.data
-        const errors = []
+        const data = error.response.data;
+        const errors = [];
         for (let key in data) {
           if (Object.prototype.hasOwnProperty.call(data, key)) {
-            errors.push(...data[key])
+            errors.push(...data[key]);
           }
         }
         if (errors.length > 0) {
           const translateError = await translate({
             text: errors[0]
           });
-          setError(translateError.translatedText)
+          setError(translateError.translatedText);
         }
       }
     }
-    setChat(initialNewChat)
-  }
+    setChat(initialNewChat);
+  };
 
   const closeNewChatWindow = () => {
-    setOpenSelect(false)
-    setChat(initialNewChat)
-    setUsers([])
-    setFetching(true)
-    setCurrentPage(1)
-    closeNewChat()
-  }
+    setOpenSelect(false);
+    setChat(initialNewChat);
+    setUsers([]);
+    setFetching(true);
+    setCurrentPage(1);
+    closeNewChat();
+  };
 
   const inputNewChat = (e) => {
     setChat((prevState) => ({
       ...prevState,
       title: e.target.value
     }));
-  }
+  };
 
   const changeMember = (e) => {
-    const newMembers = new Set(chat.members)
-    const userId = e.target.id
+    const newMembers = new Set(chat.members);
+    const userId = e.target.id;
     if (e.target.checked) {
-      newMembers.add(userId)
+      newMembers.add(userId);
     }
     else {
-      newMembers.delete(userId)
+      newMembers.delete(userId);
     }
-    const privat = newMembers.size === 1
+    const privat = newMembers.size === 1;
 
     setChat((prevState) => ({
       ...prevState,
       members: Array.from(newMembers),
       is_private: privat
     }));
-  }
+  };
 
   const onChangeAvatar = (avatar) => {
     setChat((prevState) => ({
       ...prevState,
       avatar: avatar,
     }));
-  }
+  };
 
   const getInput = () => {
     if (chat.members.length < 2) {
-      return null
+      return null;
     }
     return (
       <>
@@ -173,8 +173,8 @@ const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
           onChange={inputNewChat} required={true} />
         <AvatarField avatarImg={chat.avatar} canEdit={true} onChange={onChangeAvatar} />
       </>
-    )
-  }
+    );
+  };
 
   return (
     <>
@@ -204,7 +204,7 @@ const NewChatModal = ({ openNewChat, closeNewChat, addNewChat }) => {
         </form>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default NewChatModal
+export default NewChatModal;

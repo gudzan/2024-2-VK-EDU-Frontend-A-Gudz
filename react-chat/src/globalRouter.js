@@ -1,5 +1,5 @@
 const globalRouter = {
   navigate: null
-}
+};
 
-export default globalRouter
+export default globalRouter;

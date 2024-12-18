@@ -1,8 +1,8 @@
 const isValidUrl = (str) => {
   try {
-    return !!new URL(str)
+    return !!new URL(str);
   } catch (error) {
-    return false
+    return false;
   }
-}
-export default isValidUrl
+};
+export default isValidUrl;
