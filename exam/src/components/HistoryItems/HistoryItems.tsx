@@ -13,7 +13,7 @@ const HistoryItems = () => {
     <div>
       {history.map((item) =>
         <>
-          <p>{item.languageFrom}</p>
+          <p>{item.languageFrom}</p><ArrowForwardIcon/>
           <p>{item.languageTo}</p>
           <p>{item.textFrom}</p>
           <p>{item.textTo}</p>
