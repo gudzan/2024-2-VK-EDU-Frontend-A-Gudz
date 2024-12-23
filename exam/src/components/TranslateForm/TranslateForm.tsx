@@ -5,8 +5,11 @@ import { useState } from "react";
 import { translate } from "../../utils";
 import { TranslationData } from "../../types/translationData";
 import { setHistory } from "../../localStorageUtils/localStorage";
+import { useAppDispath } from "../../redux/store";
+import { translatesAdd } from "../../redux/translatesSlice";
 
 const TranslateForm = () => {
+  const dispatch = useAppDispath();
   const [languageFrom, setLanguageFrom] = useState<string>("Autodetect")
   const [languageTo, setLanguageTo] = useState<string>("af-ZA")
 
@@ -30,6 +33,7 @@ const TranslateForm = () => {
         textTo: newTranslate.translatedText
       }
       setHistory(newTranslationData)
+      dispatch(translatesAdd(newTranslationData));
     }
   };
 

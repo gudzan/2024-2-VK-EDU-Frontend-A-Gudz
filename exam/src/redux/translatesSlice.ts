@@ -9,11 +9,11 @@ export const translatesSlice = createSlice({
   name: "translates",
   initialState,
   reducers: {
-    translatesAdd: (state, action: PayloadAction<TranslationData[]>) => {
-      state = action.payload;
+    translatesAdd: (state, action: PayloadAction<TranslationData>) => {
+      state.push(action.payload)
     },
-    translatesRemove: (state, action) => {
-      state = []
+    translatesRemove: () => {
+      return []
     },
   },
 });
