@@ -1,7 +1,11 @@
+import Header from "../../components/Header/Header";
+import HistoryItems from "../../components/HistoryItems/HistoryItems";
+
 const History = () => {
   return (
     <>
-      <h1>History</h1>
+      <Header />
+      <HistoryItems />
     </>
   )
 }
