@@ -1,5 +1,6 @@
 .container {
   background-color:  #f3f4f6;
+  height: calc(100vh - 63px);
 }
 
 .translation {
@@ -10,15 +11,22 @@
 }
 
 .select {
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 10px;
 }
 
 .select select {
   padding: 10px;
   border: 1px solid #ddd;
   font-size: 16px;
+  min-width: 50px;
+}
+
+select {
+  overflow: auto !important; 
 }
 
 .textarea {

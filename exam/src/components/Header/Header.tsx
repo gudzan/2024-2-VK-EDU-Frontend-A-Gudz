@@ -7,16 +7,16 @@ const Header = () => {
   return (
     <header className={styles.header}>
 
-      <div className={styles.part}>
+      <Link to={"/"} className={styles.part}>
         <TranslateIcon />
         <h1>VK Translate</h1>
-      </div>
+      </Link>
 
       <Link to={"/history"} className={styles.part}>
         <HistoryIcon />
         <p>История</p>
       </Link>
-      
+
     </header>
   )
 }

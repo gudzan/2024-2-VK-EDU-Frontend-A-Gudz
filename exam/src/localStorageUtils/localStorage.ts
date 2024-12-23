@@ -11,3 +11,7 @@ export const setHistory = (newTranslation: TranslationData) => {
   existingTranslations.push(newTranslation);
   localStorage.setItem(HISTORY_KEY, JSON.stringify(existingTranslations));
 }
+
+export const removedHistory = () => {
+  localStorage.removeItem(HISTORY_KEY);
+}

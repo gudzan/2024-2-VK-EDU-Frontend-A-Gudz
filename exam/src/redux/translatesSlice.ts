@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { TranslationData } from "../types/translationData";
-import { getHistory } from "../localStorageUtils/localStorage";
+import { getHistory, removedHistory, setHistory } from "../localStorageUtils/localStorage";
 
 const storedTranslations = getHistory()
 const initialState: TranslationData[] = storedTranslations ? JSON.parse(storedTranslations) : [];
@@ -10,9 +10,11 @@ export const translatesSlice = createSlice({
   initialState,
   reducers: {
     translatesAdd: (state, action: PayloadAction<TranslationData>) => {
+      setHistory(action.payload)
       state.push(action.payload)
     },
     translatesRemove: () => {
+      removedHistory()
       return []
     },
   },

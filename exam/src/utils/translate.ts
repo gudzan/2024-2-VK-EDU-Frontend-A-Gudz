@@ -5,7 +5,7 @@ const cache = new Map<string, string>();
 
 export const translate = async ({ text, from, to }: TranslateParams): Promise<TranslationResult> => {
   if (!text) throw new Error('Текст для перевода не указан');
-  if (!text || !to) throw new Error('Язык для перевода не указан');
+  if (!to) throw new Error('Язык для перевода не указан');
 
   const cacheKey = `${from}|${to}|${text}`;
 
