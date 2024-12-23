@@ -1,0 +1,25 @@
+.items {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color:  #f3f4f6;
+}
+
+.item {
+  background-color: white;
+  color: black;
+  border: 1px solid lightgray;
+  width: 80%;
+  padding: 10px;
+  margin-bottom: 15px;
+}
+
+.languages {
+  display: flex;
+  gap: 5px;
+}
+
+.textTo {
+  color: gray
+}
