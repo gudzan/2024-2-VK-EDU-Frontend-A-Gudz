@@ -7,6 +7,7 @@ import { TranslationData } from "../../types/translationData";
 import { useAppDispath } from "../../redux/store";
 import { translatesAdd } from "../../redux/translatesSlice";
 import { LanguageOption } from "../../types/languageOption";
+import { getRandomId } from "../../utils/getRandomId";
 
 const TranslateForm = () => {
   const dispatch = useAppDispath();
@@ -16,19 +17,20 @@ const TranslateForm = () => {
   const [translateText, setTranslateText] = useState<string>("")
 
   const onKeyDown = async (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === 'Enter' && text !== "") {
-      e.preventDefault();
+    const trimText = text.trim()
+    if (e.key === 'Enter' && trimText !== "") {
       const newTranslate = await translate({
-        text: text,
+        text: trimText,
         from: languageFrom.key,
         to: languageTo.key
       });
 
       setTranslateText(newTranslate.translatedText)
       const newTranslationData: TranslationData = {
+        id: getRandomId(),
         languageFrom: languageFrom.value,
         languageTo: languageTo.value,
-        textFrom: text,
+        textFrom: trimText,
         textTo: newTranslate.translatedText
       }
       dispatch(translatesAdd(newTranslationData));
@@ -40,19 +42,15 @@ const TranslateForm = () => {
     setText(value);
   }
 
-  const handleChangeLanguageFrom = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleChangeLanguage = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedKey = e.target.value;
-    const selectedValue = languages[selectedKey as keyof typeof languages];
-    if (selectedValue) {
-      setLanguageFrom({ key: selectedKey, value: selectedValue });
-    }
-  };
+    const selectedValue = (selectedKey === "Autodetect") ? "Autodetect" : languages[selectedKey as keyof typeof languages];
 
-  const handleChangeLanguageTo = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedKey = e.target.value;
-    const selectedValue = languages[selectedKey as keyof typeof languages];
-    if (selectedValue) {
+    if (e.target.id === 'to' && selectedValue) {
       setLanguageTo({ key: selectedKey, value: selectedValue });
+    }
+    else if (e.target.id === 'from' && selectedValue) {
+      setLanguageFrom({ key: selectedKey, value: selectedValue });
     }
   };
 
@@ -74,7 +72,7 @@ const TranslateForm = () => {
     <main className={styles.container}>
       <div className={styles.translation}>
         <div className={styles.select}>
-          <select id="from-language" value={languageFrom.key} onChange={handleChangeLanguageFrom}>
+          <select id="from" value={languageFrom.key} onChange={handleChangeLanguage}>
             <option value="Autodetect">Autodetect</option>
             {Object.entries(languages).map(([key, value]) => (
               <option key={key} value={key}>
@@ -85,7 +83,7 @@ const TranslateForm = () => {
 
           <SwapHorizIcon onClick={changeLanguages} />
 
-          <select id="to-language" value={languageTo.key} onChange={handleChangeLanguageTo}>
+          <select id="to" value={languageTo.key} onChange={handleChangeLanguage}>
             {Object.entries(languages).map(([key, value]) => (
               <option key={key} value={key}>
                 {value}
