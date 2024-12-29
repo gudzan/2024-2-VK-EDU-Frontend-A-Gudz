@@ -7,13 +7,13 @@ import ChatPolling from "../ChatsPolling/ChatPolling";
 
 export const PrivateRoute = () => {
   const authStatus = useSelector(selectAuthStatus);
-  const location = useLocation()
+  const location = useLocation();
   if (authStatus === storeStatus.success) {
     return (
       <ChatPolling>
         <Outlet />
       </ChatPolling>
-    )
+    );
   }
-  return <Navigate to={ROUTES.auth} state={{ from: location }} replace />
+  return <Navigate to={ROUTES.auth} state={{ from: location }} replace />;
 };

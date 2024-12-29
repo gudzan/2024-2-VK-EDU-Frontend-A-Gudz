@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import styles from "./Auth.module.scss"
+import styles from "./Auth.module.scss";
 import { Link, useNavigate } from "react-router-dom";
 import ROUTES from "../../config/routes";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -12,45 +12,45 @@ import storeStatus from "../../store/storeStatus.js";
 const initialUser = {
   username: "",
   password: ""
-}
+};
 
 const Auth = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
-  const typePasswordField = showPassword ? "text" : "password"
-  const buttonPasswordField = showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />
-  const [user, setUser] = useState(initialUser)
+  const typePasswordField = showPassword ? "text" : "password";
+  const buttonPasswordField = showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />;
+  const [user, setUser] = useState(initialUser);
   const authStatus = useSelector(selectAuthStatus);
   const authError = useSelector(selectAuthError);
 
   useEffect(() => {
-    if (authStatus === storeStatus.success) navigate(ROUTES.root)
-  }, [authStatus])
+    if (authStatus === storeStatus.success) navigate(ROUTES.root);
+  }, [authStatus]);
 
   const onChange = (e) => {
     const name = e.target.name;
-    const value = e.target.value
+    const value = e.target.value;
     setUser((prevState) => ({
       ...prevState,
       [name]: value,
     }));
-  }
+  };
 
   const handleSubmit = async (event) => {
-    event.preventDefault()
+    event.preventDefault();
     dispatch(login(user));
-  }
+  };
 
   const getError = () => {
     if (authError) {
-      return <div className={styles.error}>{authError}</div>
+      return <div className={styles.error}>{authError}</div>;
     }
-  }
+  };
 
   const toggleShowPassword = () => {
     setShowPassword((prevState) => !prevState);
-  }
+  };
 
   return (
     <div className={styles.auth}>
@@ -71,7 +71,7 @@ const Auth = () => {
         <Link to={`${ROUTES.register}`}>Еще нет аккауна? Зарегистрируйся</Link>
       </form>
     </div>
-  )
-}
+  );
+};
 
 export default Auth;

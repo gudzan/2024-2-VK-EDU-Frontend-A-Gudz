@@ -8,7 +8,7 @@ const PageAuth = () => {
       <Header text="Вход" arrowBack={false}/>
       <Auth />
     </Layout>
-  )
-}
+  );
+};
 
 export default PageAuth;

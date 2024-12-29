@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import styles from "./FooterChat.module.scss"
+import styles from "./FooterChat.module.scss";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import PhotoIcon from "@mui/icons-material/Photo";
 import KeyboardVoiceIcon from "@mui/icons-material/KeyboardVoice";
@@ -10,46 +10,46 @@ import classnames from "classnames";
 
 const FooterChat = ({ sendMessage }) => {
   const inputRef = useRef(null);
-  const fileInput = useRef(null)
+  const fileInput = useRef(null);
   const attachRef = useRef(null);
-  const stopRef = useRef(null)
+  const stopRef = useRef(null);
   const [recordedBlob, setRecordedBlob] = useState(null);
   const mediaStream = useRef(null);
   const mediaRecorder = useRef(null);
   const chunks = useRef([]);
-  const [messageText, setMessageText] = useState("")
-  const [openAttach, setOpenAttach] = useState(false)
-  const [isRecorder, setIsRecorder] = useState(false)
+  const [messageText, setMessageText] = useState("");
+  const [openAttach, setOpenAttach] = useState(false);
+  const [isRecorder, setIsRecorder] = useState(false);
 
   const attachClassName = classnames(styles.attach, {
     [styles.open]: openAttach,
     [styles.close]: !openAttach,
-  })
+  });
 
   const inputClassName = classnames(styles.input, {
     [styles.voice]: isRecorder,
-  })
+  });
 
   const handleDrop = (event) => {
     event.preventDefault();
     const droppedFiles = event.dataTransfer.files;
     if (droppedFiles.length > 0) {
-      let formData = new FormData()
+      let formData = new FormData();
       for (let i = 0; i < droppedFiles.length; i++) {
         formData.append("files", droppedFiles[i]);
       }
-      sendMessage(formData)
+      sendMessage(formData);
     }
   };
 
   const toggleAttach = (event) => {
     if (attachRef.current && !attachRef.current.contains(event.target)) {
-      setOpenAttach(false)
+      setOpenAttach(false);
     }
     else {
-      setOpenAttach(true)
+      setOpenAttach(true);
     }
-  }
+  };
 
   useEffect(() => {
     inputRef.current.focus();
@@ -63,34 +63,34 @@ const FooterChat = ({ sendMessage }) => {
 
   useEffect(() => {
     if (isRecorder) {
-      inputRef.current.disabled = true
-      setMessageText("")
-      inputRef.current.placeholder = "Идет запись..."
+      inputRef.current.disabled = true;
+      setMessageText("");
+      inputRef.current.placeholder = "Идет запись...";
     }
     else {
-      inputRef.current.disabled = false
-      inputRef.current.value = ""
-      inputRef.current.placeholder = "Введите сообщение"
+      inputRef.current.disabled = false;
+      inputRef.current.value = "";
+      inputRef.current.placeholder = "Введите сообщение";
     }
   }, [isRecorder, recordedBlob]);
 
   useEffect(() => {
     inputRef.current.focus();
     if (openAttach) {
-      document.addEventListener("mousedown", toggleAttach)
+      document.addEventListener("mousedown", toggleAttach);
     }
-    return () => document.removeEventListener("mousedown", toggleAttach)
-  }, [openAttach])
+    return () => document.removeEventListener("mousedown", toggleAttach);
+  }, [openAttach]);
 
   const handleSubmit = (event) => {
-    event.preventDefault()
-    if (messageText === "") { return }
+    event.preventDefault();
+    if (messageText === "") { return; }
     let formData = new FormData();
     formData.append("text", messageText);
-    sendMessage(formData)
-    setMessageText("")
+    sendMessage(formData);
+    setMessageText("");
     inputRef.current.focus();
-  }
+  };
 
   const getGeolocation = () => {
     const options = {
@@ -102,13 +102,13 @@ const FooterChat = ({ sendMessage }) => {
       const { latitude, longitude } = pos.coords;
       let formData = new FormData();
       formData.append("text", `https://www.openstreetmap.org/#map=18/${latitude}/${longitude}`);
-      sendMessage(formData)
-    }
+      sendMessage(formData);
+    };
     const error = (err) => {
       console.log(`ERROR(${err.code}): ${err.message}`);
-    }
+    };
     navigator.geolocation.getCurrentPosition(success, error, options);
-  }
+  };
 
   const startRecording = async () => {
     try {
@@ -127,15 +127,15 @@ const FooterChat = ({ sendMessage }) => {
           chunks.current, { type: "audio/mp3" }
         );
         setRecordedBlob(recordedBlob);
-        const file = new File([recordedBlob], "voice.mp3", { type: "audio/mp3" })
+        const file = new File([recordedBlob], "voice.mp3", { type: "audio/mp3" });
         let formData = new FormData();
         formData.append("voice", file);
-        sendMessage(formData)
-        setIsRecorder(false)
-        setRecordedBlob(null)
+        sendMessage(formData);
+        setIsRecorder(false);
+        setRecordedBlob(null);
         chunks.current = [];
       };
-      setIsRecorder(true)
+      setIsRecorder(true);
       mediaRecorder.current.start();
     } catch (error) {
       console.error("Error accessing microphone:", error);
@@ -153,27 +153,27 @@ const FooterChat = ({ sendMessage }) => {
     }
   };
 
-  const inputChange = (e) => setMessageText(e.target.value)
+  const inputChange = (e) => setMessageText(e.target.value);
 
   const getEventButton = () => {
     if (isRecorder || recordedBlob !== null) {
-      return <button type="button" className={styles.stop} ref={stopRef} onClick={stopRecording}><StopCircleIcon /></button>
+      return <button type="button" className={styles.stop} ref={stopRef} onClick={stopRecording}><StopCircleIcon /></button>;
     }
-    return <button type="submit" className={styles.icon}><SendIcon /></button>
-  }
+    return <button type="submit" className={styles.icon}><SendIcon /></button>;
+  };
 
   const openFileInput = () => {
-    fileInput.current.click()
-  }
+    fileInput.current.click();
+  };
 
   const handleFiles = async (e) => {
-    let formData = new FormData()
-    const fileList = e.target.files
+    let formData = new FormData();
+    const fileList = e.target.files;
     for (let i = 0; i < fileList.length; i++) {
       formData.append("files", fileList[i]);
     }
-    sendMessage(formData)
-  }
+    sendMessage(formData);
+  };
 
   return (
     <footer>
@@ -199,7 +199,7 @@ const FooterChat = ({ sendMessage }) => {
         {getEventButton()}
       </form>
     </footer>
-  )
-}
+  );
+};
 
 export default FooterChat;

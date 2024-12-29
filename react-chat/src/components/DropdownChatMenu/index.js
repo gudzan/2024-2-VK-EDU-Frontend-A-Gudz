@@ -1,1 +1,1 @@
-export { default } from "./DropdownChatMenu.jsx"
+export { default } from "./DropdownChatMenu.jsx";

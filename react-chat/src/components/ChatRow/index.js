@@ -1,1 +1,1 @@
-export { default } from "./ChatRow.jsx"
+export { default } from "./ChatRow.jsx";
