@@ -8,19 +8,16 @@ h1 {
 }
 
 .header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   padding: 16px;
-  gap: 15px;
   border-bottom: 1px solid #ddd;
   background-color: white;
   color: grey
 }
 
-.part{
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 20px;
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  font-size: 22px;
+  font-weight: 400;
 }
