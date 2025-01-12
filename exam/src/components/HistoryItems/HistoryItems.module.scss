@@ -1,0 +1,48 @@
+.container{
+  background-color: #FAFAFA;
+  height: calc(100vh - 63px);
+  padding: 20px;
+}
+
+.null{
+  font-weight: 500;
+  text-align: center;
+  padding-top: 15px;
+}
+
+.history{
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.clear{
+  color: blue;
+  cursor: pointer;
+  font-weight: 500;
+  text-align: end;
+  margin-bottom: 15px;
+}
+
+.item {
+  background-color: white;
+  color: black;
+  border: 1px solid lightgray;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+}
+
+.languages {
+  display: flex;
+  gap: 5px;
+}
+
+.textTo {
+  color: gray
+}
